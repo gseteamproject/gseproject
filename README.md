@@ -1,1 +1,1 @@
-# gseproject# Development Tools    JAVA
+# gseproject## Development Tools## DeploymentBefore execution you need to put jade.jar in smartmason\lib\ folder
