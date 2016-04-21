@@ -1,1 +1,1 @@
-# gseproject## Development Tools## DeploymentBefore execution you need to put jade.jar in smartmason\lib\ folder
+# gseproject## Development ToolsEclipse for Java## Deploymentput jade.jar in smartmason\lib\ folder## Configurations** Ping-Pong Agents **Main class: jade.BootArguments: -gui agent1:examples.PingAgent;agent2:examples.PongAgent** Thanks Agents **Main class: jade.BootArguments: -gui agent1:examples.ThanksAgent
