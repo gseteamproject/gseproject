@@ -32,7 +32,6 @@ import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
 import jade.core.Runtime;
-import jade.core.Profile;
 import jade.core.ProfileImpl;
 import jade.wrapper.*;
 
@@ -52,6 +51,8 @@ import jade.wrapper.*;
  **/
 public class ThanksAgent extends Agent {
 
+	private static final long serialVersionUID = 8789866231546654395L;
+	
 	private static boolean IAmTheCreator = true;
 	// number of answer messages received.
 	private int answersCnt = 0;
@@ -136,11 +137,13 @@ public class ThanksAgent extends Agent {
 	      }
 		 */
 
-		// add a Behaviour that listen if a greeting message arrives
+		// add a Behavior that listen if a greeting message arrives
 		// and sends back an ANSWER.
 		// if an ANSWER to a greetings message is arrived 
 		// then send a THANKS message
 		addBehaviour(new CyclicBehaviour(this) {
+			private static final long serialVersionUID = 7557865811542254395L;
+			
 			public void action() {
 				// listen if a greetings message arrives
 				ACLMessage msg = receive(MessageTemplate.MatchPerformative(ACLMessage.INFORM));
