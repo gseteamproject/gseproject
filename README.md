@@ -1,1 +1,1 @@
-# gseproject## Development ToolsEclipse for Java## Deploymentput jade.jar in smartmason\lib\ folder## Configurations** Ping-Pong Agents **Main class: jade.BootArguments: -gui agent1:examples.PingAgent;agent2:examples.PongAgent** Thanks Agents **Main class: jade.BootArguments: -gui agent1:examples.ThanksAgent
+# gseproject## Development ToolsEclipse for Java## DeploymentAfter you have cloned repository you should set workstation to repository's directory and import Project and Build configurations (smartmason/cfg)
