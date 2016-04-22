@@ -1,1 +1,1 @@
-# gseproject## Development ToolsEclipse for Java## DeploymentAfter you have cloned repository you should set workstation to repository's directory and import Project and Build configurations (smartmason/cfg)
+# gseproject## Development ToolsEclipse for Java## Deploymentclone repository with this command`git clone https://github.com/gseteamproject/gseproject.git`After you have cloned repository you should set workstation to repository's directory and import Project and Build configurations (smartmason/cfg)
