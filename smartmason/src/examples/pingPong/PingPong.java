@@ -2,7 +2,7 @@ package examples.pingPong;
 
 import jade.Boot;
 
-public class PingPongExample
+public class PingPong
 {
 	public static void main(String[] p_args)
 	{
