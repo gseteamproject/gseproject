@@ -5,6 +5,7 @@ import java.util.Random;
 
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
+import jade.core.behaviours.OneShotBehaviour;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
@@ -68,9 +69,30 @@ public class BookSellerAgent extends Agent
 		System.out.println("Seller-agent " + getAID().getName() + " terminating.");
 	}
 	
-	public void registerBook(String p_bookTitle, Integer p_bookPrice)
+	public void registerBook(final String p_bookTitle, final Integer p_bookPrice)
 	{
-		availableBooks.put(p_bookTitle, p_bookPrice);
+		addBehaviour(new RegisterBookInAvailableBooks(p_bookTitle, p_bookPrice));		
+	}
+	
+	class RegisterBookInAvailableBooks extends OneShotBehaviour
+	{
+		private static final long serialVersionUID = -5766869902626092150L;
+		
+		String title;
+		Integer price;
+		
+		public RegisterBookInAvailableBooks(String p_bookTitle, Integer p_bookPrice)
+		{
+			title = p_bookTitle;
+			price = p_bookPrice;
+		}
+
+		public void action()
+		{
+			availableBooks.put(title, price);
+			System.out.println(title +" inserted into catalogue. Price = " + price);
+		}
+
 	}
 		
 	class OfferRequest extends CyclicBehaviour
