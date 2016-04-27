@@ -18,6 +18,8 @@ public class BookSellerAgent extends Agent
 	
 	private Hashtable<String, Integer> availableBooks;
 	
+	private BookSellerGUI myGUI;
+	
 	protected void setup()
 	{
 		System.out.println("Hello! Seller-agent " + getAID().getName() + " is ready.");
@@ -25,9 +27,10 @@ public class BookSellerAgent extends Agent
 		availableBooks = new Hashtable<String, Integer>();
 		
 		Random rand = new Random();
-		availableBooks.put(new String("The-Lord-of-the-rings"), new Integer(rand.nextInt(100)));
+		registerBook(new String("The-Lord-of-the-rings"), new Integer(rand.nextInt(100)));
 		
-		// TODO add interaction with GUI
+		myGUI = new BookSellerGUI(this);
+		myGUI.showGUI();
 		
 		DFAgentDescription dfd = new DFAgentDescription();
 		dfd.setName(getAID());
@@ -59,9 +62,15 @@ public class BookSellerAgent extends Agent
 		{
 			fe.printStackTrace();
 		}
-		// TODO add interaction with GUI
+		
+		myGUI.dispose();
 		
 		System.out.println("Seller-agent " + getAID().getName() + " terminating.");
+	}
+	
+	public void registerBook(String p_bookTitle, Integer p_bookPrice)
+	{
+		availableBooks.put(p_bookTitle, p_bookPrice);
 	}
 		
 	class OfferRequest extends CyclicBehaviour
