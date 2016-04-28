@@ -17,61 +17,88 @@ public class BookSellerAgent extends Agent
 {
 	private static final long serialVersionUID = -8742249310687723764L;
 	
-	private Hashtable<String, Integer> availableBooks;
+	private Hashtable<String, Integer> availableBooks = new Hashtable<String, Integer>();
 	
 	private BookSellerGUI myGUI;
 	
+	private void trace(String p_message)
+	{
+		String agentType = "Seller-agent ";
+		System.out.println(agentType + "(" + getAID().getName() + ") " + p_message);
+	}
+	
 	protected void setup()
 	{
-		System.out.println("Hello! Seller-agent " + getAID().getName() + " is ready.");
-		
-		availableBooks = new Hashtable<String, Integer>();
-		
-		Random rand = new Random();
-		registerBook(new String("The-Lord-of-the-rings"), new Integer(rand.nextInt(100)));
-		
-		myGUI = new BookSellerGUI(this);
-		myGUI.showGUI();
-		
-		DFAgentDescription dfd = new DFAgentDescription();
-		dfd.setName(getAID());
-		ServiceDescription sd = new ServiceDescription();
-		sd.setType("book-selling");
-		sd.setName("JADE-book-trading");
-		dfd.addServices(sd);
-		try
-		{
-			DFService.register(this, dfd);
-		}
-		catch(FIPAException fe)
-		{
-			fe.printStackTrace();
-		}
-		
-		addBehaviour(new OfferRequest());
-		
-		addBehaviour(new Purchase());
+		initializeData();
+		initializeGUI();
+		registerInDirectoryFacilitator();
+		initializeBehaviour();
+		trace("is ready");
 	}
 	
 	protected void takeDown()
+	{
+		deregisterInDirectoryFacilitator();		
+		finalizeGUI();
+		trace("is terminated");
+	}
+
+	private void initializeData()
+	{
+		Random rand = new Random();
+		registerBook(new String("The-Lord-of-the-rings"), new Integer(rand.nextInt(100)));
+	}
+
+	private void initializeGUI()
+	{
+		myGUI = new BookSellerGUI(this);
+		myGUI.showGUI();
+	}
+	
+	private void finalizeGUI()
+	{
+		myGUI.dispose();
+	}
+
+	private void registerInDirectoryFacilitator()
+	{
+		DFAgentDescription agentDescription = new DFAgentDescription();
+		agentDescription.setName(getAID());
+		ServiceDescription serviceDescription = new ServiceDescription();
+		serviceDescription.setName("JADE-book-trading");
+		serviceDescription.setType("book-selling");
+		agentDescription.addServices(serviceDescription);
+		try
+		{
+			DFService.register(this, agentDescription);
+		}
+		catch(FIPAException exception)
+		{
+			exception.printStackTrace();
+		}
+	}
+	
+	private void deregisterInDirectoryFacilitator()
 	{
 		try
 		{
 			DFService.deregister(this);
 		}
-		catch(FIPAException fe)
+		catch(FIPAException exception)
 		{
-			fe.printStackTrace();
+			exception.printStackTrace();
 		}
-		
-		myGUI.dispose();
-		
-		System.out.println("Seller-agent " + getAID().getName() + " terminating.");
 	}
 	
-	public void registerBook(final String p_bookTitle, final Integer p_bookPrice)
+	private void initializeBehaviour()
 	{
-		addBehaviour(new RegisterBookInAvailableBooks(p_bookTitle, p_bookPrice));		
+		addBehaviour(new OfferRequestProcessing());		
+		addBehaviour(new PurchaseRequestProcessing());
+	}	
+
+	public void registerBook(final String p_title, final Integer p_price)
+	{
+		addBehaviour(new RegisterBookInAvailableBooks(p_title, p_price));		
 	}
 	
 	class RegisterBookInAvailableBooks extends OneShotBehaviour
@@ -81,10 +108,10 @@ public class BookSellerAgent extends Agent
 		String title;
 		Integer price;
 		
-		public RegisterBookInAvailableBooks(String p_bookTitle, Integer p_bookPrice)
+		public RegisterBookInAvailableBooks(String p_title, Integer p_price)
 		{
-			title = p_bookTitle;
-			price = p_bookPrice;
+			title = p_title;
+			price = p_price;
 		}
 
 		public void action()
@@ -95,7 +122,7 @@ public class BookSellerAgent extends Agent
 
 	}
 		
-	class OfferRequest extends CyclicBehaviour
+	class OfferRequestProcessing extends CyclicBehaviour
 	{
 		private static final long serialVersionUID = 1421695410309195595L;
 		
@@ -127,7 +154,7 @@ public class BookSellerAgent extends Agent
 		}
 	}
 
-	class Purchase extends CyclicBehaviour
+	class PurchaseRequestProcessing extends CyclicBehaviour
 	{
 		private static final long serialVersionUID = 2627668785596772159L;
 
