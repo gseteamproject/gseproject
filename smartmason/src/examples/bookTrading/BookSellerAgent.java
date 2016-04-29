@@ -1,8 +1,5 @@
 package examples.bookTrading;
 
-import java.util.Hashtable;
-import java.util.Random;
-
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.OneShotBehaviour;
@@ -15,16 +12,16 @@ import jade.lang.acl.MessageTemplate;
 
 public class BookSellerAgent extends Agent
 {
-	private static final long serialVersionUID = -8742249310687723764L;
-	
-	private Hashtable<String, Integer> availableBooks = new Hashtable<String, Integer>();
+	private static final long serialVersionUID = -8742249310687723764L;	
+
+	private BookStore bookStore = new BookStore();
 	
 	private BookSellerGUI myGUI;
 	
 	private void trace(String p_message)
 	{
-		String agentType = "Seller-agent ";
-		System.out.println(agentType + "(" + getAID().getName() + ") " + p_message);
+		String agentTypeName = "Seller-agent";
+		System.out.println(agentTypeName + " (" + getAID().getName() + ") " + p_message);
 	}
 	
 	protected void setup()
@@ -44,9 +41,8 @@ public class BookSellerAgent extends Agent
 	}
 
 	private void initializeData()
-	{
-		Random rand = new Random();
-		registerBook(new String("The-Lord-of-the-rings"), new Integer(rand.nextInt(100)));
+	{		
+		registerBook(new Book(BookTitles.LORD_OF_THE_RINGS));
 	}
 
 	private void initializeGUI()
@@ -96,28 +92,26 @@ public class BookSellerAgent extends Agent
 		addBehaviour(new PurchaseRequestProcessing());
 	}	
 
-	public void registerBook(final String p_title, final Integer p_price)
+	public void registerBook(final Book p_book)
 	{
-		addBehaviour(new RegisterBookInAvailableBooks(p_title, p_price));		
+		addBehaviour(new RegisterBookInAvailableBooks(p_book));		
 	}
 	
 	class RegisterBookInAvailableBooks extends OneShotBehaviour
 	{
 		private static final long serialVersionUID = -5766869902626092150L;
 		
-		String title;
-		Integer price;
+		Book book;
 		
-		public RegisterBookInAvailableBooks(String p_title, Integer p_price)
-		{
-			title = p_title;
-			price = p_price;
+		public RegisterBookInAvailableBooks(Book p_book)
+		{			
+			book = p_book;
 		}
 
 		public void action()
 		{
-			availableBooks.put(title, price);
-			System.out.println(title +" inserted into catalogue. Price = " + price);
+			bookStore.addBook(book);			
+			System.out.println(book.title +" inserted into catalogue. Price = " + book.price);
 		}
 
 	}
@@ -134,11 +128,11 @@ public class BookSellerAgent extends Agent
 				String bookTitle = msg.getContent();
 				ACLMessage msgReply = msg.createReply();
 				
-				Integer bookPrice = (Integer) availableBooks.get(bookTitle);
-				if( bookPrice != null)
+				Book book = bookStore.findBookByTitle(bookTitle);				
+				if( book != null)
 				{
 					msgReply.setPerformative(ACLMessage.PROPOSE);
-					msgReply.setContent(String.valueOf(bookPrice.intValue()));
+					msgReply.setContent(String.valueOf(book.price.intValue()));
 				}
 				else
 				{
@@ -167,8 +161,7 @@ public class BookSellerAgent extends Agent
 				String title = msg.getContent();
 				ACLMessage reply = msg.createReply();
 
-				Integer price = (Integer) availableBooks.remove(title);
-				if (price != null)
+				if ( bookStore.removeBook(new Book(title)) )
 				{
 					reply.setPerformative(ACLMessage.INFORM);
 					System.out.println(title+" sold to agent " + msg.getSender().getName());
