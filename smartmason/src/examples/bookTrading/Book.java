@@ -18,4 +18,10 @@ public class Book
 	{
 		this(p_title, new Random().nextInt(100));		
 	}
+	
+	public String getFullDescription()
+	{
+		return "Book " + "(title: " + title + ";"
+					   + " price: " + price + ")";
+	}
 }

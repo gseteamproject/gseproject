@@ -49,7 +49,7 @@ public class BookSellerGUI extends JFrame
 					{
 						String title = titleField.getText().trim();
 						String price = priceField.getText().trim();
-						myAgent.registerBook(new Book(title, Integer.parseInt(price)));
+						myAgent.addBookToStore(new Book(title, Integer.parseInt(price)));
 						titleField.setText("");
 						priceField.setText("");
 					}

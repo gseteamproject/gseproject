@@ -18,31 +18,34 @@ public class BookSellerAgent extends Agent
 	
 	private BookSellerGUI myGUI;
 	
+	protected String agentType = BookTrading.BOOK_SELLER_AGENT;
+	protected String agentServiceGroup = BookTrading.BOOK_TRADING_SERVICES;
+	protected String agentServiceName = BookTrading.BOOK_SELLING_SERVICE;
+	
 	private void trace(String p_message)
 	{
-		String agentTypeName = "Seller-agent";
-		System.out.println(agentTypeName + " (" + getAID().getName() + ") " + p_message);
+		System.out.println(agentType + " (" + getAID().getName() + "): " + p_message);
 	}
 	
 	protected void setup()
 	{
 		initializeData();
-		initializeGUI();
-		registerInDirectoryFacilitator();
+		initializeGUI();		
 		initializeBehaviour();
-		trace("is ready");
+		registerAgentServicesInDirectoryFacilitator();
+		trace("ready");
 	}
 	
 	protected void takeDown()
 	{
-		deregisterInDirectoryFacilitator();		
+		deregisterAgentServicesInDirectoryFacilitator();		
 		finalizeGUI();
-		trace("is terminated");
+		trace("terminated");
 	}
 
 	private void initializeData()
 	{		
-		registerBook(new Book(BookTitles.LORD_OF_THE_RINGS));
+		addBookToStore(new Book(BookTitle.LORD_OF_THE_RINGS));
 	}
 
 	private void initializeGUI()
@@ -56,13 +59,13 @@ public class BookSellerAgent extends Agent
 		myGUI.dispose();
 	}
 
-	private void registerInDirectoryFacilitator()
-	{
+	private void registerAgentServicesInDirectoryFacilitator()
+	{		
+		ServiceDescription serviceDescription = new ServiceDescription();
+		serviceDescription.setName(agentServiceGroup);
+		serviceDescription.setType(agentServiceName);
 		DFAgentDescription agentDescription = new DFAgentDescription();
 		agentDescription.setName(getAID());
-		ServiceDescription serviceDescription = new ServiceDescription();
-		serviceDescription.setName("JADE-book-trading");
-		serviceDescription.setType("book-selling");
 		agentDescription.addServices(serviceDescription);
 		try
 		{
@@ -74,7 +77,7 @@ public class BookSellerAgent extends Agent
 		}
 	}
 	
-	private void deregisterInDirectoryFacilitator()
+	private void deregisterAgentServicesInDirectoryFacilitator()
 	{
 		try
 		{
@@ -92,26 +95,26 @@ public class BookSellerAgent extends Agent
 		addBehaviour(new PurchaseRequestProcessing());
 	}	
 
-	public void registerBook(final Book p_book)
+	public void addBookToStore(final Book p_book)
 	{
-		addBehaviour(new RegisterBookInAvailableBooks(p_book));		
+		addBehaviour(new AddBookToStore(p_book));		
 	}
 	
-	class RegisterBookInAvailableBooks extends OneShotBehaviour
+	class AddBookToStore extends OneShotBehaviour
 	{
 		private static final long serialVersionUID = -5766869902626092150L;
 		
 		Book book;
 		
-		public RegisterBookInAvailableBooks(Book p_book)
+		public AddBookToStore(Book p_book)
 		{			
 			book = p_book;
 		}
 
 		public void action()
 		{
-			bookStore.addBook(book);			
-			System.out.println(book.title +" inserted into catalogue. Price = " + book.price);
+			bookStore.addBook(book);
+			trace(book.getFullDescription() + " inserted into catalogue");			
 		}
 
 	}
@@ -125,21 +128,21 @@ public class BookSellerAgent extends Agent
 			ACLMessage msg = myAgent.receive();
 			if(msg != null)
 			{
-				String bookTitle = msg.getContent();
-				ACLMessage msgReply = msg.createReply();
+				String title = msg.getContent();
+				ACLMessage reply = msg.createReply();
 				
-				Book book = bookStore.findBookByTitle(bookTitle);				
+				Book book = bookStore.findBookByTitle(title);				
 				if( book != null)
 				{
-					msgReply.setPerformative(ACLMessage.PROPOSE);
-					msgReply.setContent(String.valueOf(book.price.intValue()));
+					reply.setPerformative(ACLMessage.PROPOSE);
+					reply.setContent(String.valueOf(book.price.intValue()));
 				}
 				else
 				{
-					msgReply.setPerformative(ACLMessage.REFUSE);
-					msgReply.setContent("not-available");
+					reply.setPerformative(ACLMessage.REFUSE);
+					reply.setContent(TradingMessage.NOT_AVAILABLE);
 				}
-				myAgent.send(msgReply);
+				myAgent.send(reply);
 			}
 			else
 			{
@@ -154,8 +157,8 @@ public class BookSellerAgent extends Agent
 
 		public void action()
 		{
-			MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.ACCEPT_PROPOSAL);
-			ACLMessage msg = myAgent.receive(mt);
+			MessageTemplate messageTemplate = MessageTemplate.MatchPerformative(ACLMessage.ACCEPT_PROPOSAL);
+			ACLMessage msg = myAgent.receive(messageTemplate);
 			if (msg != null)
 			{
 				String title = msg.getContent();
@@ -164,12 +167,12 @@ public class BookSellerAgent extends Agent
 				if ( bookStore.removeBook(new Book(title)) )
 				{
 					reply.setPerformative(ACLMessage.INFORM);
-					System.out.println(title+" sold to agent " + msg.getSender().getName());
+					trace(title + " sold to agent " + msg.getSender().getName());
 				}
 				else
 				{
 					reply.setPerformative(ACLMessage.FAILURE);
-					reply.setContent("not-available");
+					reply.setContent(TradingMessage.NOT_AVAILABLE);
 				}
 				myAgent.send(reply);
 			}
