@@ -15,32 +15,45 @@ public class BookBuyerAgent extends Agent
 {
 	private static final long serialVersionUID = 7689797116251341355L;
 	
-	private String targetBookTitle;
+	private String requiredBookTitle;
 	
 	private AID[] sellerAgents;
 	
+	protected String agentType = BookTrading.BOOK_BUYER_AGENT;	
+	
+	private void trace(String p_message)
+	{
+		System.out.println(getAID().getName() + " (" + agentType + "): " + p_message);
+	}
+	
 	protected void setup()
 	{
-		System.out.println("Hello! Buyer-agent " + getAID().getName() + " is ready.");
-		
-		Object[] args = getArguments();
-		if(args!=null && args.length>0)
-		{
-			targetBookTitle = args[0].toString();
-			System.out.println("Trying to buy " + targetBookTitle);
-			
-			addBehaviour( new PeriodicBuyRequest(this, 5000) );
-		}
-		else
-		{
-			System.out.println("No book title specified");
-			doDelete();
-		}
+		initializeData();
+		initializeBehaviour();
+		trace("ready");
 	}
 	
 	protected void takeDown()
 	{
-		System.out.println("Buyer-agent " + getAID().getName() + " terminating.");
+		trace("terminated");
+	}
+	
+	private void initializeData()
+	{
+		Object[] args = getArguments();
+		if(args!=null && args.length>0)
+		{
+			requiredBookTitle = args[0].toString();
+		}
+		else
+		{
+			requiredBookTitle = null;
+		}
+	}
+	
+	private void initializeBehaviour()
+	{
+		addBehaviour( new PeriodicBuyRequest(this, 5000) );
 	}
 	
 	class PeriodicBuyRequest extends TickerBehaviour
@@ -54,25 +67,43 @@ public class BookBuyerAgent extends Agent
 		
 		protected void onTick()
 		{
-			DFAgentDescription template = new DFAgentDescription();
-			ServiceDescription sd = new ServiceDescription();
-			sd.setType("book-selling");
-			template.addServices(sd);
+			if( requiredBookTitle == null)
+			{
+				trace("no book title specified");
+				doDelete();
+				return;
+			}			
+			findSellers();
+			if( sellerAgents.length > 0)
+			{				
+				trace("trying to buy " + requiredBookTitle);
+				myAgent.addBehaviour(new BuyRequest());
+			}
+			else
+			{
+				trace("no active sellers");	
+			}
+		}
+		
+		private void findSellers()
+		{
+			DFAgentDescription agentDescriptionTemplate = new DFAgentDescription();
+			ServiceDescription requiredService = new ServiceDescription();
+			requiredService.setType(BookTrading.BOOK_SELLING_SERVICE);
+			agentDescriptionTemplate.addServices(requiredService);
 			try
 			{
-				DFAgentDescription[] result = DFService.search(myAgent, template);
-				sellerAgents = new AID[result.length];
-				for(int i=0; i<result.length; i++)
+				DFAgentDescription[] foundAgents = DFService.search(myAgent, agentDescriptionTemplate);
+				sellerAgents = new AID[foundAgents.length];
+				for(int i=0; i<foundAgents.length; i++)
 				{
-					sellerAgents[i] = result[i].getName();
+					sellerAgents[i] = foundAgents[i].getName();
 				}
 			}
-			catch(FIPAException fe)
+			catch(FIPAException exception)
 			{
-				fe.printStackTrace();
+				exception.printStackTrace();
 			}
-			
-			myAgent.addBehaviour(new BuyRequest());
 		}
 	}
 	
@@ -96,7 +127,7 @@ public class BookBuyerAgent extends Agent
 				{
 					cfp.addReceiver(sellerAgents[i]);
 				}
-				cfp.setContent(targetBookTitle);
+				cfp.setContent(requiredBookTitle);
 				cfp.setConversationId("book-trade");
 				cfp.setReplyWith("cfp" + System.currentTimeMillis());
 				myAgent.send(cfp);
@@ -131,7 +162,7 @@ public class BookBuyerAgent extends Agent
 			case 2:
 				ACLMessage order = new ACLMessage(ACLMessage.ACCEPT_PROPOSAL);
 				order.addReceiver(bestSeller);
-				order.setContent(targetBookTitle);
+				order.setContent(requiredBookTitle);
 				order.setConversationId("book-trade");
 				order.setReplyWith("order" + System.currentTimeMillis());
 				myAgent.send(order);
@@ -145,8 +176,7 @@ public class BookBuyerAgent extends Agent
 				{
 					if(reply.getPerformative() == ACLMessage.INFORM)
 					{
-						System.out.println(targetBookTitle + " succesfully purchased.");
-						System.out.println("Price = " + bestPrice);
+						trace(requiredBookTitle + " succesfully purchased. Price = " + bestPrice);
 						myAgent.doDelete();
 					}
 					buyRequestStep = 4;
