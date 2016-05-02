@@ -24,7 +24,7 @@ public class BookSellerAgent extends Agent
 	
 	private void trace(String p_message)
 	{
-		System.out.println(agentType + " (" + getAID().getName() + "): " + p_message);
+		System.out.println(getAID().getName() + " (" + agentType + "): " + p_message);
 	}
 	
 	protected void setup()
