@@ -19,6 +19,7 @@ public class BookTradingExample
 		parameters[ 0 ] = "-gui";
 		parameters[ 1 ] = "buyer1:examples.bookTrading.BookBuyerAgent(" + BookTitle.LORD_OF_THE_RINGS + ");";
 		parameters[ 1 ] += "seller1:examples.bookTrading.BookSellerAgent;";
+		parameters[ 1 ] += "seller2:examples.bookTrading.BookSellerAgent;";
 
 		Boot.main( parameters );
 	}
