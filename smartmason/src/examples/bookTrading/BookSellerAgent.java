@@ -46,6 +46,8 @@ public class BookSellerAgent extends Agent
 	private void initializeData()
 	{		
 		addBookToStore(new Book(BookTitle.LORD_OF_THE_RINGS));
+		addBookToStore(new Book(BookTitle.JAVA_TUTORIAL));
+		addBookToStore(new Book(BookTitle.JADE_PROGRAMMING_TUTORIAL));
 	}
 
 	private void initializeGUI()
@@ -91,8 +93,8 @@ public class BookSellerAgent extends Agent
 	
 	private void initializeBehaviour()
 	{
-		addBehaviour(new OfferRequestProcessing());		
-		addBehaviour(new PurchaseRequestProcessing());
+		addBehaviour(new OfferRequestHandling());		
+		addBehaviour(new PurchaseRequestHandling());
 	}	
 
 	public void addBookToStore(final Book p_book)
@@ -119,30 +121,30 @@ public class BookSellerAgent extends Agent
 
 	}
 		
-	class OfferRequestProcessing extends CyclicBehaviour
+	class OfferRequestHandling extends CyclicBehaviour
 	{
 		private static final long serialVersionUID = 1421695410309195595L;
 		
 		public void action()
 		{
-			ACLMessage msg = myAgent.receive();
-			if(msg != null)
+			ACLMessage receivedMsg = myAgent.receive();
+			if(receivedMsg != null)
 			{
-				String title = msg.getContent();
-				ACLMessage reply = msg.createReply();
+				String title = receivedMsg.getContent();
+				ACLMessage replyMsg = receivedMsg.createReply();
 				
 				Book book = bookStore.findBookByTitle(title);				
 				if( book != null)
 				{
-					reply.setPerformative(ACLMessage.PROPOSE);
-					reply.setContent(String.valueOf(book.price.intValue()));
+					replyMsg.setPerformative(ACLMessage.PROPOSE);
+					replyMsg.setContent(String.valueOf(book.price.intValue()));
 				}
 				else
 				{
-					reply.setPerformative(ACLMessage.REFUSE);
-					reply.setContent(TradingMessage.NOT_AVAILABLE);
+					replyMsg.setPerformative(ACLMessage.REFUSE);
+					replyMsg.setContent(TradingMessage.NOT_AVAILABLE);
 				}
-				myAgent.send(reply);
+				myAgent.send(replyMsg);
 			}
 			else
 			{
@@ -151,30 +153,30 @@ public class BookSellerAgent extends Agent
 		}
 	}
 
-	class PurchaseRequestProcessing extends CyclicBehaviour
+	class PurchaseRequestHandling extends CyclicBehaviour
 	{
 		private static final long serialVersionUID = 2627668785596772159L;
 
 		public void action()
 		{
 			MessageTemplate messageTemplate = MessageTemplate.MatchPerformative(ACLMessage.ACCEPT_PROPOSAL);
-			ACLMessage msg = myAgent.receive(messageTemplate);
-			if (msg != null)
+			ACLMessage receivedMsg = myAgent.receive(messageTemplate);
+			if (receivedMsg != null)
 			{
-				String title = msg.getContent();
-				ACLMessage reply = msg.createReply();
+				String title = receivedMsg.getContent();
+				ACLMessage replyMsg = receivedMsg.createReply();
 
 				if ( bookStore.removeBook(new Book(title)) )
 				{
-					reply.setPerformative(ACLMessage.INFORM);
-					trace(title + " sold to agent " + msg.getSender().getName());
+					replyMsg.setPerformative(ACLMessage.INFORM);
+					trace(title + " sold to agent " + receivedMsg.getSender().getName());
 				}
 				else
 				{
-					reply.setPerformative(ACLMessage.FAILURE);
-					reply.setContent(TradingMessage.NOT_AVAILABLE);
+					replyMsg.setPerformative(ACLMessage.FAILURE);
+					replyMsg.setContent(TradingMessage.NOT_AVAILABLE);
 				}
-				myAgent.send(reply);
+				myAgent.send(replyMsg);
 			}
 			else
 			{
