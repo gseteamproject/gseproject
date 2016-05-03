@@ -72,9 +72,8 @@ public class BookBuyerAgent extends Agent
 				trace("no book title specified");
 				doDelete();
 				return;
-			}			
-			findSellers();
-			if( sellerAgents.length > 0)
+			}
+			if( findSellers() )
 			{				
 				trace("trying to buy " + requiredBookTitle);
 				myAgent.addBehaviour(new BuyRequest());
@@ -85,7 +84,7 @@ public class BookBuyerAgent extends Agent
 			}
 		}
 		
-		private void findSellers()
+		private boolean findSellers()
 		{
 			DFAgentDescription agentDescriptionTemplate = new DFAgentDescription();
 			ServiceDescription requiredService = new ServiceDescription();
@@ -104,6 +103,7 @@ public class BookBuyerAgent extends Agent
 			{
 				exception.printStackTrace();
 			}
+			return (sellerAgents.length > 0);
 		}
 	}
 	
@@ -111,47 +111,41 @@ public class BookBuyerAgent extends Agent
 	{
 		private static final long serialVersionUID = -6454308733359936523L;
 		
-		private AID bestSeller;
+		private static final int PREPARING_CALL_FOR_PROPOSAL = 0;
+		private static final int HANDLING_CALL_FOR_PROPOSAL_REPLY = 1;
+		private static final int PREPARING_ACCEPT_PROPOSAL = 2;
+		private static final int HANDLING_ACCEPT_PROPOSAL_REPLY = 3;
+		private static final int PURCHASE_COMPLETED = 4;
+		
+		private AID bestSeller = null;
 		private int bestPrice;
-		private int repliesCnt = 0;
-		private MessageTemplate msgTemplate;
-		private int buyRequestStep = 0;
+		private int repliesCount = 0;
+		private MessageTemplate replyMsgTemplate;
+		private int buyRequestState = PREPARING_CALL_FOR_PROPOSAL;
 		
 		public void action()
 		{
-			switch(buyRequestStep)
+			ACLMessage msg = null;
+			ACLMessage replyMsg = null;
+			switch(buyRequestState)
 			{
-			case 0:
-				ACLMessage cfp = new ACLMessage(ACLMessage.CFP);
-				for(int i = 0; i < sellerAgents.length; i++)
-				{
-					cfp.addReceiver(sellerAgents[i]);
-				}
-				cfp.setContent(requiredBookTitle);
-				cfp.setConversationId("book-trade");
-				cfp.setReplyWith("cfp" + System.currentTimeMillis());
-				myAgent.send(cfp);
-				msgTemplate = MessageTemplate.and(MessageTemplate.MatchConversationId("book-trade"),
-												  MessageTemplate.MatchInReplyTo(cfp.getReplyWith()));
-				buyRequestStep = 1;
+			case PREPARING_CALL_FOR_PROPOSAL:
+				msg = prepareCallForProposalMessage();
+				replyMsgTemplate = prepareReplyMessageTemplate(msg);
+				myAgent.send(msg);
+				buyRequestState = HANDLING_CALL_FOR_PROPOSAL_REPLY;
 				break;
-			case 1:
-				ACLMessage reply = myAgent.receive(msgTemplate);
-				if(reply != null)
+			
+			case HANDLING_CALL_FOR_PROPOSAL_REPLY:
+				replyMsg = myAgent.receive(replyMsgTemplate);
+				if( (replyMsg != null) && 
+					(replyMsg.getPerformative() == ACLMessage.PROPOSE) )
 				{
-					if(reply.getPerformative() == ACLMessage.PROPOSE)
+					handleCallForProposalReplyMessage(replyMsg);					
+					repliesCount++;
+					if(repliesCount >= sellerAgents.length)
 					{
-						int price = Integer.parseInt(reply.getContent());
-						if(bestSeller == null || price < bestPrice)
-						{
-							bestPrice = price;
-							bestSeller = reply.getSender();
-						}
-					}
-					repliesCnt++;
-					if(repliesCnt >= sellerAgents.length)
-					{
-						buyRequestStep = 2;
+						buyRequestState = PREPARING_ACCEPT_PROPOSAL;
 					}
 				}
 				else
@@ -159,27 +153,21 @@ public class BookBuyerAgent extends Agent
 					block();
 				}
 				break;
-			case 2:
-				ACLMessage order = new ACLMessage(ACLMessage.ACCEPT_PROPOSAL);
-				order.addReceiver(bestSeller);
-				order.setContent(requiredBookTitle);
-				order.setConversationId("book-trade");
-				order.setReplyWith("order" + System.currentTimeMillis());
-				myAgent.send(order);
-				msgTemplate = MessageTemplate.and(MessageTemplate.MatchConversationId("book-trade"),
-						  						  MessageTemplate.MatchInReplyTo(order.getReplyWith()));
-				buyRequestStep = 3;
+			
+			case PREPARING_ACCEPT_PROPOSAL:
+				msg = prepareAcceptProposalMessage();
+				replyMsgTemplate = prepareReplyMessageTemplate(msg);
+				myAgent.send(msg); 
+				buyRequestState = HANDLING_ACCEPT_PROPOSAL_REPLY;
 				break;
-			case 3:
-				reply = myAgent.receive(msgTemplate);
-				if(reply != null)
+			
+			case HANDLING_ACCEPT_PROPOSAL_REPLY:
+				replyMsg = myAgent.receive(replyMsgTemplate);
+				if( (replyMsg != null) &&				
+					(replyMsg.getPerformative() == ACLMessage.INFORM) )
 				{
-					if(reply.getPerformative() == ACLMessage.INFORM)
-					{
-						trace(requiredBookTitle + " succesfully purchased. Price = " + bestPrice);
-						myAgent.doDelete();
-					}
-					buyRequestStep = 4;
+					handleAcceptProposalReplyMessage();
+					buyRequestState = PURCHASE_COMPLETED;
 				}
 				else
 				{
@@ -191,8 +179,53 @@ public class BookBuyerAgent extends Agent
 		
 		public boolean done()
 		{
-			return ((buyRequestStep == 2 && bestSeller == null) ||
-					(buyRequestStep == 4));
+			return ((buyRequestState == PREPARING_ACCEPT_PROPOSAL && bestSeller == null) ||
+					(buyRequestState == PURCHASE_COMPLETED));
+		}
+		
+		private ACLMessage prepareCallForProposalMessage()
+		{
+			ACLMessage msg = new ACLMessage(ACLMessage.CFP);
+			for(int i = 0; i < sellerAgents.length; i++)
+			{
+				msg.addReceiver(sellerAgents[i]);
+			}
+			msg.setConversationId(BookTrading.CONVERSATION_ID);
+			msg.setContent(requiredBookTitle);				
+			msg.setReplyWith("cfp" + System.currentTimeMillis());
+			return msg;
+		}
+		
+		private void handleCallForProposalReplyMessage(ACLMessage p_message)
+		{
+			int price = Integer.parseInt(p_message.getContent());
+			if(bestSeller == null || price < bestPrice)
+			{
+				bestPrice = price;
+				bestSeller = p_message.getSender();
+			}
+		}
+		
+		private ACLMessage prepareAcceptProposalMessage()
+		{
+			ACLMessage msg = new ACLMessage(ACLMessage.ACCEPT_PROPOSAL);
+			msg.addReceiver(bestSeller);
+			msg.setConversationId(BookTrading.CONVERSATION_ID);			
+			msg.setContent(requiredBookTitle);			
+			msg.setReplyWith("order" + System.currentTimeMillis());
+			return msg;
+		}
+		
+		private void handleAcceptProposalReplyMessage()
+		{
+			trace(requiredBookTitle + " succesfully purchased. Price = " + bestPrice);
+			myAgent.doDelete();
+		}
+		
+		private MessageTemplate prepareReplyMessageTemplate(ACLMessage p_message)
+		{
+			return MessageTemplate.and(MessageTemplate.MatchConversationId(BookTrading.CONVERSATION_ID),
+									   MessageTemplate.MatchInReplyTo(p_message.getReplyWith()));
 		}
 	}
 }
