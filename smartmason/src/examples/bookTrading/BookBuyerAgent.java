@@ -190,7 +190,7 @@ public class BookBuyerAgent extends Agent
 			{
 				msg.addReceiver(sellerAgents[i]);
 			}
-			msg.setConversationId(BookTrading.CONVERSATION_ID);
+			msg.setConversationId(TradingInteractionProtocol.CONVERSATION_ID);
 			msg.setContent(requiredBookTitle);				
 			msg.setReplyWith("cfp" + System.currentTimeMillis());
 			return msg;
@@ -210,7 +210,7 @@ public class BookBuyerAgent extends Agent
 		{
 			ACLMessage msg = new ACLMessage(ACLMessage.ACCEPT_PROPOSAL);
 			msg.addReceiver(bestSeller);
-			msg.setConversationId(BookTrading.CONVERSATION_ID);			
+			msg.setConversationId(TradingInteractionProtocol.CONVERSATION_ID);			
 			msg.setContent(requiredBookTitle);			
 			msg.setReplyWith("order" + System.currentTimeMillis());
 			return msg;
@@ -224,7 +224,7 @@ public class BookBuyerAgent extends Agent
 		
 		private MessageTemplate prepareReplyMessageTemplate(ACLMessage p_message)
 		{
-			return MessageTemplate.and(MessageTemplate.MatchConversationId(BookTrading.CONVERSATION_ID),
+			return MessageTemplate.and(MessageTemplate.MatchConversationId(TradingInteractionProtocol.CONVERSATION_ID),
 									   MessageTemplate.MatchInReplyTo(p_message.getReplyWith()));
 		}
 	}

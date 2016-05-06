@@ -142,7 +142,7 @@ public class BookSellerAgent extends Agent
 				else
 				{
 					replyMsg.setPerformative(ACLMessage.REFUSE);
-					replyMsg.setContent(TradingMessage.NOT_AVAILABLE);
+					replyMsg.setContent(TradingInteractionProtocol.NOT_AVAILABLE);
 				}
 				myAgent.send(replyMsg);
 			}
@@ -174,7 +174,7 @@ public class BookSellerAgent extends Agent
 				else
 				{
 					replyMsg.setPerformative(ACLMessage.FAILURE);
-					replyMsg.setContent(TradingMessage.NOT_AVAILABLE);
+					replyMsg.setContent(TradingInteractionProtocol.NOT_AVAILABLE);
 				}
 				myAgent.send(replyMsg);
 			}
