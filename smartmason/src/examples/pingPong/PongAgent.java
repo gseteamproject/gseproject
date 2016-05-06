@@ -1,4 +1,4 @@
-package examples;
+package examples.pingPong;
 
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
@@ -16,13 +16,13 @@ public class PongAgent extends Agent {
 				if (msg != null) {
 					// вывод на экран локального имени агента и полученного
 					// сообщения
-					System.out.println(" - " + myAgent.getLocalName() + msg.getContent());
+					System.out.println(" - " + myAgent.getLocalName() + " received: " + msg.getContent());
 					ACLMessage reply = msg.createReply();
 					reply.setPerformative(ACLMessage.INFORM); // устанавливаем
 																// перформатив
 																// сообщения
 					reply.setContent("Pong"); // содержимое сообщения
-					send(reply); // отправляем сообщение
+					myAgent.send(reply); // отправляем сообщение
 				}
 				block();
 			}

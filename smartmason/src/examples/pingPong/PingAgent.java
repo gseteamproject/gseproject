@@ -1,4 +1,4 @@
-package examples;
+package examples.pingPong;
 
 import jade.core.AID;
 import jade.core.Agent;
