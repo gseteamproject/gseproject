@@ -13,8 +13,6 @@ public class BookTradingExample
 {
 	public static void main(String[] p_args)
 	{
-		System.out.println("Book trading example started ...");		
-		
 		String[] parameters = new String[ 2 ];
 		parameters[ 0 ] = "-gui";
 		parameters[ 1 ] = "reader:examples.bookTrading.BookBuyerAgent(" + BookTitle.LORD_OF_THE_RINGS + ");";
