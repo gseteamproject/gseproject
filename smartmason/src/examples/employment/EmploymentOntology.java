@@ -22,7 +22,7 @@ Boston, MA  02111-1307, USA.
 *****************************************************************/
 
 
-package examples.ontology.employment;
+package examples.employment;
 
 import jade.content.onto.*;
 import jade.content.schema.*;

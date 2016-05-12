@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA  02111-1307, USA.
 *****************************************************************/
 
-package examples.ontology.employment;
+package examples.employment;
 
 import jade.content.ContentElementList;
 import jade.content.Predicate;
@@ -49,7 +49,7 @@ import jade.util.leap.List;
 	Via Reiss Romoli 274 - Turin
 	
 	@author Giovanni Caire - CSELT S.p.A
-	@see examples.ontology.employment.RequesterAgent
+	@see examples.employment.RequesterAgent
 */
 public class EngagerAgent extends Agent
 {
@@ -231,8 +231,6 @@ public class EngagerAgent extends Agent
 				Action a = (Action)getContentManager().extractContent(request);
 				Engage e = (Engage) a.getAction();
 				Person p = e.getPerson();
-				Company c = e.getCompany();
-			
 				// Check person's age. If < 35 --> AGREE, else REFUSE and exit
 				if (p.getAge().intValue() < 35){
 					// AGREE to accomplish the engagement action without any 
@@ -290,17 +288,13 @@ public class EngagerAgent extends Agent
 		// Register the ontology used by this application
 		getContentManager().registerOntology(EmploymentOntology.getInstance());
 			
-		// Create and add the behaviour for handling QUERIES using the employment-ontology
+		// Create and add the behavior for handling QUERIES using the employment-ontology
   		addBehaviour(new HandleEnganementQueriesBehaviour(this));
   	
-		// Create and add the behaviour for handling REQUESTS using the employment-ontology
-		MessageTemplate mt = MessageTemplate.and(
-											MessageTemplate.MatchProtocol(FIPANames.InteractionProtocol.FIPA_REQUEST),
-											MessageTemplate.MatchOntology(EmploymentOntology.NAME));
-  	HandleEnganementQueriesBehaviour b = new HandleEnganementQueriesBehaviour(this);
-  	HandleEngageBehaviour c = new HandleEngageBehaviour(this);
-  	addBehaviour(b);
-  	addBehaviour(c);
+		HandleEnganementQueriesBehaviour b = new HandleEnganementQueriesBehaviour(this);
+		HandleEngageBehaviour c = new HandleEngageBehaviour(this);
+		addBehaviour(b);
+		addBehaviour(c);
 	}
 	
 	// AGENT METHODS

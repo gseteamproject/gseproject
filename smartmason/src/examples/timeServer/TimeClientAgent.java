@@ -1,4 +1,4 @@
-package examples.ontology.timeServer;
+package examples.timeServer;
 
 import java.util.Date;
 

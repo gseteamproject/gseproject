@@ -1,4 +1,4 @@
-package examples.ontology.timeServer;
+package examples.timeServer;
 
 import jade.Boot;
 
@@ -7,6 +7,7 @@ public class TimeServerExample {
 	{	
 		String[] parameters = new String[ 2 ];
 		parameters[ 0 ] = "-gui";
+		parameters[ 1 ] = "";
 		parameters[ 1 ] += "server:examples.ontology.ontologyServer.TimeServerAgent;";
 		parameters[ 1 ] += "client:examples.ontology.ontologyServer.TimeClientAgent;";
 

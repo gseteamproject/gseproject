@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA  02111-1307, USA.
 *****************************************************************/
 
-package examples.ontology.employment;
+package examples.employment;
 
 import jade.lang.acl.ACLMessage;
 
@@ -38,13 +38,11 @@ import jade.content.lang.sl.*;
 import jade.content.abs.*;
 import jade.content.onto.*;
 import jade.content.onto.basic.*;
-import examples.ontology.employment.*;
-
 import java.io.*;
 
 /**
 	This agent is able to handle the engagement of people by requesting
-	an engager agent to do that.
+	an engager-agent to do that.
 	It first gets from the user 
 	<ul>
 		<li>The name of the engager agent to send engagement requests to.</li>
@@ -61,21 +59,23 @@ import java.io.*;
 	
 	@author Giovanni Caire - CSELT S.p.A
 	@version $Date: 2002-07-31 17:27:34 +0200 (mer, 31 lug 2002) $ $Revision: 3315 $
-	@see examples.ontology.employment.EngagerAgent
+	@see examples.employment.EngagerAgent
 */
 public class RequesterAgent extends Agent {
-	
+	private static final long serialVersionUID = 4027172853168232865L;
+
 	// AGENT BEHAVIOURS
 	/**
-		Main behaviour for the Requester Agent.
+		Main behavior for the Requester Agent.
 		First the details of a person to engage are requested 
 		to the user.
 		Then a check is performed to verify that the indicated person is not
 		already working for the indicated company
 		Finally, according to the above check, the engagement is requested.
-		This behaviour is executed cyclically.
+		This behavior is executed cyclically.
 	*/
 	class HandleEngagementBehaviour extends SequentialBehaviour {
+		private static final long serialVersionUID = 1713046792590983441L;
 		// Local variables
 		Behaviour queryBehaviour = null;
 		Behaviour requestBehaviour = null;
@@ -85,7 +85,7 @@ public class RequesterAgent extends Agent {
 			super(myAgent);
 		}
 		
-		// This is executed at the beginning of the behaviour
+		// This is executed at the beginning of the behavior
 		public void onStart(){
 			// Get detail of person to be engaged
 			try{
@@ -111,7 +111,6 @@ public class RequesterAgent extends Agent {
 				wf.setPerson(p);
 				wf.setCompany(((RequesterAgent) myAgent).c);
 				
-				Ontology o = myAgent.getContentManager().lookupOntology(EmploymentOntology.NAME);		
 				// Create an ACL message to query the engager agent if the above fact is true or false
 				ACLMessage queryMsg = new ACLMessage(ACLMessage.QUERY_IF);
 				queryMsg.addReceiver(((RequesterAgent) myAgent).engager);
@@ -174,11 +173,13 @@ public class RequesterAgent extends Agent {
 	
 	
 	/**
-		This behaviour embeds the check that the indicated person is not
+		This behavior embeds the check that the indicated person is not
 		already working for the indicated company.
 		This is done following a FIPA-Query interaction protocol
 	*/
 	class CheckAlreadyWorkingBehaviour extends SimpleAchieveREInitiator {
+		private static final long serialVersionUID = 1242323210121240249L;
+
 		// Constructor
 		public CheckAlreadyWorkingBehaviour(Agent myAgent, ACLMessage queryMsg){
 			super(myAgent, queryMsg);
@@ -245,11 +246,12 @@ public class RequesterAgent extends Agent {
 			
 			
 	/**
-		This behaviour embeds the request to engage the indicated person 
+		This behavior embeds the request to engage the indicated person 
 		in the indicated company.
 		This is done following a FIPA-Request interaction protocol
 	*/
 	class RequestEngagementBehaviour extends SimpleAchieveREInitiator {
+		private static final long serialVersionUID = -8699565427879297481L;
 		// Constructor
 		public RequestEngagementBehaviour(Agent myAgent, ACLMessage requestMsg){
 			super(myAgent, requestMsg);

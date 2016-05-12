@@ -1,4 +1,4 @@
-package examples.ontology.timeServer;
+package examples.timeServer;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
