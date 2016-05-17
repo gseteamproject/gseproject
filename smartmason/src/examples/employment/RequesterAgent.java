@@ -61,7 +61,8 @@ import java.io.*;
 	@version $Date: 2002-07-31 17:27:34 +0200 (mer, 31 lug 2002) $ $Revision: 3315 $
 	@see examples.employment.EngagerAgent
 */
-public class RequesterAgent extends Agent {
+public class RequesterAgent extends Agent
+{
 	private static final long serialVersionUID = 4027172853168232865L;
 
 	// AGENT BEHAVIOURS
@@ -74,68 +75,56 @@ public class RequesterAgent extends Agent {
 		Finally, according to the above check, the engagement is requested.
 		This behavior is executed cyclically.
 	*/
-	class HandleEngagementBehaviour extends SequentialBehaviour {
+	class HandleEngagementBehaviour extends SequentialBehaviour
+	{
 		private static final long serialVersionUID = 1713046792590983441L;
+
 		// Local variables
 		Behaviour queryBehaviour = null;
 		Behaviour requestBehaviour = null;
 		
 		// Constructor
-		public HandleEngagementBehaviour(Agent myAgent){
+		public HandleEngagementBehaviour(Agent myAgent)
+		{
 			super(myAgent);
 		}
 		
 		// This is executed at the beginning of the behavior
-		public void onStart(){
-			// Get detail of person to be engaged
-			try{
-				BufferedReader buff = new BufferedReader(new InputStreamReader(System.in));
-				Person p = new Person();
-				Address a = new Address();
-				System.out.println("ENTER details of person to engage");
-				System.out.print("  Person name --> ");			
-				p.setName(buff.readLine());
-				System.out.print("  Person age ---> ");			
-				p.setAge(new Long(buff.readLine()));
-				System.out.println("  Person address");
-				System.out.print("    Street -----> ");
-				a.setStreet(buff.readLine());
-				System.out.print("    Number -----> ");
-				a.setNumber(new Long(buff.readLine()));
-				System.out.print("    City   -----> ");
-				a.setCity(buff.readLine());
-				p.setAddress(a);
-				
-				// Create an object representing the fact that person p works for company c
-				WorksFor wf = new WorksFor();
-				wf.setPerson(p);
-				wf.setCompany(((RequesterAgent) myAgent).c);
-				
-				// Create an ACL message to query the engager agent if the above fact is true or false
-				ACLMessage queryMsg = new ACLMessage(ACLMessage.QUERY_IF);
-				queryMsg.addReceiver(((RequesterAgent) myAgent).engager);
-				queryMsg.setLanguage(FIPANames.ContentLanguage.FIPA_SL0);
-				queryMsg.setOntology(EmploymentOntology.NAME);
-    			// Write the works for predicate in the :content slot of the message
-		    
-		    	try {
-		    		myAgent.getContentManager().fillContent(queryMsg, wf);
-		    	} catch (Exception e) {
-		    		e.printStackTrace();
-		    	}
-				
-		    // Create and add a behaviour to query the engager agent whether
-				// person p already works for company c following a FIPAQeury protocol
-				queryBehaviour = new CheckAlreadyWorkingBehaviour(myAgent, queryMsg);
-				addSubBehaviour(queryBehaviour);
-			}
-			catch (IOException ioe) { 
-				System.err.println("I/O error: " + ioe.getMessage()); 
-			}
+		public void onStart()
+		{
+			System.out.println("Engagement started");
+			// Get detail of person to be engaged	
+			Person person = new Person();
+			person.getFromStandardInputStream();
 			
+			// Create an object representing the fact that person p works for company c
+			WorksFor wf = new WorksFor();
+			wf.setPerson(person);
+			wf.setCompany(((RequesterAgent) myAgent).c);
+				
+			// Create an ACL message to query the engager agent if the above fact is true or false
+			ACLMessage queryMsg = new ACLMessage(ACLMessage.QUERY_IF);
+			queryMsg.addReceiver(((RequesterAgent) myAgent).engager);
+			queryMsg.setLanguage(FIPANames.ContentLanguage.FIPA_SL0);
+			queryMsg.setOntology(EmploymentOntology.NAME);
+    		
+			// Write the works for predicate in the :content slot of the message
+		    try
+		    {
+		    	myAgent.getContentManager().fillContent(queryMsg, wf);
+		    }
+		    catch (Exception e)
+		    {
+		    	e.printStackTrace();
+		    }
+				
+		    // Create and add a behavior to query the engager agent whether
+			// person p already works for company c following a FIPAQeury protocol
+			queryBehaviour = new CheckAlreadyWorkingBehaviour(myAgent, queryMsg);
+			addSubBehaviour(queryBehaviour);			
 		}
 		
-		// This is executed at the end of the behaviour
+		// This is executed at the end of the behavior
 		public int onEnd(){
 			// Check whether the user wants to continue
 			try{
@@ -144,7 +133,7 @@ public class RequesterAgent extends Agent {
 				String stop = buff.readLine();
 				if (stop.equalsIgnoreCase("y"))
 					{
-					    reset(); // This makes this behaviour be cyclically executed
+					    reset(); // This makes this behavior be cyclically executed
 					    myAgent.addBehaviour(this);
 					}
 				else
@@ -156,7 +145,7 @@ public class RequesterAgent extends Agent {
 			return 0;
 		}
 		
-		// Extends the reset method in order to remove the sub-behaviours that
+		// Extends the reset method in order to remove the sub-behaviors that
 		// are dynamically added 
 		public void reset(){
 			if (queryBehaviour != null){
@@ -222,7 +211,7 @@ public class RequesterAgent extends Agent {
 		    			myAgent.getContentManager().fillContent(requestMsg, a);
 					} catch (Exception pe) {
 					}
-					// Create and add a behaviour to request the engager agent to engage
+					// Create and add a behavior to request the engager agent to engage
 					// person p in company c following a FIPARequest protocol
 					((HandleEngagementBehaviour) parent).requestBehaviour = new RequestEngagementBehaviour(myAgent, requestMsg);
 					((SequentialBehaviour) parent).addSubBehaviour(((HandleEngagementBehaviour) parent).requestBehaviour);
