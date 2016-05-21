@@ -44,165 +44,161 @@ import jade.util.leap.Iterator;
 import jade.util.leap.List;
 
 /**
-	This agent is able to engage people on behalf of company 
-	CSELT
-	Via Reiss Romoli 274 - Turin
-	
-	@author Giovanni Caire - CSELT S.p.A
-	@see examples.employment.RequesterAgent
-*/
-public class EngagerAgent extends Agent
-{
+ * This agent is able to engage people on behalf of company CSELT Via Reiss
+ * Romoli 274 - Turin
+ * 
+ * @author Giovanni Caire - CSELT S.p.A
+ * @see examples.employment.RequesterAgent
+ */
+public class EngagerAgent extends Agent {
 	private static final long serialVersionUID = -1649291530933325776L;
 
 	// AGENT BEHAVIOURS
 	/**
-		This behavior handles all queries about people working for a company
-		following the FIPA-Query protocol
-	*/
-	class HandleEnganementQueriesBehaviour extends SimpleAchieveREResponder
-	{
+	 * This behavior handles all queries about people working for a company
+	 * following the FIPA-Query protocol
+	 */
+	class HandleEnganementQueriesBehaviour extends SimpleAchieveREResponder {
 		private static final long serialVersionUID = -626003566049185674L;
 
 		/**
-			Constructor for the <code>HandleEnganementQueriesBehaviour</code>
-			class.
-			
-			@param myAgent The agent owning this behaviour
-		*/
-		public HandleEnganementQueriesBehaviour(Agent myAgent)
-		{
-			super(myAgent, MessageTemplate.and( MessageTemplate.MatchProtocol(FIPANames.InteractionProtocol.FIPA_QUERY),
-												MessageTemplate.MatchOntology(EmploymentOntology.NAME)));
+		 * Constructor for the <code>HandleEnganementQueriesBehaviour</code>
+		 * class.
+		 * 
+		 * @param myAgent
+		 *            The agent owning this behaviour
+		 */
+		public HandleEnganementQueriesBehaviour(Agent myAgent) {
+			super(myAgent, MessageTemplate.and(MessageTemplate.MatchProtocol(FIPANames.InteractionProtocol.FIPA_QUERY),
+					MessageTemplate.MatchOntology(EmploymentOntology.NAME)));
 		}
-		
+
 		/**
-			This method is called when a QUERY-IF or QUERY-REF message is received.
-			
-			@param msg The received query message
-			@return The ACL message to be sent back as reply
-			@see jade.proto.FipaQueryResponderBehaviour
-		*/
-		public ACLMessage prepareResponse(ACLMessage msg)
-		{
+		 * This method is called when a QUERY-IF or QUERY-REF message is
+		 * received.
+		 * 
+		 * @param msg
+		 *            The received query message
+		 * @return The ACL message to be sent back as reply
+		 * @see jade.proto.FipaQueryResponderBehaviour
+		 */
+		public ACLMessage prepareResponse(ACLMessage msg) {
 			ACLMessage reply = msg.createReply();
-			
-			// The QUERY message could be a QUERY-REF. In this case reply 
+
+			// The QUERY message could be a QUERY-REF. In this case reply
 			// with NOT_UNDERSTOOD
-			
-			if (msg.getPerformative() != ACLMessage.QUERY_IF)
-			{
+
+			if (msg.getPerformative() != ACLMessage.QUERY_IF) {
 				reply.setPerformative(ACLMessage.NOT_UNDERSTOOD);
-  				String content = "(" + msg.toString() + ")"; 
+				String content = "(" + msg.toString() + ")";
 				reply.setContent(content);
-				return(reply);
+				return (reply);
 			}
-			
-			try
-			{
-				// Get the predicate for which the truth is queried	
-				Predicate pred = (Predicate)myAgent.getContentManager().extractContent(msg);
-				if (!(pred instanceof WorksFor))
-				{
-				// If the predicate for which the truth is queried is not WORKS_FOR
-				// reply with NOT_UNDERSTOOD
+
+			try {
+				// Get the predicate for which the truth is queried
+				Predicate pred = (Predicate) myAgent.getContentManager().extractContent(msg);
+				if (!(pred instanceof WorksFor)) {
+					// If the predicate for which the truth is queried is not
+					// WORKS_FOR
+					// reply with NOT_UNDERSTOOD
 					reply.setPerformative(ACLMessage.NOT_UNDERSTOOD);
-  					String content = "(" + msg.toString() + ")"; 
+					String content = "(" + msg.toString() + ")";
 					reply.setContent(content);
-					return(reply);
+					return (reply);
 				}
-			
-				// Reply 
+
+				// Reply
 				reply.setPerformative(ACLMessage.INFORM);
-				WorksFor wf = (WorksFor)pred;
+				WorksFor wf = (WorksFor) pred;
 				Person p = wf.getPerson();
 				Company c = wf.getCompany();
-				if (((EngagerAgent) myAgent).isWorking(p, c)) 
+				if (((EngagerAgent) myAgent).isWorking(p, c))
 					reply.setContent(msg.getContent());
-				 else {
-					// Create an object representing the fact that the WORKS_FOR 
+				else {
+					// Create an object representing the fact that the WORKS_FOR
 					// predicate is NOT true.
 					Ontology o = getContentManager().lookupOntology(EmploymentOntology.NAME);
 					AbsPredicate not = new AbsPredicate(SLVocabulary.NOT);
-  					not.set(SLVocabulary.NOT_WHAT, o.fromObject(wf));
-		    		myAgent.getContentManager().fillContent(reply, not);
+					not.set(SLVocabulary.NOT_WHAT, o.fromObject(wf));
+					myAgent.getContentManager().fillContent(reply, not);
 				}
+			} catch (Codec.CodecException fe) {
+				System.err.println(
+						myAgent.getLocalName() + " Fill/extract content unsucceeded. Reason:" + fe.getMessage());
+			} catch (OntologyException oe) {
+				System.err.println(myAgent.getLocalName() + " getRoleName() unsucceeded. Reason:" + oe.getMessage());
 			}
-			catch (Codec.CodecException fe) {
-				System.err.println(myAgent.getLocalName()+" Fill/extract content unsucceeded. Reason:" + fe.getMessage());
-			}
-			catch (OntologyException oe){
-				System.err.println(myAgent.getLocalName()+" getRoleName() unsucceeded. Reason:" + oe.getMessage());
-			}
-			
+
 			return (reply);
-			
+
 		} // END of handleQueryMessage() method
-		
+
 	} // END of HandleEnganementQueriesBehaviour
-				
-			
+
 	/**
-		This behavior handles a single engagement action that has been  
-		requested following the FIPA-Request protocol
-	*/
+	 * This behavior handles a single engagement action that has been requested
+	 * following the FIPA-Request protocol
+	 */
 	class HandleEngageBehaviour extends SimpleAchieveREResponder {
-  		
-  	/**
-		 * 
-		 */
+
+		/**
+			 * 
+			 */
 		private static final long serialVersionUID = 8771600888944931499L;
 
-
-	/**
-  		Constructor for the <code>HandleEngageBehaviour</code> class.
-  		
-  		@param myAgent The agent owning this behaviour
-  		@param requestMsg The ACL message by means of which the engagement
-  		action has been requested
-  	*/
-  	public HandleEngageBehaviour(Agent myAgent){
+		/**
+		 * Constructor for the <code>HandleEngageBehaviour</code> class.
+		 * 
+		 * @param myAgent
+		 *            The agent owning this behaviour
+		 * @param requestMsg
+		 *            The ACL message by means of which the engagement action
+		 *            has been requested
+		 */
+		public HandleEngageBehaviour(Agent myAgent) {
 			super(myAgent, MessageTemplate.MatchProtocol(FIPANames.InteractionProtocol.FIPA_REQUEST));
-  	}
-  	
-  	/**
-	  	This method implements the <code>FipaRequestResponderBehaviour.Factory</code>
-  		interface.
-  		It will be called within a <code>FipaRequestResponderBehaviour</code> 
-  		when an engagement action is requested to instantiate a new 
-  		<code>HandleEngageBehaviour</code> handling the requested action
-   
-  		@param msg The ACL message by means of which the engagement
-  		action has been requested
-  	*/
-    /**
-    	This method actually handles the engagement action
-     */
-     
-    public ACLMessage prepareResultNotification(ACLMessage request, ACLMessage response) {
-    		// Prepare a dummy ACLMessage used to create the content of all reply messages
-   			ACLMessage msg = request.createReply();
+		}
 
-			try{
+		/**
+		 * This method implements the
+		 * <code>FipaRequestResponderBehaviour.Factory</code> interface. It will
+		 * be called within a <code>FipaRequestResponderBehaviour</code> when an
+		 * engagement action is requested to instantiate a new
+		 * <code>HandleEngageBehaviour</code> handling the requested action
+		 * 
+		 * @param msg
+		 *            The ACL message by means of which the engagement action
+		 *            has been requested
+		 */
+		/**
+		 * This method actually handles the engagement action
+		 */
+
+		public ACLMessage prepareResultNotification(ACLMessage request, ACLMessage response) {
+			// Prepare a dummy ACLMessage used to create the content of all
+			// reply messages
+			ACLMessage msg = request.createReply();
+
+			try {
 				// Get the requested action
-				Action a = (Action)myAgent.getContentManager().extractContent(request);
+				Action a = (Action) myAgent.getContentManager().extractContent(request);
 				Engage e = (Engage) a.getAction();
 				Person p = e.getPerson();
 				Company c = e.getCompany();
-				
+
 				// Check person's age. If < 35 --> AGREE, else REFUSE and exit
 				// Perform the engagement action
 				int result = ((EngagerAgent) myAgent).doEngage(p, c);
-				
+
 				// Reply according to the result
-				if (result > 0){
+				if (result > 0) {
 					// OK --> INFORM action done
 					Done d = new Done();
 					d.setAction(a);
 					myAgent.getContentManager().fillContent(msg, d);
 					msg.setPerformative(ACLMessage.INFORM);
-				}
-				else{
+				} else {
 					// NOT OK --> FAILURE
 					ContentElementList l = new ContentElementList();
 					l.add(a);
@@ -210,38 +206,36 @@ public class EngagerAgent extends Agent
 					myAgent.getContentManager().fillContent(msg, l);
 					msg.setPerformative(ACLMessage.FAILURE);
 				}
-				
-			}
-			catch (Exception fe){
+
+			} catch (Exception fe) {
 				System.out.println(myAgent.getName() + ": Error handling the engagement action.");
 				System.out.println(fe.getMessage());
 			}
-			
+
 			// System.out.println(msg);
 			return msg;
 		}
-		
-	     
-	public ACLMessage prepareResponse(ACLMessage request) {
-			// Prepare a dummy ACLMessage used to create the content of all reply messages
+
+		public ACLMessage prepareResponse(ACLMessage request) {
+			// Prepare a dummy ACLMessage used to create the content of all
+			// reply messages
 			ACLMessage temp = request.createReply();
-						
-			try{
-				// Get the requested action. 
-				Action a = (Action)getContentManager().extractContent(request);
+
+			try {
+				// Get the requested action.
+				Action a = (Action) getContentManager().extractContent(request);
 				Engage e = (Engage) a.getAction();
 				Person p = e.getPerson();
 				// Check person's age. If < 35 --> AGREE, else REFUSE and exit
-				if (p.getAge().intValue() < 35){
-					// AGREE to accomplish the engagement action without any 
+				if (p.getAge().intValue() < 35) {
+					// AGREE to accomplish the engagement action without any
 					// special condition.
 					ContentElementList l = new ContentElementList();
 					l.add(a);
 					l.add(new TrueProposition());
 					getContentManager().fillContent(temp, l);
 					temp.setPerformative(ACLMessage.AGREE);
-				}
-				else {
+				} else {
 					ContentElementList l = new ContentElementList();
 					l.add(a);
 					l.add(new PersonTooOld());
@@ -249,24 +243,25 @@ public class EngagerAgent extends Agent
 					temp.setPerformative(ACLMessage.REFUSE);
 				}
 
-			} catch (Exception fe){
+			} catch (Exception fe) {
 				fe.printStackTrace();
 				System.out.println(getName() + ": Error handling the engagement action.");
 				System.out.println(fe.getMessage());
 			}
-			
+
 			return temp;
 		}
-	}	
-	
+	}
+
 	// AGENT LOCAL VARIABLES
-	private Company representedCompany; // The company on behalf of which this agent is able to engage people 
-	private List employees;	// The people currently working for the company
-	
+	private Company representedCompany; // The company on behalf of which this
+										// agent is able to engage people
+	private List employees; // The people currently working for the company
+
 	// AGENT CONSTRUCTOR
-	public EngagerAgent(){
+	public EngagerAgent() {
 		super();
-		
+
 		representedCompany = new Company();
 		representedCompany.setName("CSELT");
 		Address a = new Address();
@@ -274,48 +269,50 @@ public class EngagerAgent extends Agent
 		a.setNumber(new Long(274));
 		a.setCity("Turin");
 		representedCompany.setAddress(a);
-		
+
 		employees = new ArrayList();
 	}
-	
+
 	// AGENT SETUP
 	protected void setup() {
-		System.out.println("This is the EngagerAgent representing the company "+representedCompany.getName());
-		
+		System.out.println("This is the EngagerAgent representing the company " + representedCompany.getName());
+
 		// Register the codec for the SL0 language
-		getContentManager().registerLanguage(new SLCodec(), FIPANames.ContentLanguage.FIPA_SL0);	
-		
+		getContentManager().registerLanguage(new SLCodec(), FIPANames.ContentLanguage.FIPA_SL0);
+
 		// Register the ontology used by this application
 		getContentManager().registerOntology(EmploymentOntology.getInstance());
-			
-		// Create and add the behavior for handling QUERIES using the employment-ontology
-  		addBehaviour(new HandleEnganementQueriesBehaviour(this));
-  	
+
+		// Create and add the behavior for handling QUERIES using the
+		// employment-ontology
+		addBehaviour(new HandleEnganementQueriesBehaviour(this));
+
 		HandleEnganementQueriesBehaviour b = new HandleEnganementQueriesBehaviour(this);
 		HandleEngageBehaviour c = new HandleEngageBehaviour(this);
 		addBehaviour(b);
 		addBehaviour(c);
 	}
-	
+
 	// AGENT METHODS
-	boolean isWorking(Person p, Company c){
-		boolean isAnEmployee = false;	
+	boolean isWorking(Person p, Company c) {
+		boolean isAnEmployee = false;
 		Iterator i = employees.iterator();
-		while (i.hasNext()){
+		while (i.hasNext()) {
 			Person empl = (Person) i.next();
 			if (p.equals(empl))
 				isAnEmployee = true;
 		}
-		
+
 		if (c.equals(representedCompany))
 			return isAnEmployee;
 		else
 			return !isAnEmployee;
 	}
-	
-	int doEngage(Person p, Company c){
+
+	int doEngage(Person p, Company c) {
 		if (!c.equals(representedCompany))
-			return (-1); // Can engage people on behalf of representedCompany only
+			return (-1); // Can engage people on behalf of representedCompany
+							// only
 		else
 			employees.add(p);
 		return (1);
