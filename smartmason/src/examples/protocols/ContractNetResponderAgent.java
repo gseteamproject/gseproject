@@ -34,60 +34,63 @@ import jade.domain.FIPAAgentManagement.RefuseException;
 import jade.domain.FIPAAgentManagement.FailureException;
 
 /**
-   This example shows how to implement the responder role in 
-   a FIPA-contract-net interaction protocol. In this case in particular 
-   we use a <code>ContractNetResponder</code>  
-   to participate into a negotiation where an initiator needs to assign
-   a task to an agent among a set of candidates.
-   @author Giovanni Caire - TILAB
+ * This example shows how to implement the responder role in a FIPA-contract-net
+ * interaction protocol. In this case in particular we use a
+ * <code>ContractNetResponder</code> to participate into a negotiation where an
+ * initiator needs to assign a task to an agent among a set of candidates.
+ * 
+ * @author Giovanni Caire - TILAB
  */
 public class ContractNetResponderAgent extends Agent {
+	private static final long serialVersionUID = 7066950305865193053L;
 
 	protected void setup() {
-		System.out.println("Agent "+getLocalName()+" waiting for CFP...");
+		System.out.println("Agent " + getLocalName() + " waiting for CFP...");
 		MessageTemplate template = MessageTemplate.and(
 				MessageTemplate.MatchProtocol(FIPANames.InteractionProtocol.FIPA_CONTRACT_NET),
-				MessageTemplate.MatchPerformative(ACLMessage.CFP) );
+				MessageTemplate.MatchPerformative(ACLMessage.CFP));
 
 		addBehaviour(new ContractNetResponder(this, template) {
+			private static final long serialVersionUID = 3934957204459562093L;
+
 			@Override
 			protected ACLMessage handleCfp(ACLMessage cfp) throws NotUnderstoodException, RefuseException {
-				System.out.println("Agent "+getLocalName()+": CFP received from "+cfp.getSender().getName()+". Action is "+cfp.getContent());
+				System.out.println("Agent " + getLocalName() + ": CFP received from " + cfp.getSender().getName()
+						+ ". Action is " + cfp.getContent());
 				int proposal = evaluateAction();
 				if (proposal > 2) {
 					// We provide a proposal
-					System.out.println("Agent "+getLocalName()+": Proposing "+proposal);
+					System.out.println("Agent " + getLocalName() + ": Proposing " + proposal);
 					ACLMessage propose = cfp.createReply();
 					propose.setPerformative(ACLMessage.PROPOSE);
 					propose.setContent(String.valueOf(proposal));
 					return propose;
-				}
-				else {
+				} else {
 					// We refuse to provide a proposal
-					System.out.println("Agent "+getLocalName()+": Refuse");
+					System.out.println("Agent " + getLocalName() + ": Refuse");
 					throw new RefuseException("evaluation-failed");
 				}
 			}
 
 			@Override
-			protected ACLMessage handleAcceptProposal(ACLMessage cfp, ACLMessage propose,ACLMessage accept) throws FailureException {
-				System.out.println("Agent "+getLocalName()+": Proposal accepted");
+			protected ACLMessage handleAcceptProposal(ACLMessage cfp, ACLMessage propose, ACLMessage accept)
+					throws FailureException {
+				System.out.println("Agent " + getLocalName() + ": Proposal accepted");
 				if (performAction()) {
-					System.out.println("Agent "+getLocalName()+": Action successfully performed");
+					System.out.println("Agent " + getLocalName() + ": Action successfully performed");
 					ACLMessage inform = accept.createReply();
 					inform.setPerformative(ACLMessage.INFORM);
 					return inform;
-				}
-				else {
-					System.out.println("Agent "+getLocalName()+": Action execution failed");
+				} else {
+					System.out.println("Agent " + getLocalName() + ": Action execution failed");
 					throw new FailureException("unexpected-error");
-				}	
+				}
 			}
 
 			protected void handleRejectProposal(ACLMessage cfp, ACLMessage propose, ACLMessage reject) {
-				System.out.println("Agent "+getLocalName()+": Proposal rejected");
+				System.out.println("Agent " + getLocalName() + ": Proposal rejected");
 			}
-		} );
+		});
 	}
 
 	private int evaluateAction() {
@@ -100,4 +103,3 @@ public class ContractNetResponderAgent extends Agent {
 		return (Math.random() > 0.2);
 	}
 }
-
