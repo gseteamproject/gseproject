@@ -83,7 +83,8 @@ public class GuestAgent
     // Instance variables
     //////////////////////////////////
 
-    protected boolean m_knowRumour = false;
+	private static final long serialVersionUID = -3872994741578217949L;
+	protected boolean m_knowRumour = false;
 
 
     // Constructors
@@ -94,13 +95,13 @@ public class GuestAgent
     //////////////////////////////////
 
     /**
-     * Set up the agent. Register with the DF, and add a behaviour to process
-     * incoming messages.  Also sends a message to the host to say that this
-     * guest has arrived.
-     */
+	 * Set up the agent. Register with the DF, and add a behavior to process
+	 * incoming messages. Also sends a message to the host to say that this
+	 * guest has arrived.
+	 */
     protected void setup() {
         try {
-            // create the agent descrption of itself
+            // create the agent description of itself
             ServiceDescription sd = new ServiceDescription();
             sd.setType( "PartyGuest" );
             sd.setName( "GuestServiceDescription" );
@@ -117,9 +118,11 @@ public class GuestAgent
             hello.addReceiver( new AID( "host", AID.ISLOCALNAME ) );
             send( hello );
 
-            // add a Behaviour to process incoming messages
+            // add a Behavior to process incoming messages
             addBehaviour( new CyclicBehaviour( this ) {
-                            public void action() {
+				private static final long serialVersionUID = -1635448574624355898L;
+
+							public void action() {
                                 // listen if a greetings message arrives
                                 ACLMessage msg = receive( MessageTemplate.MatchPerformative( ACLMessage.INFORM ) );
 
@@ -145,7 +148,7 @@ public class GuestAgent
                                     }
                                 }
                                 else {
-                                    // if no message is arrived, block the behaviour
+                                    // if no message is arrived, block the behavior
                                     block();
                                 }
                             }
@@ -203,10 +206,10 @@ public class GuestAgent
 
 
     /**
-     * Pass the rumour to the named guest, if we know it.
+     * Pass the rumor to the named guest, if we know it.
      *
-     * @param agent Another guest we will send the rumour message to, but only if we
-     *              know the rumour already.
+     * @param agent Another guest we will send the rumor message to, but only if we
+     *              know the rumor already.
      */
     protected void passRumour( AID agent ) {
         if (m_knowRumour) {
@@ -222,7 +225,7 @@ public class GuestAgent
      * Someone has told this agent the rumour, we tell the host that we now know it.
      */
     protected void hearRumour() {
-        // if I hear the rumour for the first time, tell the host
+        // if I hear the rumor for the first time, tell the host
         if (!m_knowRumour) {
             ACLMessage m = new ACLMessage( ACLMessage.INFORM );
             m.setContent( HostAgent.RUMOUR );
