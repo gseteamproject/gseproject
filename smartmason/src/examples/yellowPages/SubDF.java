@@ -21,70 +21,66 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA  02111-1307, USA.
 *****************************************************************/
 
-
 package examples.yellowPages;
 
 import jade.core.*;
-import jade.core.behaviours.*;
-
 import jade.domain.FIPAAgentManagement.*;
 import jade.domain.FIPAException;
 import jade.domain.DFService;
 import jade.domain.FIPANames;
 
 /**
-This is an example of an agent that plays the role of a sub-df by 
-automatically registering with a parent DF.
-Notice that exactly the same might be done by using the GUI of the DF.
-<p>
-This SUBDF inherits all the functionalities of the default DF, including
-its GUI.
-@author Giovanni Rimassa - Universita` di Parma
-@version $Date: 2003-12-03 17:57:03 +0100 (mer, 03 dic 2003) $ $Revision: 4638 $
-*/
+ * This is an example of an agent that plays the role of a sub-df by
+ * automatically registering with a parent DF. Notice that exactly the same
+ * might be done by using the GUI of the DF.
+ * <p>
+ * This SUBDF inherits all the functionalities of the default DF, including its
+ * GUI.
+ * 
+ * @author Giovanni Rimassa - Universita` di Parma
+ * @version $Date: 2003-12-03 17:57:03 +0100 (mer, 03 dic 2003) $ $Revision:
+ *          4638 $
+ */
 
 public class SubDF extends jade.domain.df {
 
-  
-  public void setup() {
+	private static final long serialVersionUID = 4529550982518308573L;
 
-   // Input df name
-   int len = 0;
-   byte[] buffer = new byte[1024];
+	public void setup() {
+		try {
+			AID parentName = getDefaultDF();
 
-   try {
+			// Execute the setup of jade.domain.df which includes all the
+			// default behaviors of a DF
+			// (i.e. register, unregister,modify, and search).
+			super.setup();
 
-     AID parentName = getDefaultDF(); 
-     
-     //Execute the setup of jade.domain.df which includes all the default behaviours of a df 
-     //(i.e. register, unregister,modify, and search).
-     super.setup();
-    
-     //Use this method to modify the current description of this df. 
-     setDescriptionOfThisDF(getDescription());
-     
-     //Show the default Gui of a df.
-     super.showGui();
+			// Use this method to modify the current description of this DF.
+			setDescriptionOfThisDF(getDescription());
 
-     DFService.register(this,parentName,getDescription());
-     addParent(parentName,getDescription());
-		 System.out.println("Agent: " + getName() + " federated with default df.");
-     
-    }catch(FIPAException fe){fe.printStackTrace();}
-  }
-  
-  private DFAgentDescription getDescription()
-  {
-     DFAgentDescription dfd = new DFAgentDescription();
-     dfd.setName(getAID());
-     ServiceDescription sd = new ServiceDescription();
-     sd.setName(getLocalName() + "-sub-df");
-     sd.setType("fipa-df");
-     sd.addProtocols(FIPANames.InteractionProtocol.FIPA_REQUEST);
-     sd.addOntologies("fipa-agent-management");
-     sd.setOwnership("JADE");
-     dfd.addServices(sd);
-     return dfd;
-  }
+			// Show the default GUI of a DF
+			super.showGui();
+
+			DFService.register(this, parentName, getDescription());
+			addParent(parentName, getDescription());
+			System.out.println("Agent: " + getName() + " federated with default df.");
+
+		} catch (FIPAException fe) {
+			fe.printStackTrace();
+		}
+	}
+
+	private DFAgentDescription getDescription() {
+		DFAgentDescription dfd = new DFAgentDescription();
+		dfd.setName(getAID());
+		ServiceDescription sd = new ServiceDescription();
+		sd.setName(getLocalName() + "-sub-df");
+		sd.setType("fipa-df");
+		sd.addProtocols(FIPANames.InteractionProtocol.FIPA_REQUEST);
+		sd.addOntologies("fipa-agent-management");
+		sd.setOwnership("JADE");
+		dfd.addServices(sd);
+		return dfd;
+	}
 
 }
