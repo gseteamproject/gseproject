@@ -11,3 +11,5 @@ Clone repository with this command
 `git clone https://github.com/gseteamproject/gseproject.git`
 
 After you have cloned repository you should set Workspace to repository's directory
+
+Executable scenarios are located in *Example.java files
