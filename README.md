@@ -6,7 +6,7 @@ Eclipse for Java
 
 ## Deployment
 
-clone repository with this command
+Clone repository with this command
 
 `git clone https://github.com/gseteamproject/gseproject.git`
 
