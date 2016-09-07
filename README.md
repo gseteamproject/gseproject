@@ -12,4 +12,6 @@ Clone repository with this command
 
 After you have cloned repository you should set Workspace to repository's directory
 
+## Running
+
 Executable scenarios are located in *Example.java files
