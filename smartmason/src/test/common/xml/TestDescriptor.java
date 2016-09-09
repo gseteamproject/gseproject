@@ -33,7 +33,7 @@ import jade.util.leap.Serializable;
 
 // FOR EACH TEST
 public class TestDescriptor implements Serializable {
-	
+	private static final long serialVersionUID = 1559225122062600189L;
 	private String name = "";
 	private boolean skip = false;
 	private String testClass = "";

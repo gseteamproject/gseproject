@@ -37,6 +37,7 @@ import test.interPlatform.InterPlatformCommunicationTesterAgent;
    @author Giovanni Caire - TILAB
  */
 public class TestEnvelope extends Test {
+	private static final long serialVersionUID = 8231383250154836021L;
 	private static final String RESPONDER_NAME = "responder";
 	private static final String CONV_ID = "conv_ID";
 	
@@ -58,7 +59,8 @@ public class TestEnvelope extends Test {
 			log("Responder correctly started on remote platform");
 			
   		Behaviour b = new SimpleBehaviour() {
-  			private boolean finished = false;
+			private static final long serialVersionUID = 5104218008182978167L;
+			private boolean finished = false;
   			public void onStart() {
   				ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
   				msg.setConversationId(CONV_ID);
@@ -118,7 +120,9 @@ public class TestEnvelope extends Test {
      Envelope is correct.
    */
   public static class CheckEnvelopeAgent extends Agent {
-  	protected void setup() {
+	private static final long serialVersionUID = 524222766967783969L;
+
+	protected void setup() {
   		System.out.println("Responder started.");
   		ACLMessage msg = blockingReceive(MessageTemplate.MatchConversationId(CONV_ID));
   		System.out.println("Responder received test message.");
@@ -179,7 +183,8 @@ public class TestEnvelope extends Test {
      Inner class TestSerializable
    */
   static class TestSerializable implements java.io.Serializable {
-  	private String s;
+	private static final long serialVersionUID = -6888179961272095510L;
+	private String s;
   	private int n;
   	
   	TestSerializable(String s, int n) {

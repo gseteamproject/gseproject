@@ -31,6 +31,8 @@ import jade.content.*;
  */
 public class Configure implements AgentAction {
 
+	private static final long serialVersionUID = 2798495476722784637L;
+
 	public Configure() {
 	}	
 }

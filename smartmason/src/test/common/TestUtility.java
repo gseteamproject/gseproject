@@ -272,7 +272,7 @@ public class TestUtility {
 	/////////////////////////////////////////////
 	
 	/**
-	 Add a behaviour of the indicated class to the indicated ConfigurableAgent
+	 Add a behavior of the indicated class to the indicated ConfigurableAgent
 	 */
 	public static void addBehaviour(Agent a, AID targetAID, String behaviourClassName) throws TestException { 
 		try {
@@ -679,6 +679,8 @@ public class TestUtility {
 	 This agent is used to get the hostname a container is running on.
 	 */
 	public static class HostSpyAgent extends Agent {
+		private static final long serialVersionUID = -1772178381639291283L;
+
 		protected void setup() {
 			Object[] args = getArguments();
 			if (args.length > 0) {

@@ -54,7 +54,8 @@ import test.common.Logger;
  */
 public class TestSuiteGui extends javax.swing.JFrame {
 
-  // Gui states used to enable/disable buttons
+	private static final long serialVersionUID = 732361940927172876L;
+// Gui states used to enable/disable buttons
   public static final int                 IDLE_STATE = 0;
   public static final int                 READY_STATE = 1;
   public static final int                 RUNNING_STATE = 2;
@@ -560,7 +561,7 @@ public class TestSuiteGui extends javax.swing.JFrame {
   private void loggerBActionPerformed(java.awt.event.ActionEvent evt) {    // GEN-FIRST:event_loggerBActionPerformed
     LoggerDialog lDialog = new LoggerDialog(this, Logger.getLogger().getLoggerType());
     lDialog.setLocationRelativeTo(this);
-    lDialog.show();
+    lDialog.setVisible(true);
     if (lDialog.getExitValue() == LoggerDialog.OK) {
       // The user clicked "Ok"
       int selectedLoggerType = lDialog.getSelectedLoggerType();
@@ -750,7 +751,7 @@ public class TestSuiteGui extends javax.swing.JFrame {
     int       centerX = (int) screenSize.getWidth()/2;
     int       centerY = (int) screenSize.getHeight()/2;
     setLocation(centerX-getWidth()/2, centerY-getHeight()/2);
-    show();
+    setVisible(true);
   } 
 
   /**
@@ -962,7 +963,7 @@ public class TestSuiteGui extends javax.swing.JFrame {
   private void showExitForm() {
     ExitDialog dialog = new ExitDialog(this);
     dialog.setLocationRelativeTo(this);
-    dialog.show();
+    dialog.setVisible(true);
     switch (dialog.getExitValue()) {
     case ExitDialog.CANCEL:
 	    // The user clicked "Cancel". Just do nothing

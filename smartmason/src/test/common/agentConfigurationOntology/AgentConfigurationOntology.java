@@ -29,11 +29,13 @@ import jade.content.schema.*;
 
 /**
  * Ontology containing agent actions indicating that an agent
- * should add/remove a given behaviour
+ * should add/remove a given behavior
  * @author Giovanni Caire - TILAB
  */
 public class AgentConfigurationOntology extends Ontology {
-	// NAME
+	private static final long serialVersionUID = -2405022245504134886L;
+
+// NAME
   public static final String ONTOLOGY_NAME = "Agent-configuration-ontology";
 	
 	// VOCABULARY

@@ -27,6 +27,7 @@ package test.common.agentConfigurationOntology;
 import jade.content.*;
 
 public class LoadOntology implements AgentAction {
+	private static final long serialVersionUID = -3370060116842206237L;
 	private String name;
 	private String className;
 

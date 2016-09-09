@@ -25,7 +25,6 @@ package test.common;
 
 import jade.core.Agent;
 import jade.core.AID;
-import jade.core.behaviours.*;
 import jade.lang.acl.*;
 import jade.util.leap.List;
 import jade.util.leap.ArrayList;
@@ -86,7 +85,9 @@ import test.common.xml.TestDescriptor;
 	 @author Giovanni Caire -TILAB
  */
 public abstract class TesterAgent extends Agent {
-  public static final String TEST_NOTIFICATION = "test-notification";
+	private static final long serialVersionUID = 8144578008283918637L;
+
+public static final String TEST_NOTIFICATION = "test-notification";
   
   private Codec codec = new SLCodec();
   private Ontology onto = TesterAgentControlOntology.getInstance();  
@@ -134,6 +135,8 @@ public abstract class TesterAgent extends Agent {
 			// STAND-ALONE EXECUTION MODE
 			// Directly add the behaviour that executes the test group
 			addBehaviour(new TestGroupExecutor(this, theTestGroup) {
+				private static final long serialVersionUID = 4461061029533731445L;
+
 				public int onEnd() {
 					myAgent.doDelete();
 					return 0;
@@ -185,6 +188,7 @@ public abstract class TesterAgent extends Agent {
 	   (usually the JADE TestSuiteAgent)
 	 */
 	class Controller extends AchieveREResponder {
+		private static final long serialVersionUID = -4005215602999775205L;
 		private TestGroupExecutor executor;
 		private Action aa;
 		private AgentAction requestedAction;
@@ -212,6 +216,8 @@ public abstract class TesterAgent extends Agent {
 				final ACLMessage req = request;
 				theTestGroup.reset();
 				executor = new TestGroupExecutor(TesterAgent.this, theTestGroup) {
+					private static final long serialVersionUID = 1964767565361866113L;
+
 					public int onEnd() {
 						executor = null;
 						ACLMessage notification = createInform(aa, req, passedCnt, failedCnt, skippedCnt);

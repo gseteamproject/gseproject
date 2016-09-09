@@ -23,14 +23,8 @@ Boston, MA  02111-1307, USA.
 
 package test.common;
 
-//import jade.core.Agent;
-import jade.core.Runtime;
-//import jade.core.Profile;
-//import jade.core.ProfileImpl;
-//import jade.wrapper.*;
 import jade.util.leap.*;
 
-//import test.common.*;
 import java.io.*;
 import java.lang.reflect.Method;
 import java.util.StringTokenizer;

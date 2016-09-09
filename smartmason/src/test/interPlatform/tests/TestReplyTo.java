@@ -26,8 +26,6 @@ package test.interPlatform.tests;
 import jade.core.*;
 import jade.core.behaviours.*;
 import jade.lang.acl.*;
-import jade.domain.FIPAAgentManagement.*;
-import jade.util.leap.Iterator;
 import test.common.*;
 import test.interPlatform.InterPlatformCommunicationTesterAgent;
 
@@ -38,6 +36,7 @@ import test.interPlatform.InterPlatformCommunicationTesterAgent;
  @author Giovanni Caire - TILAB
  */
 public class TestReplyTo extends Test {
+	private static final long serialVersionUID = 5410447858680863709L;
 	private static final String AGENT_A = "A";
 	private static final String AGENT_B = "B";
 	private static final String CONV_ID = "conv_ID";
@@ -58,6 +57,7 @@ public class TestReplyTo extends Test {
 		agentB = TestUtility.createAgent(a, AGENT_B, getClass().getName()+"$ResponderAgent", null, remoteAMS, null);
 		
 		Behaviour b = new Behaviour(a) {
+			private static final long serialVersionUID = -3423642459063630856L;
 			public boolean finished = false;
 			
 			public void onStart() {
@@ -112,9 +112,13 @@ public class TestReplyTo extends Test {
 	 a reply (created using the createReply() method).
 	 */
 	public static class ResponderAgent extends Agent {
+		private static final long serialVersionUID = -4946452868230851377L;
+
 		protected void setup() {
 			
 			addBehaviour(new CyclicBehaviour(this) {
+				private static final long serialVersionUID = 5959213227995789871L;
+
 				public void action() {
 					ACLMessage msg = myAgent.receive(MessageTemplate.MatchConversationId(CONV_ID));
 					if (msg != null) {

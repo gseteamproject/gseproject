@@ -41,7 +41,7 @@ import jade.util.leap.List;
  @author Giovanni Caire - TILAB
  */
 public class TSDaemon extends UnicastRemoteObject implements RemoteManager, OutputHandler {
-
+	private static final long serialVersionUID = -4786781451956637442L;
 	public static final String DEFAULT_NAME = "TSDaemon";
 	public static final int DEFAULT_PORT = 7777;
 

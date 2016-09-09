@@ -24,7 +24,6 @@ Boston, MA  02111-1307, USA.
 package test.common.testSuite.gui;
 
 import javax.swing.*;
-import java.awt.*;
 import java.text.NumberFormat;
 
 /**
@@ -35,8 +34,9 @@ import java.text.NumberFormat;
  * @version $Date: December 2003
  */
 public class CounterPanel extends javax.swing.JPanel implements java.io.Serializable {
-    
-    /** Creates new form CounterPanel */
+	private static final long serialVersionUID = 514509559313470574L;
+
+	/** Creates new form CounterPanel */
     public CounterPanel() {
         initComponents();
     }
@@ -262,12 +262,5 @@ public class CounterPanel extends javax.swing.JPanel implements java.io.Serializ
         fNumberOfFailed.setText("0");
         if(!RunAll)
             fTimeElapsed.setText("0,0 seconds");    
-    } 
-    
-    private void updateGUI() {
-        fNumberOfRuns.setText("0 / " + Integer.toString(fTotalRuns));
-        fNumberOfPassed.setText("0");
-        fNumberOfFailed.setText("0");        
-        fTimeElapsed.setText("0,0 seconds");        
     }
 }

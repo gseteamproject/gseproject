@@ -40,93 +40,93 @@ import java.lang.reflect.Method;
 import java.util.Hashtable;
 
 /**
-   Generic agent that can load/unload behaviours, content languages 
-   and ontologies on request
-   @author Giovanni Caire - TILAB
+ * Generic agent that can load/unload behaviors, content languages and
+ * ontologies on request
+ * 
+ * @author Giovanni Caire - TILAB
  */
 public class ConfigurableAgent extends Agent {
-	private Hashtable behaviours = new Hashtable();
-	
+
+	private static final long serialVersionUID = -5292957651342918434L;
+
+	private Hashtable<String, Behaviour> behaviours = new Hashtable<String, Behaviour>();
+
 	private Codec codec = new LEAPCodec();
 	private Ontology ontology = AgentConfigurationOntology.getInstance();
-	
+
 	private MessageTemplate mt = MessageTemplate.and(
-		MessageTemplate.and(
-			MessageTemplate.MatchLanguage(codec.getName()),
-			MessageTemplate.MatchOntology(ontology.getName())
-		),
-		MessageTemplate.MatchProtocol(FIPANames.InteractionProtocol.FIPA_REQUEST)
-	);
-		
-	
+			MessageTemplate.and(MessageTemplate.MatchLanguage(codec.getName()),
+					MessageTemplate.MatchOntology(ontology.getName())),
+			MessageTemplate.MatchProtocol(FIPANames.InteractionProtocol.FIPA_REQUEST));
+
 	protected void setup() {
-		System.out.println("Agent "+getName()+" started");
+		System.out.println("Agent " + getName() + " started");
 		getContentManager().registerLanguage(codec);
 		getContentManager().registerOntology(ontology);
-		
-		addBehaviour(new AchieveREResponder(this, mt) {
-    	protected ACLMessage prepareResponse(ACLMessage request) throws NotUnderstoodException, RefuseException {
-    		try {
-    			ContentElement ce = myAgent.getContentManager().extractContent(request);
-    			
-    			// Store the parsed message content into the data store
-    			getDataStore().put(this.toString(), ce);
-    			
-    			// Send back an AGREE 
-    			ACLMessage agree = request.createReply();
-    			agree.setPerformative(ACLMessage.AGREE);
-    			return agree;
-    		}
-    		catch (Exception e) {
-    			throw new NotUnderstoodException(e.getMessage());
-    		}
-    	}
-    	
-    	protected ACLMessage prepareResultNotification(ACLMessage request, ACLMessage response) throws FailureException {
-    		try {
-    			// Retrieve the action from the data store
-    			ContentElement ce = (ContentElement) getDataStore().get(this.toString());
-    			
-    			// Exceute the requested action
-    			if (ce instanceof AddBehaviour) {
-    				loadBehaviour((AddBehaviour) ce);
-    			}
-    			else if (ce instanceof RemoveBehaviour) {
-    				unloadBehaviour((RemoveBehaviour) ce);    			
-    			}
-    			else if (ce instanceof LoadLanguage) {
-    				loadLanguage((LoadLanguage) ce);
-    			}
-    			else if (ce instanceof LoadOntology) {
-    				loadOntology((LoadOntology) ce);
-    			}
-    			else if (ce instanceof test.common.agentConfigurationOntology.Quit) {
-    				registerPrepareResponse(new OneShotBehaviour() {
-    					public void action() {}
-    					public void reset() {
-    						myAgent.doDelete();
-    					}
-    				} );
-    			}
-    			else {
-    				throw new FailureException("Unknown action "+ce);
-    			}
-    			
-    			// Send back the notification
-    			Done d = new Done((AgentAction) ce);
-    			ACLMessage inform = request.createReply();
-    			inform.setPerformative(ACLMessage.INFORM);
-    			myAgent.getContentManager().fillContent(inform, d);
-    			return inform;
-    		}
-    		catch (Exception e) {
-    			throw new FailureException(e.getMessage());
-    		}
-    	}
-		} );
-		
+
+		addBehaviour(new AchieveREResponder(this, mt) {			
+			private static final long serialVersionUID = 5798422287463261504L;
+
+			protected ACLMessage prepareResponse(ACLMessage request) throws NotUnderstoodException, RefuseException {
+				try {
+					ContentElement ce = myAgent.getContentManager().extractContent(request);
+
+					// Store the parsed message content into the data store
+					getDataStore().put(this.toString(), ce);
+
+					// Send back an AGREE
+					ACLMessage agree = request.createReply();
+					agree.setPerformative(ACLMessage.AGREE);
+					return agree;
+				} catch (Exception e) {
+					throw new NotUnderstoodException(e.getMessage());
+				}
+			}
+
+			protected ACLMessage prepareResultNotification(ACLMessage request, ACLMessage response)
+					throws FailureException {
+				try {
+					// Retrieve the action from the data store
+					ContentElement ce = (ContentElement) getDataStore().get(this.toString());
+
+					// Execute the requested action
+					if (ce instanceof AddBehaviour) {
+						loadBehaviour((AddBehaviour) ce);
+					} else if (ce instanceof RemoveBehaviour) {
+						unloadBehaviour((RemoveBehaviour) ce);
+					} else if (ce instanceof LoadLanguage) {
+						loadLanguage((LoadLanguage) ce);
+					} else if (ce instanceof LoadOntology) {
+						loadOntology((LoadOntology) ce);
+					} else if (ce instanceof test.common.agentConfigurationOntology.Quit) {
+						registerPrepareResponse(new OneShotBehaviour() {
+							private static final long serialVersionUID = 287166601475221467L;
+
+							public void action() {
+							}
+
+							public void reset() {
+								myAgent.doDelete();
+							}
+						});
+					} else {
+						throw new FailureException("Unknown action " + ce);
+					}
+
+					// Send back the notification
+					Done d = new Done((AgentAction) ce);
+					ACLMessage inform = request.createReply();
+					inform.setPerformative(ACLMessage.INFORM);
+					myAgent.getContentManager().fillContent(inform, d);
+					return inform;
+				} catch (Exception e) {
+					throw new FailureException(e.getMessage());
+				}
+			}
+		});
+
 	}
-	
+
 	private void loadBehaviour(AddBehaviour ab) throws Exception {
 		String name = ab.getName();
 		String className = ab.getClassName();
@@ -135,46 +135,45 @@ public class ConfigurableAgent extends Agent {
 			behaviours.put(name, b);
 		}
 		// DEBUG
-		System.out.println("Agent "+getName()+": Loading behaviour "+b);
+		System.out.println("Agent " + getName() + ": Loading behaviour " + b);
 		addBehaviour(b);
 	}
-	
+
 	private void unloadBehaviour(RemoveBehaviour rb) throws Exception {
 		String name = rb.getName();
 		Behaviour b = (Behaviour) behaviours.get(name);
 		if (b != null) {
 			// DEBUG
-			System.out.println("Agent "+getName()+": Removing behaviour "+b);
+			System.out.println("Agent " + getName() + ": Removing behaviour " + b);
 			removeBehaviour(b);
 		}
 	}
-	
+
 	private void loadLanguage(LoadLanguage ll) throws Exception {
 		String languageClassName = ll.getClassName();
 		String languageName = ll.getName();
-		
+
 		Codec c = (Codec) Class.forName(languageClassName).newInstance();
 		if (languageName == null) {
 			languageName = c.getName();
 		}
 		// DEBUG
-		System.out.println("Agent "+getName()+": Registering language "+languageName);
-  	getContentManager().registerLanguage(c, languageName);
+		System.out.println("Agent " + getName() + ": Registering language " + languageName);
+		getContentManager().registerLanguage(c, languageName);
 	}
-		
+
 	private void loadOntology(LoadOntology lo) throws Exception {
 		String ontoClassName = lo.getClassName();
 		String ontoName = lo.getName();
-		
-		Class c = Class.forName(ontoClassName);
+
+		Class<?> c = Class.forName(ontoClassName);
 		Method m = c.getMethod("getInstance", new Class[0]);
-		Ontology onto = (Ontology) m.invoke(null, new Object[]{});
+		Ontology onto = (Ontology) m.invoke(null, new Object[] {});
 		if (ontoName == null) {
 			ontoName = onto.getName();
 		}
 		// DEBUG
-		System.out.println("Agent "+getName()+": Registering ontology "+ontoName);
-  	getContentManager().registerOntology(onto, ontoName);
+		System.out.println("Agent " + getName() + ": Registering ontology " + ontoName);
+		getContentManager().registerOntology(onto, ontoName);
 	}
 }
-

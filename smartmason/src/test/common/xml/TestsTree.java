@@ -21,15 +21,11 @@
 
 package test.common.xml;
 
-import test.common.*;
-
 import java.util.Vector;
 import java.util.Enumeration;
 import java.io.Serializable;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.tree.*;
 import javax.swing.event.*;
 
@@ -46,6 +42,8 @@ import org.w3c.dom.NodeList;
  @author Rossano Vitulli - UniPR
  */
 public class TestsTree extends JTree implements Serializable {
+	private static final long serialVersionUID = 1425859296861408336L;
+
 	public static final String DEFAULT_TREE_ROOT_NAME = "JADE Test Suite";
 	
 	private static final int      ELEMENT_TYPE = Node.ELEMENT_NODE;
@@ -63,7 +61,7 @@ public class TestsTree extends JTree implements Serializable {
 		"none", "Element", "Attr", "Text", "CDATA", "ProcInstr", "Comment", "Document", "DocType", "Notation", 
 	};
 	
-	// The elements in the dom tree that must be displyed in the JTree:
+	// The elements in the dom tree that must be displayed in the JTree:
 	// 0) All (used when displaying the selection dialog)
 	// 1) Only the tests (used when displaying the tests in the group that is being executed)
 	// 2) Functionalities and tests (used when displaying the final report after a RUN_ALL procedure)
@@ -181,6 +179,7 @@ public class TestsTree extends JTree implements Serializable {
 	 * child counts are also provided.
 	 */
 	private class AdapterNode implements Serializable {
+		private static final long serialVersionUID = 8299738824779750096L;
 		Node domNode;
 		
 		/**
@@ -304,6 +303,8 @@ public class TestsTree extends JTree implements Serializable {
 	 * a JTree model.
 	 */
 	private class DomToTreeModelAdapter implements TreeModel, Serializable {
+		private static final long serialVersionUID = -3111367730655255917L;
+
 		// Basic TreeModel operations
 		public Object getRoot() {
 			return new AdapterNode(document);

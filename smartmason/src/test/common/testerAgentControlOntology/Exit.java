@@ -30,6 +30,7 @@ import jade.content.*;
  * @author Giovanni Caire - TILAB
  */
 public class Exit implements AgentAction {
+	private static final long serialVersionUID = -6257893668812034453L;
 
 	public Exit() {
 	}	

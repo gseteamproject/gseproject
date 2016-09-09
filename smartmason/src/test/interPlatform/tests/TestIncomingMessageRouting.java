@@ -26,7 +26,6 @@ package test.interPlatform.tests;
 import jade.core.*;
 import jade.core.behaviours.*;
 import jade.lang.acl.*;
-import jade.util.leap.Properties;
 import test.common.*;
 import test.interPlatform.InterPlatformCommunicationTesterAgent;
 
@@ -38,6 +37,7 @@ import test.interPlatform.InterPlatformCommunicationTesterAgent;
    @author Giovanni Caire - TILAB
  */
 public class TestIncomingMessageRouting extends Test {
+	private static final long serialVersionUID = 3432595817539286916L;
 	private static final String RESPONDER_NAME = "responder";
 	private final String CONV_ID = "conv_ID"+hashCode();
 	private final String CONTENT = "\"PING\"";
@@ -64,7 +64,8 @@ public class TestIncomingMessageRouting extends Test {
 			log("Responder correctly started on remote platform");
   		
   		Behaviour b = new SimpleBehaviour() {
-  			private boolean finished = false;
+			private static final long serialVersionUID = -1257459736677229938L;
+			private boolean finished = false;
   			public void onStart() {
   				ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
   				msg.addReceiver(resp);
@@ -124,9 +125,13 @@ public class TestIncomingMessageRouting extends Test {
      Inner class PingAgent
    */
   public static class PingAgent extends Agent {
-  	protected void setup() {
+	private static final long serialVersionUID = 3913245884547063127L;
+
+	protected void setup() {
   		addBehaviour(new CyclicBehaviour(this) {
-  			public void action() {
+			private static final long serialVersionUID = -6581489994794927771L;
+
+			public void action() {
   				ACLMessage msg = myAgent.receive();
   				if (msg != null) {
   					ACLMessage reply = msg.createReply();

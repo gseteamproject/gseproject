@@ -31,6 +31,7 @@ import jade.util.leap.*;
    @author Giovanni Caire - TILAB
  */
 public abstract class ListProcessor extends SimpleBehaviour {
+	private static final long serialVersionUID = -4334857260388412476L;
 	protected List items ;
 	private int cnt = 0;
 	private boolean paused = false;

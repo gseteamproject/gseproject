@@ -30,6 +30,7 @@ import jade.content.*;
  * @author Giovanni Caire - TILAB
  */
 public class TestResult implements Predicate {
+	private static final long serialVersionUID = -5463069615891808328L;
 	private String name;
 	private int result;
 	private String errorMsg;

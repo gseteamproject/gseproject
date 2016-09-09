@@ -26,7 +26,6 @@ package test.interPlatform.tests;
 import jade.core.*;
 import jade.core.behaviours.*;
 import jade.lang.acl.*;
-import jade.util.leap.Properties;
 import test.common.*;
 import test.interPlatform.InterPlatformCommunicationTesterAgent;
 
@@ -38,6 +37,7 @@ import test.interPlatform.InterPlatformCommunicationTesterAgent;
  * @author Nicolas Lhuillier - Motorola
  */
 public class TestCharset extends Test {
+	private static final long serialVersionUID = 2369500599477225438L;
 	public static final String KEY1 = "pass";
   public static final String KEY2 = "charset";
   
@@ -64,7 +64,8 @@ public class TestCharset extends Test {
 			log("Responder correctly started on remote platform");
   		
   		Behaviour b1 = new SimpleBehaviour() {
-          private boolean finished = false;
+			private static final long serialVersionUID = -1236258251724451037L;
+		private boolean finished = false;
           public void onStart() {
              
             ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
@@ -111,7 +112,9 @@ public class TestCharset extends Test {
   	
   		// If we don't receive any answer in 10 sec --> TEST_FAILED
   		Behaviour b2 = new WakerBehaviour(a, 10000) {
-          protected void handleElapsedTimeout() {
+			private static final long serialVersionUID = 5046640812958966853L;
+
+		protected void handleElapsedTimeout() {
             failed("Reply timeout expired");
           }
         };

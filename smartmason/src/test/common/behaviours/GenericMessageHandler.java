@@ -32,18 +32,19 @@ import test.common.TestUtility;
    @author Giovanni Caire - TILAB
  */
 public class GenericMessageHandler extends CyclicBehaviour {
+	private static final long serialVersionUID = -8605699027037329508L;
 	private List received = new LinkedList();
 	
 	public void action() {
 		ACLMessage msg = myAgent.receive();
 		if (msg != null) {
 			if (!isInReceived(msg)) {
-				// Give other behaviours a chance to process this message
+				// Give other behaviors a chance to process this message
 				myAgent.postMessage(msg);
 				received.add(msg);
 			}
 			else {
-				// No other behaviour has processed this message -->
+				// No other behavior has processed this message -->
 				// Handle it
 				TestUtility.log("Handling message\n"+msg);
 				handleMessage(msg);

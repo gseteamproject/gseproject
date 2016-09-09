@@ -30,6 +30,7 @@ import jade.util.leap.Serializable;
    @author Giovanni Caire - TILAB
  */
 public class Expectation implements Serializable {
+	private static final long serialVersionUID = -6132762758405834801L;
 	private int receivedCnt = 0;
 	private HashMap expected = new HashMap();
 	

@@ -24,9 +24,11 @@ Boston, MA  02111-1307, USA.
 package test.common;
 
 /**
-Wrapper exception for all exceptions that happens during the exec of a process 
+Wrapper exception for all exceptions that happens during the execution of a process 
 */
 public class ExecException extends TestException {
+	private static final long serialVersionUID = -6007118849707339589L;
+
 	public ExecException(String msg) {
 		super(msg);
 	}

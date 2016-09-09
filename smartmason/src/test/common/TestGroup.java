@@ -38,6 +38,7 @@ import test.common.xml.*;
  @version $Date: December 2003
  */
 public class TestGroup implements Serializable{
+	private static final long serialVersionUID = -8771126274210973620L;
 	private TestDescriptor[] myTests;
 	private int cnt;
 	private List argumentSpecs = new ArrayList();

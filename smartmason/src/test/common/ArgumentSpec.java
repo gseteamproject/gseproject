@@ -31,6 +31,7 @@ import jade.util.leap.Serializable;
    @author Giovanni Caire - TILAB
  */
 public class ArgumentSpec implements Serializable {
+	private static final long serialVersionUID = -1254093206789412528L;
 	private String name;
 	private String label;
 	private String value;

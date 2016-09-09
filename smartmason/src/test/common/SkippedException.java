@@ -29,6 +29,7 @@ import test.common.xml.TestDescriptor;
    @author Giovanni Caire - TILAB
  */
 class SkippedException extends TestException {
+	private static final long serialVersionUID = -5781021652531471246L;
 	private TestDescriptor myDescriptor;
 	private boolean expected;
 	

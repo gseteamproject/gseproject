@@ -23,8 +23,6 @@ Boston, MA  02111-1307, USA.
 
 package test.common.testSuite.gui;
 
-import javax.swing.text.*;
-
 /**
  * @author Alessandro Negri - AOTLab UniPR
  * @author Matteo Bisi - UniPR
@@ -38,7 +36,8 @@ import javax.swing.text.*;
  * are written.
  */
 public class FailedTestsView extends javax.swing.JPanel implements java.io.Serializable {
-    /** Creates new form FailedTestsView */
+	private static final long serialVersionUID = 5647628955954578013L;
+	/** Creates new form FailedTestsView */
     public FailedTestsView() {
         initComponents();
         clear();

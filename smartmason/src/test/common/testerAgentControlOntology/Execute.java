@@ -30,6 +30,7 @@ import jade.content.*;
  * @author Giovanni Caire - TILAB
  */
 public class Execute implements AgentAction {
+	private static final long serialVersionUID = -7669939603806366155L;
 	private boolean debugMode;
 
 	public Execute() {

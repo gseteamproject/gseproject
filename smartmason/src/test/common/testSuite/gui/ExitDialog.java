@@ -28,8 +28,8 @@ package test.common.testSuite.gui;
  * @version $Date: 2004-03-23 16:57:48 +0100 (mar, 23 mar 2004) $ $Revision: 350 $
  */
 public class ExitDialog extends javax.swing.JDialog {
-
-    public static final int CANCEL = 0;
+	private static final long serialVersionUID = -7275815155726354220L;
+	public static final int CANCEL = 0;
     public static final int EXIT_TEST_SUITE = 1;
     public static final int SHUT_DOWN = 2;
 

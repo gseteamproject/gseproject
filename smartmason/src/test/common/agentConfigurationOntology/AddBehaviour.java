@@ -27,6 +27,7 @@ package test.common.agentConfigurationOntology;
 import jade.content.*;
 
 public class AddBehaviour implements AgentAction {
+	private static final long serialVersionUID = 9020746800803068190L;
 	private String name;
 	private String className;
 

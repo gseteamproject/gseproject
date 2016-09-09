@@ -27,6 +27,7 @@ package test.common.agentConfigurationOntology;
 import jade.content.*;
 
 public class Quit implements AgentAction {
+	private static final long serialVersionUID = 8006494712018820540L;
 }
 
 

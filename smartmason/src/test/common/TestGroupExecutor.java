@@ -25,10 +25,6 @@ package test.common;
 
 import jade.core.Agent;
 import jade.core.behaviours.*;
-import jade.lang.acl.MessageTemplate;
-import jade.lang.acl.ACLMessage;
-import jade.core.AID;
-
 import test.common.xml.TestDescriptor;
 import test.common.testerAgentControlOntology.TestResult;
 
@@ -39,7 +35,7 @@ import test.common.testerAgentControlOntology.TestResult;
    @author Giovanni Caire - TILAB
  */
 public class TestGroupExecutor extends FSMBehaviour {
- 
+	private static final long serialVersionUID = 7361166130938190506L;
 	// State names 
 	private static final String INIT_TEST_GROUP_STATE = "Init-test-group";
 	private static final String LOAD_TEST_STATE = "Load-test";
@@ -99,6 +95,8 @@ public class TestGroupExecutor extends FSMBehaviour {
 		
 		// INIT_TEST_GROUP_STATE
 		Behaviour b = new OneShotBehaviour() {
+			private static final long serialVersionUID = -2817259324829616259L;
+
 			public void action() {
 				try {
 					tests.initialize(myAgent);
@@ -118,6 +116,7 @@ public class TestGroupExecutor extends FSMBehaviour {
 
 		// LOAD_TEST_STATE
 		b = new OneShotBehaviour() {
+			private static final long serialVersionUID = 2297155117375426951L;
 			private int ret;
 			
 			public void action() {
@@ -186,6 +185,8 @@ public class TestGroupExecutor extends FSMBehaviour {
 
 		// HANDLE_RESULT_STATE
 		b = new OneShotBehaviour() {
+			private static final long serialVersionUID = -833433864713752472L;
+
 			public void action() {
 				int result = Test.NOT_AVAILABLE;
 				try {
@@ -222,6 +223,8 @@ public class TestGroupExecutor extends FSMBehaviour {
 
 		// CLEAN_TEST_STATE
 		b = new OneShotBehaviour() {
+			private static final long serialVersionUID = 224765423150302059L;
+
 			public void action() {
 				if (currentTest!= null) {
 	  			try {
@@ -245,6 +248,8 @@ public class TestGroupExecutor extends FSMBehaviour {
   			
 		// END_STATE
 		b = new OneShotBehaviour() {
+			private static final long serialVersionUID = 829767317307103178L;
+
 			public void action() {
 				if (!aborted) {
 					StringBuffer sb = new StringBuffer("\n--------------------------------------------\n");
@@ -266,6 +271,7 @@ public class TestGroupExecutor extends FSMBehaviour {
 	
 		// PAUSE_STATE
 		b = new SimpleBehaviour() {
+			private static final long serialVersionUID = -5357302975020735278L;
 			private boolean finished;
 			
 			public void action() {
@@ -330,6 +336,8 @@ public class TestGroupExecutor extends FSMBehaviour {
 	   of performed and skipped tests 
 	 */
 	private class DummyTest extends Test {
+		private static final long serialVersionUID = 6094443793881174166L;
+
 		private DummyTest(TestDescriptor td) {
 			super();
 			setDescriptor(td);

@@ -23,12 +23,8 @@ package test.common.testSuite.gui;
 
 import test.common.Test;
 import test.common.testerAgentControlOntology.TestResult;
-import test.common.xml.TestsTree;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-
 // For creating a TreeModel
 import javax.swing.tree.TreePath;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -43,6 +39,7 @@ import javax.swing.tree.DefaultTreeCellRenderer;
    @author Rossano Vitulli - UniPR
  */
 public class TestResultCellRenderer extends DefaultTreeCellRenderer {
+	private static final long serialVersionUID = 3177422367625908844L;
 	private TestIconManager theIconManager = TestIconManager.theIconManager;
 
 	private static class TestIconManager {

@@ -38,6 +38,8 @@ import test.common.*;
  */
 public class InterPlatformCommunicationTesterAgent extends TesterAgent {
 
+	private static final long serialVersionUID = 9203566646315401872L;
+
 	// Names and default values for group arguments
 	public static final String REMOTE_AMS_KEY = "remote-ams";
 	
@@ -53,7 +55,7 @@ public class InterPlatformCommunicationTesterAgent extends TesterAgent {
 	
 	protected TestGroup getTestGroup() {
 		TestGroup tg = new TestGroup("test/interPlatform/interPlatformTestsList.xml"){		
-			
+			private static final long serialVersionUID = 4064309831051138064L;
 			private JadeController jc1, jc2;
 			
 			public void initialize(Agent a) throws TestException {

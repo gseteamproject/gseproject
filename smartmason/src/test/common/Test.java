@@ -33,7 +33,6 @@ import test.common.xml.TestDescriptor;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Hashtable;
 
 /**
    Common base class for all test classes designed to be 
@@ -41,6 +40,7 @@ import java.util.Hashtable;
    @author Giovanni Caire - TILAB
  */
 public abstract class Test implements Serializable {
+	private static final long serialVersionUID = -7664900897305513554L;
 	/** Constant value indicating that a test has been completed successfully */
 	public static final int TEST_PASSED = 1;
 	/** Constant value indicating that a test has NOT been completed successfully */
@@ -72,10 +72,10 @@ public abstract class Test implements Serializable {
 
 	/**
      Specific tests must re-define this method to perform test specific 
-     initializations and to create the <code>Behaviour</code> that will
+     initializations and to create the <code>Behavior</code> that will
      actually perform the test.
      @param a The agent that executes the test
-     @return the <code>Behaviour</code> that will actually perform the test
+     @return the <code>Behavior</code> that will actually perform the test
 	 */
 	public Behaviour load(Agent a) throws TestException {
 		return null;
@@ -236,6 +236,7 @@ public abstract class Test implements Serializable {
      Inner class Wrapper
 	 */
 	private class Wrapper extends SerialBehaviour {
+		private static final long serialVersionUID = -6118145803185672697L;
 		private boolean stopped = false;
 		private Behaviour wrapped;
 		private Behaviour paused;
@@ -279,6 +280,8 @@ public abstract class Test implements Serializable {
 		private void pause() {
 			paused = wrapped;
 			wrapped = new CyclicBehaviour(myAgent) {
+				private static final long serialVersionUID = -8704355231213522147L;
+
 				public void action() {
 					ACLMessage msg = myAgent.receive(resumeTemplate);
 					if (msg != null) {
@@ -302,6 +305,8 @@ public abstract class Test implements Serializable {
      Inner class WatchDog.
 	 */
 	private class WatchDog extends WakerBehaviour {
+		private static final long serialVersionUID = 1273545177095398283L;
+
 		private WatchDog(Agent a, long t) {
 			super(a, t);
 		}

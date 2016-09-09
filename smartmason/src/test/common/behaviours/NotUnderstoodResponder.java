@@ -23,7 +23,6 @@ Boston, MA  02111-1307, USA.
 
 package test.common.behaviours;
 
-import jade.core.behaviours.*;
 import jade.lang.acl.*;
 import jade.util.leap.*;
 import jade.domain.FIPAAgentManagement.Envelope;
@@ -34,6 +33,8 @@ import java.util.Enumeration;
    @author Giovanni Caire - TILAB
  */
 public class NotUnderstoodResponder extends GenericMessageHandler {
+	private static final long serialVersionUID = 871190132200157314L;
+
 	protected void handleMessage(ACLMessage msg) {
 		System.out.println("Agent "+myAgent.getName()+": Received message. Replying...");
 		ACLMessage reply = msg.createReply();

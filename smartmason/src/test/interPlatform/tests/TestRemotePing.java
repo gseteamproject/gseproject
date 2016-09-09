@@ -35,6 +35,7 @@ import test.interPlatform.InterPlatformCommunicationTesterAgent;
    @author Giovanni Caire - TILAB
  */
 public class TestRemotePing extends Test {
+	private static final long serialVersionUID = 2171033620729894809L;
 	private static final String RESPONDER_NAME = "responder";
 	private final String CONV_ID = "conv_ID"+hashCode();
 	private final String CONTENT = "\"PING\"";
@@ -54,7 +55,8 @@ public class TestRemotePing extends Test {
 			log("Responder correctly started on remote platform");
   		
   		Behaviour b = new SimpleBehaviour() {
-  			private boolean finished = false;
+			private static final long serialVersionUID = -417244035145099292L;
+			private boolean finished = false;
   			public void onStart() {
   				ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
   				msg.addReceiver(resp);

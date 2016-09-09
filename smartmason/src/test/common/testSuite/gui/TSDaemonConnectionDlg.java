@@ -28,13 +28,12 @@ package test.common.testSuite.gui;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import jade.util.leap.List;
 
 /**
    @author Giovanni Caire - TILAB
  */
 class TSDaemonConnectionDlg extends JDialog {
-
+	private static final long serialVersionUID = 4823925929638015996L;
 	private JButton okB, cancelB;
 	private JTextField hostF;
 	private JCheckBox connectCB;
@@ -107,6 +106,6 @@ class TSDaemonConnectionDlg extends JDialog {
 		int centerX = (int)screenSize.getWidth() / 2;
 		int centerY = (int)screenSize.getHeight() / 2;
 		dlg.setLocation(centerX - dlg.getWidth() / 2, centerY - dlg.getHeight() / 2);
-		dlg.show();
+		dlg.setVisible(true);
 	}
 }

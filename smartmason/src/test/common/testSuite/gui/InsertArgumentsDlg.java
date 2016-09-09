@@ -34,7 +34,7 @@ import test.common.ArgumentSpec;
    @author Giovanni Caire - TILAB
  */
 public class InsertArgumentsDlg extends JDialog {
-
+	private static final long serialVersionUID = 4006629402102535788L;
 	private List argSpecs;
 	private JButton okB;
 	private JLabel[] labels;
@@ -114,6 +114,6 @@ public class InsertArgumentsDlg extends JDialog {
 		int centerX = (int)screenSize.getWidth() / 2;
 		int centerY = (int)screenSize.getHeight() / 2;
 		dlg.setLocation(centerX - dlg.getWidth() / 2, centerY - dlg.getHeight() / 2);
-		dlg.show();
+		dlg.setVisible(true);		
 	}
 }

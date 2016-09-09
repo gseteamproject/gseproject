@@ -30,6 +30,7 @@ import jade.content.*;
  * @author Giovanni Caire - TILAB
  */
 public class ExecResult implements Concept {
+	private static final long serialVersionUID = -6569120807401920331L;
 	private int passed;
 	private int failed;
 	private int skipped;

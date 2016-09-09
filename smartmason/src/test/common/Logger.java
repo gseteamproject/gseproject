@@ -25,7 +25,6 @@ package test.common;
 
 import java.io.*;
 
-import test.common.xml.FunctionalityDescriptor;
 import test.common.HTMLManager;
 
 

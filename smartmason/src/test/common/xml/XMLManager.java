@@ -108,7 +108,7 @@ public class XMLManager {
 	 the list of functionalities. 
 	 */
 	public static FunctionalityDescriptor[] getFunctionalities(String xmlFileName){
-		List l = new ArrayList();
+		List<FunctionalityDescriptor> l = new ArrayList<FunctionalityDescriptor>();
 		Document doc = getDocument(xmlFileName);
 		if (doc != null) {
 			NodeList list = doc.getElementsByTagName(FUNC_TAG);
@@ -129,7 +129,7 @@ public class XMLManager {
 	 the list of tests. 
 	 */
 	public static TestDescriptor[] getTests(String xmlFileName){
-		List l = new ArrayList();
+		List<TestDescriptor> l = new ArrayList<TestDescriptor>();
 		Document doc = getDocument(xmlFileName);
 		if (doc != null) {
 			NodeList list = doc.getElementsByTagName(TEST_TAG);

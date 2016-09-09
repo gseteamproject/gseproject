@@ -52,8 +52,8 @@ import java.io.Serializable;
  * @author Rossano Vitulli - UniPR
  */
 public class FunctionalitySelectionDlg extends JDialog implements Serializable {
-
-  private static final int              windowHeight = 460;
+	private static final long serialVersionUID = 3988239350590691950L;
+private static final int              windowHeight = 460;
   private static final int              leftWidth = 300;
   private static final int              rightWidth = 340;
   private static final int              windowWidth = leftWidth+rightWidth;
@@ -162,7 +162,7 @@ public class FunctionalitySelectionDlg extends JDialog implements Serializable {
     int       h = windowHeight+10;
     setLocation(screenSize.width/3-w/2, screenSize.height/2-h/2);
     setSize(w, h);
-    show();
+    setVisible(true);
   } 
 
   private FunctionalityDescriptor getSelectedFunc() {

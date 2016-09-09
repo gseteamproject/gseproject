@@ -31,17 +31,11 @@ import jade.core.Runtime;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
 import jade.core.behaviours.*;
-import jade.core.AgentManager;
-import jade.core.ContainerID;
-
 import jade.wrapper.*;
 import jade.proto.AchieveREInitiator;
-import jade.proto.states.ReplySender;
-
 import jade.content.*;
 import jade.content.lang.*;
 import jade.content.lang.sl.*;
-import jade.content.onto.*;
 import jade.content.onto.basic.Result;
 import jade.content.onto.basic.Action;
 
@@ -53,29 +47,17 @@ import test.common.xml.*;
 import test.common.Logger;
 
 
-import jade.util.leap.List;
 import jade.util.leap.ArrayList;
 import jade.util.leap.Iterator;
 
 import java.util.Hashtable;
 import java.util.Vector;
 
-import jade.domain.FIPAAgentManagement.*;
-import jade.domain.JADEAgentManagement.*;
-import jade.domain.introspection.*;
-import jade.domain.mobility.*;
-import jade.domain.FIPANames;
-
-import jade.gui.AgentTreeModel;
 import jade.gui.GuiAgent;
 import jade.gui.GuiEvent;
 
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
-import jade.lang.acl.*;
-
-import jade.tools.ToolAgent;
-
 import java.awt.event.*;
 
 
@@ -89,7 +71,8 @@ import java.awt.event.*;
  * @version $Date: December 2003
  */
 public class TestSuiteAgent extends GuiAgent {
-	
+	private static final long serialVersionUID = -4708079112679836504L;
+
 	private static ACLMessage    AMSRequest = new ACLMessage(ACLMessage.REQUEST);
 	
 	public static JadeController mainController;
@@ -212,6 +195,8 @@ public class TestSuiteAgent extends GuiAgent {
 				// on completion, loads the newly specified tester agent.
 				
 				addBehaviour(new Requester(this, new Exit()) {
+					private static final long serialVersionUID = 5472357247707959201L;
+
 					public int onEnd() {
 						waitABit();
 						loadTester(fd);
@@ -236,6 +221,8 @@ public class TestSuiteAgent extends GuiAgent {
 			} 
 			
 			addBehaviour(new Requester(this, new Execute(false)) {
+				private static final long serialVersionUID = 8494110701819060140L;
+
 				public int onEnd() {
 					timer.stop();
 					updateElapsedTime();
@@ -263,6 +250,8 @@ public class TestSuiteAgent extends GuiAgent {
 				} 
 				else {
 					addBehaviour(new Requester(this, new Exit()) {
+						private static final long serialVersionUID = -7384460729322277212L;
+
 						public int onEnd() {
 							waitABit();
 							addBehaviour(new AllTesterExecutor(myAgent, l));
@@ -289,6 +278,8 @@ public class TestSuiteAgent extends GuiAgent {
 			} 
 			
 			addBehaviour(new Requester(this, new Execute(true)) {
+				private static final long serialVersionUID = -3445196322781176393L;
+
 				public int onEnd() {
 					myGui.getStatusLabel().setText("Done");
 					myGui.getStatusLabel().setIcon(new javax.swing.ImageIcon(getClass().getResource("/test/common/testSuite/gui/images/idle_buttons.gif")));
@@ -302,6 +293,8 @@ public class TestSuiteAgent extends GuiAgent {
 			// Add a behaviour that makes the currently loaded tester agent show
 			// the test group configuration gui and, on completion, sets the GUI status back to READY
 			addBehaviour(new Requester(this, new Configure()) {
+				private static final long serialVersionUID = -6750968045910894049L;
+
 				public int onEnd() {
 					myGui.setStatus(TestSuiteGui.READY_STATE);
 					return 0;
@@ -313,6 +306,8 @@ public class TestSuiteAgent extends GuiAgent {
 			// Add a behaviour that makes the currently loaded tester agent show
 			// the test selection gui and, on completion, sets the GUI status back to READY
 			addBehaviour(new Requester(this, new SelectTests()) {
+				private static final long serialVersionUID = 1613413077996931482L;
+
 				public int onEnd() {
 					myGui.setStatus(TestSuiteGui.READY_STATE);
 					return 0;
@@ -356,6 +351,8 @@ public class TestSuiteAgent extends GuiAgent {
 				// Add a behaviour that makes the currently loaded tester agent exit and,
 				// on completion, exit.
 				addBehaviour(new Requester(this, new Exit()) {
+					private static final long serialVersionUID = 5093283251350642513L;
+
 					public int onEnd() {
 						doDelete();
 						return 0;
@@ -401,7 +398,8 @@ public class TestSuiteAgent extends GuiAgent {
 	 * set the GUI status to IDLE.
 	 */
 	class AllTesterExecutor extends ListProcessor {
-		
+		private static final long serialVersionUID = 3882226386706811003L;
+
 		public AllTesterExecutor(Agent a, ArrayList l) {
 			super(a, l);
 		}
@@ -519,7 +517,7 @@ public class TestSuiteAgent extends GuiAgent {
 	 * INNER CLASS: SingleTesterExecutor
 	 */
 	class SingleTesterExecutor extends SequentialBehaviour {
-		
+		private static final long serialVersionUID = 1624681252054016995L;
 		private FunctionalityDescriptor func = null;
 		private ListProcessor lpToBeResumed;
 		
@@ -530,6 +528,8 @@ public class TestSuiteAgent extends GuiAgent {
 			
 			// 1st Step: Load the tester to run
 			addSubBehaviour(new OneShotBehaviour(myAgent) {
+				private static final long serialVersionUID = 5403215595821610945L;
+
 				public void action() {
 					Logger lg = Logger.getLogger();
 					if (lg.getLoggerType() == Logger.HTML_LOGGER) {
@@ -549,6 +549,8 @@ public class TestSuiteAgent extends GuiAgent {
 			
 			// 2nd Step: Run the tester
 			addSubBehaviour(new Requester(myAgent, new Execute(false)) {
+				private static final long serialVersionUID = 9096444670230530227L;
+
 				public void onStart() {
 					super.onStart();
 					groupTestsResults = new Hashtable();
@@ -562,6 +564,8 @@ public class TestSuiteAgent extends GuiAgent {
 			
 			// 3th Step: kill the tester
 			addSubBehaviour(new Requester(myAgent, new Exit()) {
+				private static final long serialVersionUID = -298088353721513824L;
+
 				public int onEnd() {
 					waitABit();
 					return 0;
@@ -581,7 +585,7 @@ public class TestSuiteAgent extends GuiAgent {
 	 Handle notifications about single tests
 	 */
 	class CyclicReceiver extends CyclicBehaviour {
-		
+		private static final long serialVersionUID = -8911504947825933357L;
 		private MessageTemplate templ = MessageTemplate.and(
 				MessageTemplate.MatchPerformative(ACLMessage.INFORM), 
 				MessageTemplate.MatchConversationId(TesterAgent.TEST_NOTIFICATION));
@@ -636,6 +640,7 @@ public class TestSuiteAgent extends GuiAgent {
 	 * Inner class Requester
 	 */
 	class Requester extends AchieveREInitiator {
+		private static final long serialVersionUID = 8426360101928411837L;
 		private AgentAction requestedAction;
 		
 		Requester(Agent a, AgentAction act) {

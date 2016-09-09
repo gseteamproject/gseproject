@@ -27,16 +27,13 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-import jade.gui.GuiAgent;
-import jade.gui.GuiEvent;
-import jade.util.leap.List;
-import jade.core.Agent;
 import test.common.xml.TestDescriptor;
 
 /**
    @author Giovanni Caire - TILAB
  */
 public class SelectTestsDlg extends JDialog {
+	private static final long serialVersionUID = -4772901322645682054L;
 	private JCheckBox[] names;
 	private JButton okB, cancelB;
  	
@@ -103,6 +100,6 @@ public class SelectTestsDlg extends JDialog {
 		int centerX = (int)screenSize.getWidth() / 2;
 		int centerY = (int)screenSize.getHeight() / 2;
 		dlg.setLocation(centerX - dlg.getWidth() / 2, centerY - dlg.getHeight() / 2);
-		dlg.show();
+		dlg.setVisible(true);
 	}
 }

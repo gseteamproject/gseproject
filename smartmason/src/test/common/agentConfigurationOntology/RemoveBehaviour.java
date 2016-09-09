@@ -27,6 +27,7 @@ package test.common.agentConfigurationOntology;
 import jade.content.*;
 
 public class RemoveBehaviour implements AgentAction {
+	private static final long serialVersionUID = -5401152187029994072L;
 	private String name;
 
 	public RemoveBehaviour() {

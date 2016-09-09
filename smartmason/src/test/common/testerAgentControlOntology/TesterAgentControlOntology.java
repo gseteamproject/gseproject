@@ -34,7 +34,9 @@ import jade.content.schema.*;
  * @author Giovanni Caire - TILAB
  */
 public class TesterAgentControlOntology extends Ontology {
-	// NAME
+	private static final long serialVersionUID = -7267669024983597900L;
+
+// NAME
   public static final String ONTOLOGY_NAME = "Tester-agent-control-ontology";
 	
 	// VOCABULARY

@@ -37,8 +37,8 @@ import test.common.Logger;
  * Handle the logger type selection with a combo-box.
  */
 public class LoggerDialog extends javax.swing.JDialog {
-    
-    static final int CANCEL = 0;
+	private static final long serialVersionUID = -4759271897831821270L;
+	static final int CANCEL = 0;
     static final int OK = 1;
     
     private int exitValue = CANCEL;

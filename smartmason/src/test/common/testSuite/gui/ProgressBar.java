@@ -29,7 +29,9 @@ import java.awt.Color;
  * @author  Ale
  */
 public class ProgressBar extends javax.swing.JPanel implements java.io.Serializable {
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+	private static final long serialVersionUID = -227120647073452962L;
+
+	// Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JProgressBar jProgressBar;
 
     private int currentValue;

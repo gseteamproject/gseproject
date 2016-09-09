@@ -30,6 +30,8 @@ import jade.util.WrapperException;
    @author Giovanni Caire - TILAB
  */
 public class TestException extends WrapperException {
+	private static final long serialVersionUID = 3523009998148364358L;
+
 	public TestException(String msg) {
 		super(msg);
 	}
