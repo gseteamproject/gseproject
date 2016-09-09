@@ -1,1 +1,17 @@
-# gseproject## Development ToolsEclipse for Java## Deploymentclone repository with this command`git clone https://github.com/gseteamproject/gseproject.git`After you have cloned repository you should set workstation to repository's directory and import Project and Build configurations (smartmason/cfg)
+# gseproject
+
+## Development Tools
+
+Eclipse for Java
+
+## Deployment
+
+Clone repository with this command
+
+`git clone https://github.com/gseteamproject/gseproject.git`
+
+After you have cloned repository you should set Workspace to repository's directory
+
+## Running
+
+Executable scenarios are located in *Example.java files
