@@ -26,6 +26,7 @@ public class SimpleRobot extends Agent {
 		ACLMessage request = new ACLMessage(ACLMessage.INFORM);
 		request.addReceiver(new AID("sourcePallete", AID.ISLOCALNAME));
 		request.setContent(RobotRequest.WHAT_YOUR_STATE);
+		trace("Requesting Source Pallete about his state: " + request.getContent());
 		send(request);
 		addBehaviour(new SimpleBehaviour(this) {
 			private static final long serialVersionUID = 7774831398907094833L;
