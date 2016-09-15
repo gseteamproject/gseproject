@@ -7,7 +7,7 @@ public class palleteRobotCommunicationExample {
 	{
 		String[] parameters = new String[ 2 ];
 		parameters[ 0 ] = "-gui";
-		parameters[ 1 ] = "sourcePallete:gseproject.palleteRobotCommunication.SourcePallete(4);";
+		parameters[ 1 ] = "sourcePallete:gseproject.palleteRobotCommunication.SourcePallete(3);";
 		parameters[ 1 ] += "simpleRobot:gseproject.palleteRobotCommunication.SimpleRobot;";
 		Boot.main( parameters );
 	}
