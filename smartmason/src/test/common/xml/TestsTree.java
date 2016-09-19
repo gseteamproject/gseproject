@@ -47,6 +47,7 @@ public class TestsTree extends JTree implements Serializable {
 	public static final String DEFAULT_TREE_ROOT_NAME = "JADE Test Suite";
 	
 	private static final int      ELEMENT_TYPE = Node.ELEMENT_NODE;
+	/*
 	private static final int      ATTR_TYPE = Node.ATTRIBUTE_NODE;
 	private static final int      TEXT_TYPE = Node.TEXT_NODE;
 	private static final int      CDATA_TYPE = Node.CDATA_SECTION_NODE;
@@ -55,6 +56,7 @@ public class TestsTree extends JTree implements Serializable {
 	private static final int      DOCUMENT_TYPE = Node.DOCUMENT_NODE;
 	private static final int      DOCTYPE_TYPE = Node.DOCUMENT_TYPE_NODE;
 	private static final int      NOTATION_TYPE = Node.NOTATION_NODE;
+	*/
 	
 	// DOM node-types (Array indexes = nodeType() values.)
 	private static final String[] typeName = {
@@ -127,7 +129,7 @@ public class TestsTree extends JTree implements Serializable {
 			public void run() {
 				DomToTreeModelAdapter fModel = (DomToTreeModelAdapter) getModel();
 				
-				Vector vpath = new Vector();
+				Vector<Object> vpath = new Vector<Object>();
 				int    index = fModel.buildPath(testName, fModel.getRoot(), vpath);
 				if (index >= 0) {
 					Object[] path = new Object[vpath.size()];
@@ -363,7 +365,7 @@ public class TestsTree extends JTree implements Serializable {
 		 * Use these methods to add and remove event listeners.
 		 * (Needed to satisfy TreeModel interface, but not used.)
 		 */
-		private Vector listenerList = new Vector();
+		private Vector<TreeModelListener> listenerList = new Vector<TreeModelListener>();
 		
 		public void addTreeModelListener(TreeModelListener listener) {
 			if (listener != null &&!listenerList.contains(listener)) {
@@ -393,41 +395,47 @@ public class TestsTree extends JTree implements Serializable {
 			};
 			TreeModelEvent e = new TreeModelEvent(this, path, indices, changedChildren);
 			
-			Enumeration    listeners = listenerList.elements();
+			Enumeration<TreeModelListener>    listeners = listenerList.elements();
 			while (listeners.hasMoreElements()) {
 				TreeModelListener listener = (TreeModelListener) listeners.nextElement();
 				listener.treeNodesChanged(e);
 			} 
 		} 
-		
+		/*
 		public void fireTreeNodesInserted(TreeModelEvent e) {
-			Enumeration listeners = listenerList.elements();
+			Enumeration<TreeModelListener> listeners = listenerList.elements();
 			while (listeners.hasMoreElements()) {
 				TreeModelListener listener = (TreeModelListener) listeners.nextElement();
 				listener.treeNodesInserted(e);
 			} 
-		} 
+		}
+		*/ 
 		
+		/*
 		public void fireTreeNodesRemoved(TreeModelEvent e) {
-			Enumeration listeners = listenerList.elements();
+			Enumeration<TreeModelListener> listeners = listenerList.elements();
 			while (listeners.hasMoreElements()) {
 				TreeModelListener listener = (TreeModelListener) listeners.nextElement();
 				listener.treeNodesRemoved(e);
 			} 
-		} 
+		}
+		*/
+		
+		/*
 		public void fireTreeStructureChanged(TreeModelEvent e) {
-			Enumeration listeners = listenerList.elements();
+			Enumeration<TreeModelListener> listeners = listenerList.elements();
 			while (listeners.hasMoreElements()) {
 				TreeModelListener listener = (TreeModelListener) listeners.nextElement();
 				listener.treeStructureChanged(e);
 			} 
-		} 
+		}
+		*/ 
 		
 		/**
 		 Build the path from "node" to "target".
 		 The path will not include the target node
 		 */
-		private int buildPath(String target, Object node, Vector path) {
+		private int buildPath(String target, Object node, Vector<Object> path) {
 			if (target.equals(node.toString())) {
 				// If target == node the path is empty
 				return 0;
@@ -443,7 +451,7 @@ public class TestsTree extends JTree implements Serializable {
 					}
 				}
 			}
-			// Thre is no path from node to target
+			// There is no path from node to target
 			return -1;
 		}
 	}    // END of Inner class DomToTreeModelAdapter

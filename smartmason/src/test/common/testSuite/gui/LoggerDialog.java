@@ -64,7 +64,7 @@ public class LoggerDialog extends javax.swing.JDialog {
         java.awt.GridBagConstraints gridBagConstraints;
 
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
+        jComboBox1 = new javax.swing.JComboBox<String>();
         jOkButton = new javax.swing.JButton();
         jCancelButton = new javax.swing.JButton();
 
@@ -157,7 +157,7 @@ public class LoggerDialog extends javax.swing.JDialog {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jCancelButton;
-    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JButton jOkButton;
     // End of variables declaration//GEN-END:variables

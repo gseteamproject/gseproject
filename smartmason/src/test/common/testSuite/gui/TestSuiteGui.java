@@ -84,7 +84,7 @@ public class TestSuiteGui extends javax.swing.JFrame {
   private javax.swing.JButton                       debugB;
   private javax.swing.JButton                       exitB;
   private test.common.testSuite.gui.FailedTestsView failedTestsView;
-  private javax.swing.JComboBox                     historyCB;
+  private javax.swing.JComboBox<Object>             historyCB;
   private javax.swing.JLabel                        jLabel1;
   private javax.swing.JLabel                        jLabel2;
   private javax.swing.JSeparator                    jSeparator;
@@ -111,7 +111,7 @@ public class TestSuiteGui extends javax.swing.JFrame {
     this.xmlFileName = xmlFileName;
     initComponents();
 
-    jStatusLabel.setText("Current logger type: "+test.common.Logger.getLoggerStringType()+", click on Logger button to change it");
+    jStatusLabel.setText("Current logger type: "+test.common.Logger.getLogger().getLoggerStringType()+", click on Logger button to change it");
   }
 
   /**
@@ -132,7 +132,7 @@ public class TestSuiteGui extends javax.swing.JFrame {
     stepB = new javax.swing.JButton();
     loggerB = new javax.swing.JButton();
     jLabel1 = new javax.swing.JLabel();
-    historyCB = new javax.swing.JComboBox();
+    historyCB = new javax.swing.JComboBox<Object>();
     try {
       loadHistory();
     } 
@@ -849,12 +849,13 @@ public class TestSuiteGui extends javax.swing.JFrame {
       bw.close();
     }*/ 
   } 
-
+/*
   private File getSettingsFile() {
     String home = System.getProperty("user.home");
     return new File(home, ".testsession");
   } 
-
+*/
+  
   /**
    * Update the elapsed time at the end of a Run or RunAll execution
    */

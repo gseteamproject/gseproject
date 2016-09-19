@@ -119,7 +119,7 @@ public class TestGroup implements Serializable{
 	 Only called by the TestGroupExecutor to get the next test to execute
 	 */
 	Test next() throws SkippedException {		
-		String className = null;
+		//String className = null;
 		TestDescriptor dsc = null;
 		try {
 			dsc = myTests[cnt++];

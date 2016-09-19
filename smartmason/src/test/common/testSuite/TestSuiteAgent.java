@@ -73,7 +73,7 @@ import java.awt.event.*;
 public class TestSuiteAgent extends GuiAgent {
 	private static final long serialVersionUID = -4708079112679836504L;
 
-	private static ACLMessage    AMSRequest = new ACLMessage(ACLMessage.REQUEST);
+	//private static ACLMessage    AMSRequest = new ACLMessage(ACLMessage.REQUEST);
 	
 	public static JadeController mainController;
 	
@@ -97,9 +97,9 @@ public class TestSuiteAgent extends GuiAgent {
 	
 	// Maps a functionality with the results of the its tests.
 	// Used in RUN_ALL to print the final report
-	private Hashtable groupTestsResults;
-	private Hashtable runAllTestsResults = new Hashtable();
-	private Hashtable runAllSummaries = new Hashtable();
+	private Hashtable<String, TestResult> groupTestsResults;
+	private Hashtable<String, Hashtable<String, TestResult>> runAllTestsResults = new Hashtable<String, Hashtable<String, TestResult>>();
+	private Hashtable<FunctionalityDescriptor, ExecResult> runAllSummaries = new Hashtable<FunctionalityDescriptor, ExecResult>();
 	private boolean runAllSuccessful;
 	private boolean firstGroup;
 	
@@ -160,9 +160,9 @@ public class TestSuiteAgent extends GuiAgent {
 	} 
 	
 	public TestResult getTestResult(String testName, String funcName) {
-		Hashtable map = null;
+		Hashtable<String, TestResult> map = null;
 		if (funcName != null) {
-			map = (Hashtable) runAllTestsResults.get(funcName);
+			map = (Hashtable<String, TestResult>) runAllTestsResults.get(funcName);
 		}
 		else {
 			map = groupTestsResults;
@@ -181,7 +181,7 @@ public class TestSuiteAgent extends GuiAgent {
 		
 		switch (ev.getType()) {
 		case LOAD_EVENT:      
-			groupTestsResults = new Hashtable();
+			groupTestsResults = new Hashtable<String, TestResult>();
 			myGui.clearFailedTestsMessage();
 			
 			final FunctionalityDescriptor fd = (FunctionalityDescriptor) ev.getParameter(0);
@@ -553,7 +553,7 @@ public class TestSuiteAgent extends GuiAgent {
 
 				public void onStart() {
 					super.onStart();
-					groupTestsResults = new Hashtable();
+					groupTestsResults = new Hashtable<String, TestResult>();
 				}
 				
 				public int onEnd() {
@@ -598,8 +598,8 @@ public class TestSuiteAgent extends GuiAgent {
 			ACLMessage      msg = myAgent.receive(templ);
 			
 			if (msg != null) {
-				if (myGui.getStatus() == myGui.STEPPING_STATE) {
-					myGui.setStatus(myGui.DEBUGGING_STATE);
+				if (myGui.getStatus() == TestSuiteGui.STEPPING_STATE) {
+					myGui.setStatus(TestSuiteGui.DEBUGGING_STATE);
 					myGui.getStatusLabel().setText("Debug Mode, press Next or Run to continue");
 					myGui.getStatusLabel().setIcon(new javax.swing.ImageIcon(getClass().getResource("/test/common/testSuite/gui/images/blink_buttons.gif")));
 				} 
@@ -648,8 +648,8 @@ public class TestSuiteAgent extends GuiAgent {
 			requestedAction = act;
 		}
 		
-		protected Vector prepareRequests(ACLMessage request) {
-			Vector v = new Vector();
+		protected Vector<ACLMessage> prepareRequests(ACLMessage request) {
+			Vector<ACLMessage> v = new Vector<ACLMessage>();
 			try {
 				AID        tester = new AID(TESTER_NAME, AID.ISLOCALNAME);
 				ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);

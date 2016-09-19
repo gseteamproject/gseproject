@@ -147,7 +147,7 @@ public class Logger {
      * Set the Logger to print on a file.
      * @param fileType The type of the new file
      */
-	public static void setFileLogger(int fileType) {
+	public void setFileLogger(int fileType) {
             currentType=fileType;
             switch(currentType) {
                 case TXT_LOGGER: {
@@ -185,7 +185,7 @@ public class Logger {
         /**
          * Set the Logger for printing on standard output.
          */
-        public static void setTextLogger() {
+        public void setTextLogger() {
             currentType=CONSOLE_LOGGER;
             out = System.out;
         }
@@ -201,14 +201,14 @@ public class Logger {
         /** 
          * Return the index of current logger system
 	 */
-        public static int getLoggerType() {
+        public int getLoggerType() {
             return currentType;
         }
 
        /** 
         * Return current logger system
         */
-        public static String getLoggerStringType() {
+        public String getLoggerStringType() {
             return typeStringArray[currentType];
         }
 
@@ -216,12 +216,12 @@ public class Logger {
          * Return a counter of the blocks in body section: each block identifies a Run
          * or RunAll execution
          */
-        public static int getBlockCounter() {
+        public int getBlockCounter() {
             return HTMLManager.getBlockCounter();
         }
         
         /** Increments the counter of the blocks in body section */
-        public static void incBlockCounter() {
+        public void incBlockCounter() {
             HTMLManager.incBlockCounter();
         }
 
@@ -229,7 +229,7 @@ public class Logger {
          * Append string title and testerName to the index section of html file
          * with the needed tags
          */
-        public static void addIndex(String title, String testerName) {
+        public void addIndex(String title, String testerName) {
             if(!title.equals("")) HTMLManager.addIndex(
                 "  <TR><TD BGCOLOR=\"#AEAEFF\" COLSPAN=\"3\" HEIGHT=\"2\"></TD></TR>\n");
             HTMLManager.addIndex(
@@ -242,7 +242,7 @@ public class Logger {
          * Append string title and testerName to the index section of html file
          * with the needed tags
          */
-        public static void addIndexSummary(String summary) {
+        public void addIndexSummary(String summary) {
             HTMLManager.addIndex(
                 "    <TD BGCOLOR=\"#F7F7FF\" WIDTH=\"200\">"+summary+"</TD>\n"+
                 "  </TR>\n" );
@@ -251,7 +251,7 @@ public class Logger {
         /**
 	 * Append string s to body section of html file
 	 */
-        public static void addBody(String s) {
+        public void addBody(String s) {
             HTMLManager.addBody(s);
         }
 
@@ -259,7 +259,7 @@ public class Logger {
 	 * Append the heading of a run test group to body section of html file
          * @param testerName The tester agent name
 	 */
-        public static void addBodyHeading(String testerName) {
+        public void addBodyHeading(String testerName) {
             HTMLManager.addBody(
             "\n<P>\n"+
             "<TABLE BORDER=\"0\" CELLPADDING=\"10\" CELLSPACING=\"0\">\n"+
@@ -275,7 +275,7 @@ public class Logger {
         /**
 	 * Append the "back to top" string to body section of html file
 	 */
-        public static void addBodyCloser() {
+        public void addBodyCloser() {
             HTMLManager.addBody(
                 "<P>\n"+
                 "<TABLE BORDER=\"0\" CELLPADDING=\"10\" CELLSPACING=\"0\">\n"+
@@ -290,7 +290,7 @@ public class Logger {
         /** 
          * Delete the current logger file
          */
-        public static void deleteLogger() {
+        public void deleteLogger() {
             switch (currentType) {
                 case TXT_LOGGER : out.close(); 
                                   logFile.delete(); break;

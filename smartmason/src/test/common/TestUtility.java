@@ -75,7 +75,7 @@ public class TestUtility {
 	public static final String CONFIGURABLE_AGENT = "test.common.ConfigurableAgent";
 	
 	private static final String SPY_NOTIFICATION = "spy-notification";
-	private static int spyCnt = -1;
+	//private static int spyCnt = -1;
 	
 	private static jade.content.ContentManager cm = new jade.content.ContentManager();
 	private static jade.content.lang.Codec codec = new jade.content.lang.leap.LEAPCodec();
@@ -165,7 +165,7 @@ public class TestUtility {
 			amsAID = createNewAID("ams", agentAID);
 		}
 		
-		ACLMessage request = createRequestMessage(a, amsAID, FIPANames.ContentLanguage.FIPA_SL0, JADEManagementVocabulary.NAME);
+		//ACLMessage request = createRequestMessage(a, amsAID, FIPANames.ContentLanguage.FIPA_SL0, JADEManagementVocabulary.NAME);
 		
 		KillAgent ka = new KillAgent();
 		ka.setAgent(agentAID);
@@ -594,8 +594,8 @@ public class TestUtility {
 				}
 			}
 			
-			spyCnt++;
-			AID spy = TestUtility.createAgent(a, "spy"+spyCnt, "test.common.TestUtility$HostSpyAgent", args, ams, containerName);
+			//spyCnt++;
+			//AID spy = TestUtility.createAgent(a, "spy"+spyCnt, "test.common.TestUtility$HostSpyAgent", args, ams, containerName);
 			ACLMessage msg = a.blockingReceive(MessageTemplate.MatchConversationId(SPY_NOTIFICATION), 10000);
 			if (msg != null) {
 				if (msg.getPerformative() == ACLMessage.INFORM) {

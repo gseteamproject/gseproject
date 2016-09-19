@@ -29,7 +29,6 @@ import java.net.Socket;
 import java.rmi.*;
 import java.rmi.server.RMISocketFactory;
 import java.rmi.server.UnicastRemoteObject;
-import java.rmi.registry.*;
 import java.util.Hashtable;
 import java.util.Iterator;
 
@@ -45,7 +44,7 @@ public class TSDaemon extends UnicastRemoteObject implements RemoteManager, Outp
 	public static final String DEFAULT_NAME = "TSDaemon";
 	public static final int DEFAULT_PORT = 7777;
 
-	private Hashtable controllers = new Hashtable();
+	private Hashtable<Integer, JadeController> controllers = new Hashtable<Integer, JadeController>();
 	private int instanceCnt = 0;
 
 	private String additionalArgs = null;
@@ -94,7 +93,7 @@ public class TSDaemon extends UnicastRemoteObject implements RemoteManager, Outp
 			String name = System.getProperty("tsdaemon.name", DEFAULT_NAME);
 			String port = System.getProperty("tsdaemon.port", String.valueOf(DEFAULT_PORT));
 			String hostName = Profile.getDefaultNetworkName();
-			Registry theRegistry = getRmiRegistry(hostName, Integer.parseInt(port));
+			//Registry theRegistry = getRmiRegistry(hostName, Integer.parseInt(port));
 			String registryID = "rmi://"+hostName+":"+port;
 
 			// Bind to the registry
@@ -125,6 +124,7 @@ public class TSDaemon extends UnicastRemoteObject implements RemoteManager, Outp
 	 * at the given portNumber, then that registry is returned, 
 	 * otherwise a new registry is created and returned.
 	 */
+	/*
 	private static Registry getRmiRegistry(String host, int portNumber) throws RemoteException {
 		Registry rmiRegistry = null;
 		// See if a registry already exists and
@@ -145,6 +145,7 @@ public class TSDaemon extends UnicastRemoteObject implements RemoteManager, Outp
 
 		return rmiRegistry;
 	}
+	*/
 
 	protected int localLaunchJadeInstance(String instanceName, String classpath, String jvmArgs, String mainClass, String jadeArgs, String[] protoNames, OutputHandler outputHandler, String workingDir) throws TestException {
 		instanceCnt++;
@@ -199,7 +200,7 @@ public class TSDaemon extends UnicastRemoteObject implements RemoteManager, Outp
 
 	public int getJadeInstanceId(String containerName) throws TestException, RemoteException {
 		synchronized (controllers) {
-			Iterator it = controllers.keySet().iterator();
+			Iterator<Integer> it = controllers.keySet().iterator();
 			while (it.hasNext()) {
 				Integer id = (Integer) it.next();
 				JadeController jc = (JadeController) controllers.get(id);

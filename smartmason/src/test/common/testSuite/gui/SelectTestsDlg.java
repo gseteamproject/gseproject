@@ -63,11 +63,11 @@ public class SelectTestsDlg extends JDialog {
 		okB = new JButton("OK");
 		okB.addActionListener(new ActionListener(){
     		public void actionPerformed(ActionEvent e) {
-                        int runCnt=0;
+                        //int runCnt=0;
     			for (int i = 0; i < tests.length; ++i) {
     				if (names[i].isSelected()) {
     					tests[i].setSkip(false);
-                                        runCnt++;
+                                        //runCnt++;
     				}
     				else {
     					tests[i].setSkip(true);

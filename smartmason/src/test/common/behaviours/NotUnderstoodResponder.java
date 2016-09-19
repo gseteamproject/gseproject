@@ -52,7 +52,7 @@ public class NotUnderstoodResponder extends GenericMessageHandler {
     
 		// Set the same user defined parameters
 		Properties pp = msg.getAllUserDefinedParameters();
-		Enumeration e = pp.propertyNames();
+		Enumeration<?> e = pp.propertyNames();
 		while (e.hasMoreElements()) {
 			String key = (String) e.nextElement();
 			String value = pp.getProperty(key);
