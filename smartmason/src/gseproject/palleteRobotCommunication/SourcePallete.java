@@ -1,6 +1,5 @@
 package gseproject.palleteRobotCommunication;
 
-import jade.core.Agent;
 import jade.lang.acl.ACLMessage;
 
 /**

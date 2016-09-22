@@ -1,16 +1,12 @@
 package test.pallete.tests;
 
-import gseproject.palleteRobotCommunication.Pallete;
 import gseproject.palleteRobotCommunication.RobotRequest;
-import gseproject.palleteRobotCommunication.SourcePallete;
 import gseproject.palleteRobotCommunication.SourcePalleteReply;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
-import jade.lang.acl.MessageTemplate;
-import test.common.JadeController;
 import test.common.Test;
 import test.common.TestException;
 import test.common.TestUtility;
