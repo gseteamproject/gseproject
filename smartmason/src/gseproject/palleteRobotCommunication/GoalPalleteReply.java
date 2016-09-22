@@ -1,5 +1,10 @@
 package gseproject.palleteRobotCommunication;
 
+/**
+ * 
+ * @author Tobias
+ *
+ */
 public class GoalPalleteReply {
 	public static final String FULL = "full";
 	public static final String AMLOST_FULL = "almost_full";
