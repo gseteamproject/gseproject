@@ -11,7 +11,12 @@ public abstract class Pallete extends Agent {
 	private static final long serialVersionUID = 1L;
 	protected int capacity = 5;
 	protected int remainingBlocks;
-
+	
+	/**
+	 * 
+	 * @param msg the message which gets filled
+	 * @return filled message with the current state of the pallete
+	 */
 	protected abstract ACLMessage fillReply(ACLMessage msg);
 
 	protected abstract void trace(String message);

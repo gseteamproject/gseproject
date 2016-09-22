@@ -6,6 +6,11 @@ import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.SimpleBehaviour;
 import jade.lang.acl.ACLMessage;
 
+/**
+ * 
+ * @author Tobias
+ *
+ */
 public class SimpleRobot extends Agent {
 
 	/**

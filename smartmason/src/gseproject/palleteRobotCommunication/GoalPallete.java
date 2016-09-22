@@ -1,7 +1,15 @@
 package gseproject.palleteRobotCommunication;
 
 import jade.lang.acl.ACLMessage;
-
+/**
+ * 
+ * @author Tobias
+ * This class can fill a message depending on its 3 states:
+ * 	1. I am full
+ * 	2. I am almost full
+ * 	3. I am empty again
+ * 
+ */
 public class GoalPallete extends Pallete {
 
 	/**
