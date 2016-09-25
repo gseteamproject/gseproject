@@ -1,2 +1,5 @@
 language: java
-sudo: false
+script: ant main
+notifications:
+  slack:
+    of_failture: never
