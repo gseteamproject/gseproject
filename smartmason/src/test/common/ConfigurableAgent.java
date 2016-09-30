@@ -99,7 +99,7 @@ public class ConfigurableAgent extends Agent {
 					} else if (ce instanceof LoadOntology) {
 						loadOntology((LoadOntology) ce);
 					} else if (ce instanceof test.common.agentConfigurationOntology.Quit) {
-						registerPrepareResponse(new OneShotBehaviour() {
+						registerHandleRequest(new OneShotBehaviour() {
 							private static final long serialVersionUID = 287166601475221467L;
 
 							public void action() {
