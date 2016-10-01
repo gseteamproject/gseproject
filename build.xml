@@ -7,6 +7,13 @@
 	<property name="src.dir" value="${project.dir}/src"/>
 	<property name="build.dir" value="${project.dir}/classes"/>
 
+	<classpath>
+      <pathelement path="${classpath}"/>
+      <fileset dir="lib">
+        <include name="*.jar"/>
+      </fileset>
+    </classpath>
+	
 	<patternset id="java.files">
 		<include name="src/**/*.java"/>
 		<exclude name="src/examples/*.java"/>
@@ -19,7 +26,7 @@
 		<mkdir dir="${build.dir}"/>
 		<javac destdir="${build.dir}" source="1.8" target="1.8" debug="true" deprecation="false" optimize="false" failonerror="true">
 			<src path="${src.dir}"/>
-			<classpath refid="master-classpath"/>
+			<classpath refid="${classpath}"/>
 		</javac>
 	</target>
 </project>
