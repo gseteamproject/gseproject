@@ -7,13 +7,13 @@
 	<property name="src.dir" value="${project.dir}/src"/>
 	<property name="build.dir" value="${project.dir}/classes"/>
 
-	<classpath>
-      <pathelement path="${classpath}"/>
+	<path id="master-classpath">
       <fileset dir="lib">
         <include name="*.jar"/>
       </fileset>
-    </classpath>
-	
+	  <pathelement path="${build.dir}"/>
+    </path>
+
 	<patternset id="java.files">
 		<include name="src/**/*.java"/>
 		<exclude name="src/examples/*.java"/>
