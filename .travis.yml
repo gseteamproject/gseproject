@@ -1,5 +1,2 @@
 language: java
-script: ant main
-notifications:
-  slack:
-    of_failture: never
+install: ant deps

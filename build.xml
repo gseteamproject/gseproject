@@ -1,0 +1,23 @@
+<project name="gseproject" default="build" basedir="C:\Users\Joohan\git\gseproject">
+	<description>
+		The ant-build file for our project.
+	</description>
+	<property name="project.dir" value="smartmason"/>
+	<property name="src.dir" value="${project.dir}/src"/>
+	<property name="build.dir" value="${project.dir}/classes"/>
+	
+	<patternset id="java.files">
+		<include name="src/**/*.java"/>
+		<exclude name="src/examples/*.java"/>
+	</patternset>
+	<fileset dir="${src}" casesensitive="yes">
+		<patternset refid="java.files"/>
+	</fileset>
+
+	<target name="build" description="Building the files.">
+		<mkdir dir="${build.dir}"/>
+		<javac destdir="${build.dir}" source="1.8" target="1.8" debug="true" deprecation="false" optimize="false" failonerror="true">
+			<src path="${src.dir}"/>
+			<classpath refid="master-classpath"/>
+		</javac>
+	</target>
