@@ -1,5 +1,7 @@
 # gseproject
 
+![Build Status](https://travis-ci.org/gseteamproject/gseproject.svg?branch=master)
+
 ## Development Tools
 
 Eclipse for Java
