@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="gseproject" default="build" basedir="C:\Users\Joohan\git\gseproject">
+<project name="gseproject" default="build">
 	<description>
 		The ant-build file for our project.
 	</description>
