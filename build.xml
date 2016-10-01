@@ -26,7 +26,7 @@
 		<mkdir dir="${build.dir}"/>
 		<javac destdir="${build.dir}" source="1.8" target="1.8" debug="true" deprecation="false" optimize="false" failonerror="true">
 			<src path="${src.dir}"/>
-			<classpath refid="${classpath}"/>
+			<classpath refid="${master-classpath}"/>
 		</javac>
 	</target>
 </project>
