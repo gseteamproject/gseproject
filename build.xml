@@ -1,28 +1,67 @@
-<?xml version="1.0"?>
-<project name="gseproject" default="build">
-	<description>
-		The ant-build file for the GSEproject.
-	</description>
-	<!-- Something like variable declaration for multiple uses. -->
-	<property name="project.dir" value="smartmason"/>
-	<property name="src.dir" value="${project.dir}/src"/>
-	<property name="build.dir" value="${project.dir}/classes"/>
-
-	<!-- Set the external jar files in the lib folder -->
-	<path id="master-classpath">
-		<fileset dir="${project.dir}/lib">
-			<include name="*.jar"/>
-		</fileset>
-		<pathelement path="${build.dir}"/>
-    	</path>
-	
-	<!-- Javac command -->
-	<target name="build" description="Building the files.">
-		<mkdir dir="${build.dir}"/>
-		<javac sourcepath="" srcdir="${src.dir}" destdir="${build.dir}" encoding="utf-8" includeantruntime="false" failonerror="true">
-			<include name="src/**/*.java"/>
-			<exclude name="src/examples/*.java"/>			
-			<classpath refid="master-classpath"/>
-		</javac>
-	</target>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="smartmason">
+    <property environment="env"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.8"/>
+    <property name="source" value="1.8"/>
+    <path id="smartmason.classpath">
+        <pathelement location="bin"/>
+        <pathelement location="lib/jade.jar"/>
+        <pathelement location="lib/testSuite.jar"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="smartmason.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+    <target name="AgentAndPalette">
+        <java classname="tests.MainClass" failonerror="true" fork="yes">
+            <classpath refid="smartmason.classpath"/>
+        </java>
+    </target>
+    <target name="BookTradingExample">
+        <java classname="examples.bookTrading.BookTradingExample" failonerror="true" fork="yes">
+            <classpath refid="smartmason.classpath"/>
+        </java>
+    </target>
+    <target name="EmploymentExample">
+        <java classname="jade.Boot" failonerror="true" fork="yes">
+            <arg line="-gui engager:examples.employment.EngagerAgent;requester:examples.employment.RequesterAgent"/>
+            <classpath refid="smartmason.classpath"/>
+        </java>
+    </target>
 </project>
