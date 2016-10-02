@@ -1,29 +1,34 @@
 <?xml version="1.0"?>
 <project name="gseproject" default="build">
 	<description>
-		The ant-build file for our project.
+		The ant-build file for the GSEproject.
 	</description>
+	<!-- Something like variable declaration for multiple uses. -->
 	<property name="project.dir" value="smartmason"/>
 	<property name="src.dir" value="${project.dir}/src"/>
 	<property name="build.dir" value="${project.dir}/classes"/>
 
+	<!-- Set the external jar files in the lib folder -->
 	<path id="master-classpath">
 		<fileset dir="${project.dir}/lib">
 			<include name="*.jar"/>
 		</fileset>
 		<pathelement path="${build.dir}"/>
     	</path>
-
-
+	
+	<!-- Set the source files, excluding the Jade examples. -->
+	<path id="source-path">
+		<fileset dir="${src.dir}" casesensitive="yes">
+			<include name="src/**/*.java"/>
+			<exclude name="src/examples/*.java"/>
+		</fileset>
+	</path>
+	
+	<!-- Javac command -->
 	<target name="build" description="Building the files.">
 		<mkdir dir="${build.dir}"/>
 		<javac destdir="${build.dir}" encoding="utf-8" includeantruntime="false" failonerror="true">
-			<src>
-				<fileset dir="${src}" casesensitive="yes">
-					<include name="src/**/*.java"/>
-					<exclude name="src/examples/*.java"/>
-				</fileset>
-			</src>
+			<src path="${source-path}"/>
 			<classpath refid="master-classpath"/>
 		</javac>
 	</target>
