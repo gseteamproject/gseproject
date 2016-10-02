@@ -16,19 +16,12 @@
 		<pathelement path="${build.dir}"/>
     	</path>
 	
-	<!-- Set the source files, excluding the Jade examples. -->
-	<path id="source-path">
-		<fileset dir="${src.dir}" casesensitive="yes">
-			<include name="src/**/*.java"/>
-			<exclude name="src/examples/*.java"/>
-		</fileset>
-	</path>
-	
 	<!-- Javac command -->
 	<target name="build" description="Building the files.">
 		<mkdir dir="${build.dir}"/>
-		<javac destdir="${build.dir}" encoding="utf-8" includeantruntime="false" failonerror="true">
-			<src dir="${source-path}"/>
+		<javac sourcepath="" srcdir="${src.dir}" destdir="${build.dir}" encoding="utf-8" includeantruntime="false" failonerror="true">
+			<include name="src/**/*.java"/>
+			<exclude name="src/examples/*.java"/>			
 			<classpath refid="master-classpath"/>
 		</javac>
 	</target>
