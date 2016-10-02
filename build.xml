@@ -29,7 +29,7 @@
     <target name="build-subprojects"/>
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>
-        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}" encoding="utf-8">
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
             <src path="src"/>
             <classpath refid="smartmason.classpath"/>
         </javac>
@@ -48,7 +48,7 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
-    <target name="AgentAndPalette">
+   <!-- <target name="AgentAndPalette">
         <java classname="tests.MainClass" failonerror="true" fork="yes">
             <classpath refid="smartmason.classpath"/>
         </java>
@@ -58,10 +58,10 @@
             <classpath refid="smartmason.classpath"/>
         </java>
     </target>
-    <target name="EmploymentExample">
+    <target name="t">
         <java classname="jade.Boot" failonerror="true" fork="yes">
             <arg line="-gui engager:examples.employment.EngagerAgent;requester:examples.employment.RequesterAgent"/>
             <classpath refid="smartmason.classpath"/>
         </java>
-    </target>
+    </target> -->
 </project>
