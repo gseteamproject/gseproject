@@ -28,7 +28,7 @@
 	<target name="build" description="Building the files.">
 		<mkdir dir="${build.dir}"/>
 		<javac destdir="${build.dir}" encoding="utf-8" includeantruntime="false" failonerror="true">
-			<src path="${source-path}"/>
+			<src dir="${source-path}"/>
 			<classpath refid="master-classpath"/>
 		</javac>
 	</target>
