@@ -37,7 +37,7 @@
     </target>
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
                 
-    <target description="Becase travis is stupid" name="test">
+    <target description="Because travis is stupid" name="test">
       <echo>Test echo</echo>
     </target>
    <!-- <target name="AgentAndPalette">
