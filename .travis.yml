@@ -1,7 +1,7 @@
 language: java
 before_install: 
-ant cleanall
+  ant cleanall
 
 install: 
-ant init
-ant build
+  ant init
+  ant build
