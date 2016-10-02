@@ -13,15 +13,17 @@
 		</fileset>
 		<pathelement path="${build.dir}"/>
     	</path>
-	<fileset dir="${src}" casesensitive="yes">
-		<include name="src/**/*.java"/>
-		<exclude name="src/examples/*.java"/>
-	</fileset>
+
 
 	<target name="build" description="Building the files.">
 		<mkdir dir="${build.dir}"/>
 		<javac destdir="${build.dir}" encoding="utf-8" includeantruntime="false" failonerror="true">
-			<src path="${src}"/>
+			<src>
+				<fileset dir="${src}" casesensitive="yes">
+					<include name="src/**/*.java"/>
+					<exclude name="src/examples/*.java"/>
+				</fileset>
+			</src>
 			<classpath refid="master-classpath"/>
 		</javac>
 	</target>
