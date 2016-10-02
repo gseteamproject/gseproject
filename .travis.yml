@@ -3,5 +3,4 @@ before_install:
   ant cleanall
 
 install: 
-  ant init
-  ant build
+  ant init build
