@@ -1,7 +1,13 @@
 package gseproject.robot.interaction;
 
-/**
- * Created by Risthart on 04.10.2016.
- */
-public class VirtualSensor {
+
+import gseproject.robot.domain.StateDto;
+
+public class VirtualSensor extends AbstractSensor {
+
+    @Override
+    public StateDto updateStatement() {
+        return null;
+    }
+
 }

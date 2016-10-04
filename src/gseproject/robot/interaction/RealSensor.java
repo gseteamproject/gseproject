@@ -1,7 +1,12 @@
 package gseproject.robot.interaction;
 
-/**
- * Created by Risthart on 04.10.2016.
- */
-public class RealSensor {
+import gseproject.robot.domain.StateDto;
+
+public class RealSensor extends AbstractSensor{
+
+    @Override
+    public StateDto updateStatement() {
+        return null;
+    }
+
 }

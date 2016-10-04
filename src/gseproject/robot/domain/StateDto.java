@@ -1,4 +1,4 @@
-package gseproject.robot;
+package gseproject.robot.domain;
 import gseproject.interaction.IState;
 
 public class StateDto implements IState {

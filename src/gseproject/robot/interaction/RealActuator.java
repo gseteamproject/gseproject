@@ -1,7 +1,12 @@
 package gseproject.robot.interaction;
 
-/**
- * Created by Risthart on 04.10.2016.
- */
-public class RealActuator {
+import gseproject.infrastructure.ICallback;
+
+public class RealActuator extends AbstractActuator{
+
+    @Override
+    public void someAction(Object param, ICallback callback){
+        //body
+    }
+
 }

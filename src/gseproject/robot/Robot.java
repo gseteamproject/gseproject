@@ -1,7 +1,15 @@
 package gseproject.robot;
 
-/**
- * Created by Risthart on 04.10.2016.
- */
-public class Robot {
+import gseproject.robot.domain.StateDto;
+import gseproject.robot.interaction.AbstractActuator;
+import gseproject.robot.interaction.AbstractSensor;
+import jade.core.Agent;
+
+public class Robot extends Agent {
+
+    private AbstractActuator _actuator;
+
+    private AbstractSensor _sensor;
+
+
 }

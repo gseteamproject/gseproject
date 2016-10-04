@@ -1,5 +1,8 @@
 package gseproject.interaction;
 
-public class ISensor {
+public interface ISensor<IState> {
 
+	void init();
+
+	IState updateStatement();
 }
