@@ -5,7 +5,7 @@ import gseproject.robot.interaction.AbstractActuator;
 import gseproject.robot.interaction.AbstractSensor;
 import jade.core.Agent;
 
-public class Robot extends Agent {
+public class RobotAgent extends Agent {
 
     private AbstractActuator _actuator;
 
