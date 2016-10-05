@@ -1,4 +1,4 @@
-package gseproject.infrastructure;
+package gseproject.infrastructure.contracts;
 
 /**
  * Created by Risthart on 06.10.2016.

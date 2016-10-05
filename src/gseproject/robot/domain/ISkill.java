@@ -1,9 +1,8 @@
-package gseproject.infrastructure;
+package gseproject.robot.domain;
 
 public interface ISkill {
 
-    int getDuration();
-
     int getCost();
 
+    int getDuration();
 }

@@ -1,7 +1,12 @@
 package gseproject.infrastructure;
 
-/**
- * Created by Risthart on 06.10.2016.
- */
 public class BlockDto {
+
+    public BlockState state;
+
+    public enum BlockState{
+        Dirty,
+        Cleared,
+        Painted
+    }
 }
