@@ -7,7 +7,7 @@ public class VirtualActuator extends AbstractActuator {
 
     @Override
     public void someAction(Object param, ICallback callback){
-
+        //WORK
         callback.Callback();
     }
 

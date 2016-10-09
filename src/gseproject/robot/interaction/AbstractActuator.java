@@ -1,7 +1,7 @@
 package gseproject.robot.interaction;
 
 import gseproject.infrastructure.ICallback;
-import gseproject.interaction.IActuator;
+import gseproject.infrastructure.interaction.IActuator;
 
 public abstract class AbstractActuator implements IActuator {
 

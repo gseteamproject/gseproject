@@ -1,4 +1,4 @@
-package gseproject.interaction;
+package gseproject.infrastructure.interaction;
 
 public interface IState {
 

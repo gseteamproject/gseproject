@@ -1,5 +1,5 @@
 package gseproject.robot.domain;
-import gseproject.interaction.IState;
+import gseproject.infrastructure.interaction.IState;
 
 public class StateDto implements IState {
 

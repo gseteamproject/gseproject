@@ -11,5 +11,8 @@ public class RobotAgent extends Agent {
 
     private AbstractSensor _sensor;
 
+    public void Init()
+    {
 
+    }
 }
