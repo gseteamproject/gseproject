@@ -4,11 +4,10 @@ import org.junit.Test;
 
 public class MainTest {
 
-    public static int main(String[] args){
-        return 1;
+    public static void main(String[] args){
     }
 
-    /*@Test
+    @Test
     public int test() {
         return 0;
     }
@@ -16,6 +15,6 @@ public class MainTest {
     @Test
     public int test2() {
         return 1;
-    }*/
+    }
 }
 
