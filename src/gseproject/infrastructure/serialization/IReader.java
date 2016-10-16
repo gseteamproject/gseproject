@@ -1,7 +1,10 @@
 package gseproject.infrastructure.serialization;
 
-/**
- * Created by Risthart on 16.10.2016.
- */
-public class IReader {
+import java.io.DataInputStream;
+import java.io.IOException;
+
+public interface IReader<T> {
+
+    T read(DataInputStream stream) throws IOException;
+
 }

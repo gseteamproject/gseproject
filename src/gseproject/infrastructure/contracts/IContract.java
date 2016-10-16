@@ -1,4 +1,9 @@
 package gseproject.infrastructure.contracts;
 
-public class Contract {
+import java.util.UUID;
+
+public interface IContract {
+
+    UUID getId();
+
 }

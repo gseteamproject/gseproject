@@ -1,4 +1,4 @@
-package gseproject.infrastructure;
+package gseproject.infrastructure.domain;
 
 public class BlockDto {
 

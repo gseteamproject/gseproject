@@ -1,7 +1,11 @@
 package gseproject.infrastructure.serialization;
 
-/**
- * Created by Risthart on 16.10.2016.
- */
-public class IWriter {
+
+import java.io.DataOutputStream;
+import java.io.IOException;
+
+public interface IWriter<T> {
+
+    void write(T object, DataOutputStream stream) throws IOException;
+
 }

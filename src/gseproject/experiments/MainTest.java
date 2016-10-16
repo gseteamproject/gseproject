@@ -1,7 +1,11 @@
 package gseproject.experiments;
 
-/**
- * Created by Risthart on 16.10.2016.
- */
+import org.junit.Test;
+
 public class MainTest {
+
+    @Test
+    public int test(){
+        return 1;
+    }
 }
