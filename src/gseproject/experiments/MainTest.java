@@ -5,10 +5,11 @@ import org.junit.Test;
 public class MainTest {
 
     public static void main(String[] args){
+        test();
     }
 
     @Test
-    public int test() {
+    public static int test() {
         return 0;
     }
 
