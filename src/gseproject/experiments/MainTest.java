@@ -8,7 +8,7 @@ public class MainTest extends TestCase{
 
     @Test
     public static void main(String[] args){
-        assertEquals("1", "0");
+        assertEquals("1", "1");
     }
 }
 

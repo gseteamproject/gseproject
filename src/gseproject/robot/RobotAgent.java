@@ -27,7 +27,6 @@ public class RobotAgent extends Agent {
         serializationController.RegisterSerializator(a.getId(), writer, reader);
 
         String str = serializationController.Serialize(a);
-        System.out.println(str);
 
         RobotStateContract b = serializationController.Deserialize(a.getId(), str);
         System.out.println("_____________________________");
