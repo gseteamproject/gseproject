@@ -40,7 +40,9 @@
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
                 
     <target description="Because travis is stupid" name="test">
-      <echo>Test echo</echo>
+        <java classname="experiments.MainTest" failonerror="true" fork="yes">
+            <classpath refid="smartmason.classpath"/>
+        </java>
     </target>
    <!-- <target name="AgentAndPalette">
         <java classname="tests.MainClass" failonerror="true" fork="yes">
