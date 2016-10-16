@@ -1,7 +1,7 @@
 package gseproject.experiments;
 
-import static junit.Assert.*;
-import junit.*;
+import static gseproject.lib.junit.Assert.*;
+import gseproject.lib.junit.*;
 
 public class MathFuncTest {
 
