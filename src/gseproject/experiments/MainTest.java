@@ -1,21 +1,14 @@
 package gseproject.experiments;
 
+
+import junit.framework.TestCase;
 import org.junit.Test;
 
-public class MainTest {
+public class MainTest extends TestCase{
 
+    @Test
     public static void main(String[] args){
-        test();
-    }
-
-    @Test
-    public static int test() {
-        return 0;
-    }
-
-    @Test
-    public int test2() {
-        return 1;
+        assertEquals("1", "0");
     }
 }
 
