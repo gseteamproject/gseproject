@@ -1,11 +1,7 @@
 package gseproject.experiments;
 
-import static org.junit.Assert.*;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import static lib.junit.Assert.*;
+import lib.junit.*;
 
 public class MathFuncTest {
 
