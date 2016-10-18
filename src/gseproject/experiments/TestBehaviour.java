@@ -1,4 +1,4 @@
-package gseproject.experements;
+package gseproject.experiments;
 
 import jade.core.behaviours.TickerBehaviour;
 import jade.core.Agent;
