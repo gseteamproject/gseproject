@@ -1,21 +1,19 @@
 package gseproject.infrastructure.serialization;
 
-import gseproject.infrastructure.contracts.IContract;
-
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
-public class ContractsSerializationController {
+public class SerializationController {
 
-    public static final ContractsSerializationController Instance = new ContractsSerializationController();
+    public static final SerializationController Instance = new SerializationController();
 
     private static final Charset CHARSET = StandardCharsets.ISO_8859_1;
 
     private HashMap<Class<?>, CustomSerializers> serializationDictionary;
 
-    public ContractsSerializationController(){
+    public SerializationController(){
         serializationDictionary = new HashMap<>();
     }
 

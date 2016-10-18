@@ -1,4 +1,4 @@
-package gseproject.robot.serialization;
+package gseproject.infrastructure.serialization.robot;
 
 import gseproject.infrastructure.contracts.RobotStateContract;
 import gseproject.infrastructure.serialization.IWriter;
