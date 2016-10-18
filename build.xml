@@ -13,6 +13,8 @@
         <pathelement location="bin"/>
         <pathelement location="lib/jade.jar"/>
         <pathelement location="lib/testSuite.jar"/>
+        <pathelement location="lib/junit.jar"/>
+        <pathelement location="lib/org.hamcrest.core_1.3.0.v201303031735.jar"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
@@ -38,7 +40,9 @@
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
                 
     <target description="Because travis is stupid" name="test">
-      <echo>Test echo</echo>
+        <java classname="gseproject.experiments.MainTest" failonerror="true" fork="yes">
+            <classpath refid="smartmason.classpath"/>
+        </java>
     </target>
    <!-- <target name="AgentAndPalette">
         <java classname="tests.MainClass" failonerror="true" fork="yes">

@@ -63,7 +63,6 @@ public class TestAgent extends Agent {
     }
 
     private void deregisterService() {
-
 	try {
 	    DFService.deregister(this);
 	} catch (FIPAException e) {
@@ -72,5 +71,4 @@ public class TestAgent extends Agent {
 	}
 
     }
-
 }

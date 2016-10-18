@@ -1,4 +1,4 @@
-package gseproject.experiments.floor;
+package gseproject.experiments.services;
 
 import jade.core.AID;
 import jade.core.Agent;

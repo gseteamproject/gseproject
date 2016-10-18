@@ -1,4 +1,4 @@
-package gseproject.experiments.floor;
+package gseproject.experiments.services;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 
-public class FloorServiceFinder implements IServiceFinder {
+public class ServiceFinder implements IServiceFinder {
 
     @Override
     public AID[] searchAvailableRobots(Agent a, String serviceType) {

@@ -1,9 +1,9 @@
 package gseproject.experiments.floor.behaviours;
 
 import gseproject.experiments.floor.FloorException;
-import gseproject.experiments.floor.FloorServiceFinder;
+import gseproject.experiments.services.IServiceFinder;
+import gseproject.experiments.services.ServiceFinder;
 import gseproject.experiments.floor.FloorState;
-import gseproject.experiments.floor.IServiceFinder;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
@@ -25,7 +25,7 @@ public class ServiceRequestBehaviour extends OneShotBehaviour {
 
     @Override
     public void action() {
-	IServiceFinder serviceFinder = new FloorServiceFinder();
+	IServiceFinder serviceFinder = new ServiceFinder();
 	AID bestRobot = null;
 	try {
 	    bestRobot = serviceFinder

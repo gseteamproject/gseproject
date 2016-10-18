@@ -1,11 +1,11 @@
 package gseproject.robot.interaction;
 
-import gseproject.robot.domain.StateDto;
+import gseproject.robot.domain.RobotStateDto;
 
 public class RealSensor extends AbstractSensor{
 
     @Override
-    public StateDto updateStatement() {
+    public RobotStateDto updateStatement() {
         return null;
     }
 

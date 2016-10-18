@@ -1,7 +1,5 @@
 package gseproject.robot.domain;
 
-import gseproject.infrastructure.BlockDto;
-
 public class TransportSkillBusinessObject implements ISkill{
 
     private int _cost;

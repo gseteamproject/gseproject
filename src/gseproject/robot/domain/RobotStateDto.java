@@ -1,7 +1,7 @@
 package gseproject.robot.domain;
 import gseproject.infrastructure.interaction.IState;
 
-public class StateDto implements IState {
+public class RobotStateDto implements IState {
 
     public boolean isCarryingBlock;
     public float position;
@@ -9,7 +9,7 @@ public class StateDto implements IState {
     @Override
     public Object Clone() {
 
-        StateDto state = new StateDto();
+        RobotStateDto state = new RobotStateDto();
 
         state.isCarryingBlock = isCarryingBlock;
         state.position = position;
