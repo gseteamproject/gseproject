@@ -115,6 +115,7 @@ public class ServiceRequestBehaviour extends OneShotBehaviour {
 	    protected void handleInform(ACLMessage inform) {
 		System.out.println(
 			"Agent " + inform.getSender().getName() + " successfully performed the requested action");
+		floorState.updateState();
 	    }
 
 	});
