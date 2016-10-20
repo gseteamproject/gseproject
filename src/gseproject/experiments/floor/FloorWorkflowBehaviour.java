@@ -1,7 +1,5 @@
-package gseproject.experiments.floor.behaviours;
+package gseproject.experiments.floor;
 
-import gseproject.experiments.floor.FloorException;
-import gseproject.experiments.floor.FloorState;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.TickerBehaviour;

@@ -8,8 +8,9 @@ public class Main {
 	parameters[0] = "-gui";
 	parameters[1] = "cleaningFloor:gseproject.experiments.floor.CleaningFloor;";
 	parameters[1] += "testRobot1:gseproject.experiments.TestBlockRobot;";
-	parameters[1] += "testBlockTransporter2:gseproject.experiments.TestWorkerRobot;";
-	parameters[1] += "testBlockTransporter3:gseproject.experiments.TestTransporterRobot;";
+	parameters[1] += "testRobot2:gseproject.experiments.TestBlockRobot;";
+	parameters[1] += "testRobot3:gseproject.experiments.TestBlockRobot;";
+	parameters[1] += "testRobot4:gseproject.experiments.TestBlockRobot;";
 	Boot.main(parameters);
     }
 }

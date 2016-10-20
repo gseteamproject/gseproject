@@ -1,6 +1,5 @@
 package gseproject.experiments.floor;
 
-import gseproject.experiments.floor.behaviours.FloorWorkflowBehaviour;
 import jade.core.Agent;
 
 public abstract class Floor extends Agent {

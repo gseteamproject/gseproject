@@ -1,44 +1,47 @@
 package gseproject.experiments.services;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import gseproject.robot.domain.ISkill;
+import gseproject.robot.domain.TransportSkillBusinessObject;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
+import jade.lang.acl.ACLMessage;
 
 public class ServiceFinder implements IServiceFinder {
-
+    
     @Override
-    public AID[] searchAvailableRobots(Agent a, String serviceType) {
+    public List<AID> searchAvailableAgent(Agent searcher, String serviceType) {
 	DFAgentDescription template = new DFAgentDescription();
 	ServiceDescription sd = new ServiceDescription();
 	sd.setType(serviceType);
 	template.addServices(sd);
-	AID[] availableRobots = null;
+	List<AID> availableAgents = new ArrayList<>();
 	try {
-	    DFAgentDescription[] result = DFService.search(a, template);
-	    availableRobots = new AID[result.length];
+	    DFAgentDescription[] result = DFService.search(searcher, template);
 	    for (int i = 0; i < result.length; ++i) {
-		availableRobots[i] = result[i].getName();
+		availableAgents.add(result[i].getName());
 	    }
 	} catch (FIPAException fe) {
 	    fe.printStackTrace();
 	}
-	return availableRobots;
+	return availableAgents;
     }
 
     @Override
-    public AID bestRobot(AID[] robots) {
-	if (robots.length < 1) {
-	    System.out.println("no available robots");
-	    return null;
-	} else {
-	    //TODO: decision making
-	    return robots[0];
+    public void prepareMulticast(ACLMessage msg, List<AID> receivers) {
+	for(AID receiver : receivers){
+	    msg.addReceiver(receiver);
 	}
     }
 }
