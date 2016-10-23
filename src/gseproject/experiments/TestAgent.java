@@ -1,12 +1,7 @@
 package gseproject.experiments;
 
-import java.awt.List;
-import java.util.ArrayList;
-
-import org.omg.CORBA.Any;
-
 import gseproject.infrastructure.serialization.SerializationController;
-import gseproject.robot.domain.TransportSkillBusinessObject;
+import gseproject.robot.skills.TransportSkill;
 import jade.core.Agent;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
@@ -14,12 +9,10 @@ import jade.domain.FIPANames;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.FailureException;
 import jade.domain.FIPAAgentManagement.NotUnderstoodException;
-import jade.domain.FIPAAgentManagement.Property;
 import jade.domain.FIPAAgentManagement.RefuseException;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
-import jade.proto.AchieveREResponder;
 import jade.proto.ContractNetResponder;
 
 public class TestAgent extends Agent {
@@ -30,11 +23,11 @@ public class TestAgent extends Agent {
     private static final long serialVersionUID = 655794952650375591L;
     protected String serviceType;
     protected String serviceName;
-    private TransportSkillBusinessObject transportSkillBO;
+    private TransportSkill transportSkillBO;
     private final SerializationController serializationController = SerializationController.Instance;
 
     public TestAgent() {
-	this.transportSkillBO = new TransportSkillBusinessObject();
+	this.transportSkillBO = new TransportSkill();
     }
 
     /**

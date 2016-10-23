@@ -2,15 +2,13 @@ package gseproject.experiments.floor;
 
 import java.util.Date;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Vector;
 
 import gseproject.experiments.services.IServiceFinder;
 import gseproject.experiments.services.ServiceFinder;
 import gseproject.infrastructure.serialization.SerializationController;
-import gseproject.robot.domain.TransportSkillBusinessObject;
+import gseproject.robot.skills.TransportSkill;
 import jade.core.AID;
 import jade.core.behaviours.OneShotBehaviour;
 import jade.domain.FIPANames;
@@ -54,8 +52,8 @@ public class ServiceRequestBehaviour extends OneShotBehaviour {
 	    private final SerializationController serializationController = SerializationController.Instance;
 
 	    protected void handlePropose(ACLMessage propose, Vector acceptances) {
-		TransportSkillBusinessObject tSBO = serializationController
-			.Deserialize(TransportSkillBusinessObject.class, propose.getContent());
+		TransportSkill tSBO = serializationController
+			.Deserialize(TransportSkill.class, propose.getContent());
 		System.out.println(
 			"Agent " + propose.getSender().getName() + " proposed " + "SERIALIZATION NOT IMPLEMENTED");
 	    }
@@ -72,13 +70,13 @@ public class ServiceRequestBehaviour extends OneShotBehaviour {
 		SerializationController serializationController = SerializationController.Instance;
 		AID bestProposer = null;
 		ACLMessage accept = null;
-		TransportSkillBusinessObject bestProposal = null;
+		TransportSkill bestProposal = null;
 		
 		System.out.println("Count responders: " + responses.size());
 		Enumeration e = responses.elements();
 		if (e.hasMoreElements()) {
 		    ACLMessage firstMsg = (ACLMessage) e.nextElement();
-		    bestProposal = serializationController.Deserialize(TransportSkillBusinessObject.class,
+		    bestProposal = serializationController.Deserialize(TransportSkill.class,
 			    firstMsg.getContent());
 		}
 
@@ -89,8 +87,8 @@ public class ServiceRequestBehaviour extends OneShotBehaviour {
 			reply.setPerformative(ACLMessage.REJECT_PROPOSAL);
 			acceptances.addElement(reply);
 			/*
-			TransportSkillBusinessObject proposal = serializationController
-				.Deserialize(TransportSkillBusinessObject.class, msg.getContent());
+			TransportSkill proposal = serializationController
+				.Deserialize(TransportSkill.class, msg.getContent());
 			if (proposal.compareTo(bestProposal) == 1) {
 			    bestProposal = proposal;
 			    bestProposer = msg.getSender();

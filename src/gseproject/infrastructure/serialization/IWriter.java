@@ -6,6 +6,6 @@ import java.io.IOException;
 
 public interface IWriter<T> {
 
-    void write(T object, DataOutputStream stream) throws IOException;
+    void write(T data, DataOutputStream stream) throws IOException;
 
 }

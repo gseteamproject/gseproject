@@ -1,8 +1,11 @@
 package gseproject.robot;
 
+import gseproject.infrastructure.contracts.RobotSkillContract;
 import gseproject.infrastructure.contracts.RobotStateContract;
 import gseproject.infrastructure.serialization.SerializationController;
-import gseproject.robot.domain.TransportSkillBusinessObject;
+import gseproject.infrastructure.serialization.robot.RobotSkillReader;
+import gseproject.infrastructure.serialization.robot.RobotSkillWriter;
+import gseproject.robot.skills.TransportSkill;
 import gseproject.robot.interaction.AbstractActuator;
 import gseproject.robot.interaction.AbstractSensor;
 import gseproject.infrastructure.serialization.robot.RobotStateReader;
@@ -16,42 +19,48 @@ public class RobotAgent extends Agent {
     private final SerializationController serializationController;
 
     public RobotAgent() {
-	serializationController = SerializationController.Instance;
-	SerializatorsInitialization();
-	robotStateContract_Serialization_Test();
-	transportSkillBO_Serialization_Test();
+        serializationController = SerializationController.Instance;
+        SerializatorsInitialization();
     }
 
     private void robotStateContract_Serialization_Test() {
-	RobotStateContract rtcA = new RobotStateContract();
-	rtcA.isCarryingBlock = true;
-	rtcA.position = 65f;
-	String str = serializationController.Serialize(rtcA);
-	RobotStateContract rtcB = serializationController.Deserialize(RobotStateContract.class, str);
-	System.out.println("_____________________________");
-	System.out.println(rtcB.isCarryingBlock);
-	System.out.println(rtcB.position);
+        RobotStateContract rtcA = new RobotStateContract();
+        rtcA.isCarryingBlock = true;
+        rtcA.position = 65f;
+        String str = serializationController.Serialize(rtcA);
+        RobotStateContract rtcB = serializationController.Deserialize(RobotStateContract.class, str);
+        System.out.println("_____________________________");
+        System.out.println(rtcB.isCarryingBlock);
+        System.out.println(rtcB.position);
     }
 
-    private void transportSkillBO_Serialization_Test() {
-	TransportSkillBusinessObject tsbo = new TransportSkillBusinessObject();
-	System.out.println("Expected: " + tsbo.toString());
-	String str = serializationController.Serialize(tsbo);
-	System.out.println("serialized: " + str);
-	TransportSkillBusinessObject tsbo2 =  serializationController.Deserialize(TransportSkillBusinessObject.class, str);
-	System.out.println("Actual: " + tsbo2.toString());
+    private void robotSkillContract_Serialization_Test() {
+        TransportSkill tsbo = new TransportSkill();
+        System.out.println("Expected: " + tsbo.toString());
+        RobotSkillContract skillContract = new RobotSkillContract();
+        skillContract.cost = tsbo.getCost();
+        skillContract.duration = tsbo.getDuration();
+        String str = serializationController.Serialize(skillContract);
+        System.out.println("serialized: " + str);
+        RobotSkillContract skillContract2 = serializationController.Deserialize(RobotSkillContract.class, str);
+        System.out.println("Actual: " + skillContract2.cost + " " + skillContract2.duration);
     }
 
     private void SerializatorsInitialization() {
 
-	// RobotStateWriter
-	RobotStateWriter writer = new RobotStateWriter();
-	RobotStateReader reader = new RobotStateReader();
-	serializationController.RegisterSerializator(RobotStateContract.class, writer, reader);
+        // RobotStateContract Serialization
+        RobotStateWriter stateWriter = new RobotStateWriter();
+        RobotStateReader stateReader = new RobotStateReader();
+        serializationController.RegisterSerializator(RobotStateContract.class, stateWriter, stateReader);
 
+        // RobotSkillContract Serialization
+        RobotSkillWriter skillWriter = new RobotSkillWriter();
+        RobotSkillReader skillReader = new RobotSkillReader();
+        serializationController.RegisterSerializator(RobotSkillContract.class, skillWriter, skillReader);
     }
 
-    public void setup() {
-
+    protected void setup() {
+        robotStateContract_Serialization_Test();
+        robotSkillContract_Serialization_Test();
     }
 }

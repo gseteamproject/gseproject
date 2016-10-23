@@ -1,4 +1,4 @@
-package gseproject.robot.domain;
+package gseproject.robot.skills;
 
 public interface ISkill {
 

@@ -1,15 +1,8 @@
 package gseproject.experiments.services;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-import gseproject.robot.domain.ISkill;
-import gseproject.robot.domain.TransportSkillBusinessObject;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.domain.DFService;
