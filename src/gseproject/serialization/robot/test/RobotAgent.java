@@ -27,6 +27,7 @@ public class RobotAgent extends Agent {
 	rtcA.lng = 789456;
 	rtcA.dbl = 10.001;
 	rtcA.ch = 'G';
+	rtcA.str1 = "Привет";
 	String str = serializationController.Serialize(rtcA);
 	RobotStateContract rtcB = serializationController.Deserialize(RobotStateContract.class, str);
 	System.out.println("_____________________________");
@@ -38,6 +39,7 @@ public class RobotAgent extends Agent {
 	System.out.println(rtcB.lng);
 	System.out.println(rtcB.dbl);
 	System.out.println(rtcB.ch);
+	System.out.println(rtcB.str1);
     }
 
     private void SerializatorsInitialization() {

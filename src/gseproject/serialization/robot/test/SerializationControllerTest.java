@@ -27,9 +27,10 @@ public class SerializationControllerTest {
 		rtcA.by = 127;
 		rtcA.sh = 1000;
 		rtcA.intt = 13999;
-		rtcA.lng = 789456;
+		rtcA.lng = 1;
 		rtcA.dbl = 10.001;
 		rtcA.ch = 'G';
+		rtcA.str1 = "Hello";
 		String str = sc.Serialize(rtcA);			
 
 		RobotStateContract rtcB = sc.Deserialize(RobotStateContract.class, str);
@@ -42,5 +43,6 @@ public class SerializationControllerTest {
 		Assert.assertEquals(rtcA.lng, rtcB.lng);
 		Assert.assertEquals(rtcA.dbl, rtcB.dbl, 0.05);
 		Assert.assertEquals(rtcA.ch, rtcB.ch);
+		Assert.assertEquals(rtcA.str1, rtcB.str1);
 	}
 }

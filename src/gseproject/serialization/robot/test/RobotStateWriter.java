@@ -18,6 +18,7 @@ public class RobotStateWriter implements IWriter<RobotStateContract>{
         stream.writeLong(data.lng);
         stream.writeDouble(data.dbl);
         stream.writeChar(data.ch);
+        stream.writeUTF(data.str1);
         
     }
 }

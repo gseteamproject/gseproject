@@ -19,6 +19,7 @@ public class RobotStateReader implements IReader<RobotStateContract> {
         stateDto.lng = stream.readLong();
         stateDto.dbl = stream.readDouble();
         stateDto.ch = stream.readChar();
+        stateDto.str1 = stream.readUTF();
         
         return stateDto;
     }

@@ -10,5 +10,5 @@ public class RobotStateContract implements IContract{
     public long lng;
     public double dbl;
     public char ch;
-    //public string str1;
+    public String str1;
 }
