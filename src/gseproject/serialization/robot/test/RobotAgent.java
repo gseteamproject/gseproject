@@ -1,12 +1,8 @@
 package gseproject.serialization.robot.test;
 
-import gseproject.serialization.robot.test.RobotStateContract;
 import gseproject.infrastructure.serialization.SerializationController;
-import gseproject.robot.domain.TransportSkillBusinessObject;
 import gseproject.robot.interaction.AbstractActuator;
 import gseproject.robot.interaction.AbstractSensor;
-import gseproject.serialization.robot.test.RobotStateReader;
-import gseproject.serialization.robot.test.RobotStateWriter;
 import jade.core.Agent;
 
 public class RobotAgent extends Agent {
@@ -19,7 +15,6 @@ public class RobotAgent extends Agent {
 	serializationController = SerializationController.Instance;
 	SerializatorsInitialization();
 	robotStateContract_Serialization_Test();
-	transportSkillBO_Serialization_Test();
     }
 
     private void robotStateContract_Serialization_Test() {
@@ -43,15 +38,6 @@ public class RobotAgent extends Agent {
 	System.out.println(rtcB.lng);
 	System.out.println(rtcB.dbl);
 	System.out.println(rtcB.ch);
-    }
-
-    private void transportSkillBO_Serialization_Test() {
-	TransportSkillBusinessObject tsbo = new TransportSkillBusinessObject();
-	System.out.println("Expected: " + tsbo.toString());
-	String str = serializationController.Serialize(tsbo);
-	System.out.println("serialized: " + str);
-	TransportSkillBusinessObject tsbo2 =  serializationController.Deserialize(TransportSkillBusinessObject.class, str);
-	System.out.println("Actual: " + tsbo2.toString());
     }
 
     private void SerializatorsInitialization() {
