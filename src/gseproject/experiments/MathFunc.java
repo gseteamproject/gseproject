@@ -24,6 +24,6 @@ public class MathFunc {
 
     public long plus(int num1, int num2) {
         calls++;
-        return num1 - num2;
+        return num1 + num2;
     }
 }
