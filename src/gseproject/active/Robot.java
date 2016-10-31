@@ -5,8 +5,6 @@ import gseproject.IGridSpace;
 
 public class Robot implements IRobotActions {
 
-	
-	RobotCommunicator robotComm;
 	@Override
 	public void move() {
 		// TODO Auto-generated method stub

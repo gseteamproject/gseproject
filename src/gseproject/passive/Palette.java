@@ -5,11 +5,6 @@ import gseproject.Block;
 
 public class Palette implements IStation {
 
-	/**
-	 * 
-	 */
-	StationCommunicator sc;
-
 	@Override
 	public boolean hasBlock() {
 		// TODO Auto-generated method stub

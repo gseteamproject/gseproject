@@ -11,8 +11,7 @@ import jade.core.*;
 
 public class RobotCommunicator extends Agent implements IAgentToGUIComm, IRobotToRobotComm, IRobotToStationComm {
 
-	
-	
+	private Robot robot;
 	private List<Behaviour> behaviours;
 	private static final long serialVersionUID = 669015027861824282L;
 

@@ -5,11 +5,6 @@ import gseproject.Block;
 
 public class Floor implements IFloorLanguage, IStation {
 
-	/**
-	 * 
-	 */
-
-	StationCommunicator sc;
 	
 	@Override
 	public boolean hasBlock() {
