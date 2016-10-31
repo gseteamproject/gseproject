@@ -3,7 +3,7 @@ package gseproject.passive;
 import gseproject.Block;
 
 
-public class Floor implements IFloorLanguage, IStation {
+public class Floor implements IFloorLanguage, IStationLanguage {
 
 	
 	@Override

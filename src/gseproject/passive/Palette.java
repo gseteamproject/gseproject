@@ -3,7 +3,7 @@ package gseproject.passive;
 import gseproject.Block;
 
 
-public class Palette implements IStation {
+public class Palette implements IStationLanguage {
 
 	@Override
 	public boolean hasBlock() {
