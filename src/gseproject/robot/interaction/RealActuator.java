@@ -7,7 +7,7 @@ public class RealActuator extends AbstractActuator {
 
 
     @Override
-    public void move (IGridSpace movePos) {
+    public void move (Direction movePos) {
 
         return;
     }

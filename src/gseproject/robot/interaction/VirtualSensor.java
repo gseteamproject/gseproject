@@ -1,6 +1,7 @@
 package gseproject.robot.interaction;
 
 
+import gseproject.IGridSpace;
 import gseproject.robot.domain.RobotStateDto;
 
 public class VirtualSensor extends AbstractSensor {
@@ -12,4 +13,15 @@ public class VirtualSensor extends AbstractSensor {
         return null;
     }
 
+    @Override
+    public boolean isInGrid(IGridSpace Grid) {
+
+        return false;
+    }
+
+    @Override
+    public boolean didPickBlock(IGridSpace Grid) {
+
+        return false;
+    }
 }

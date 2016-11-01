@@ -9,7 +9,7 @@ public interface IRobotActions {
 
     public void init();
 
-    public void move (IGridSpace nextGrid);
+    public void move (Direction nextGrid);
 
     /** ToDo: This method should return IBlock */
     public void pick (IGridSpace pickPos);
