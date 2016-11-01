@@ -4,14 +4,16 @@ import gseproject.infrastructure.contracts.RobotStateContract;
 import gseproject.infrastructure.serialization.ContractsSerializationController;
 import gseproject.robot.interaction.AbstractActuator;
 import gseproject.robot.interaction.AbstractSensor;
+import gseproject.robot.interaction.VirtualActuator;
+import gseproject.robot.interaction.VirtualSensor;
 import gseproject.robot.serialization.RobotStateReader;
 import gseproject.robot.serialization.RobotStateWriter;
 import jade.core.Agent;
 
 public class RobotAgent extends Agent {
 
-    private AbstractActuator _actuator;
-    private AbstractSensor _sensor;
+    private VirtualActuator m_Actuator;
+    private VirtualSensor m_Sensor;
     private final ContractsSerializationController serializationController;
 
     public RobotAgent(){
