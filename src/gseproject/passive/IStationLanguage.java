@@ -7,8 +7,8 @@ public interface IStationLanguage {
 	public boolean hasBlock();
 	public boolean isOccupied();
 	
-	public void giveBlock(Block block);
-	public void iOccuppy();
+	public Boolean giveBlock(Block block);
+	public Boolean iOccuppy();
 	public void iLeave();
-	public void takeBlock();
+	public Block takeBlock();
 }

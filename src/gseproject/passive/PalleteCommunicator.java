@@ -1,5 +1,6 @@
 package gseproject.passive;
 
+import gseproject.passive.palette.Palette;
 import jade.core.Agent;
 
 public class PalleteCommunicator extends Agent implements IStationComm{

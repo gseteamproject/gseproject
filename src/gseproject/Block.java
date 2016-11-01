@@ -1,7 +1,11 @@
 package gseproject;
 
-public enum Block {
-	DIRTY,
-	CLEANED,
-	PAINTED
+public class Block{
+	public enum possibleBlockStatus {
+		DIRTY,
+		CLEANED,
+		PAINTED
+	}
+	
+	public possibleBlockStatus Status = possibleBlockStatus.DIRTY;
 }

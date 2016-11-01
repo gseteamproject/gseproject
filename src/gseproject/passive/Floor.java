@@ -2,10 +2,8 @@ package gseproject.passive;
 
 import gseproject.Block;
 
-
 public class Floor implements IFloorLanguage, IStationLanguage {
 
-	
 	@Override
 	public boolean hasBlock() {
 		// TODO Auto-generated method stub
@@ -19,15 +17,15 @@ public class Floor implements IFloorLanguage, IStationLanguage {
 	}
 
 	@Override
-	public void giveBlock(Block block) {
+	public Boolean giveBlock(Block block) {
 		// TODO Auto-generated method stub
-
+		return false;
 	}
 
 	@Override
-	public void iOccuppy() {
+	public Boolean iOccuppy() {
 		// TODO Auto-generated method stub
-
+		return true;
 	}
 
 	@Override
@@ -37,8 +35,9 @@ public class Floor implements IFloorLanguage, IStationLanguage {
 	}
 
 	@Override
-	public void takeBlock() {
+	public Block takeBlock() {
 		// TODO Auto-generated method stub
+		return null;
 
 	}
 
