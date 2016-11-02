@@ -33,12 +33,14 @@ public class TestAgent extends Agent {
     }
 
     protected void setup() {
+	System.out.println("TestAgent started");
 	registerService();
 	addBehaviour(new InformGUIBehaviour());
+	System.out.println("Behaviour added.");
     }
 
     protected void takeDown() {
-
+	System.out.println("TestAgent down!");
     }
 
     private class InformGUIBehaviour extends CyclicBehaviour {

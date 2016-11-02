@@ -6,9 +6,8 @@ public class Main {
     public static void main(String[] p_args) {
 	String[] parameters = new String[2];
 	parameters[0] = "-gui";
-	/*
-	parameters[1] = "cleaningFloor:gseproject.experiments.floor.CleaningFloor;";
-	*/
+	parameters[1] = "GUIAgent:gseproject.experiments.gui.testagents.GUIAgent;";
+	parameters[1] += "testAgent:gseproject.experiments.gui.testagents.TestAgent;";
 	Boot.main(parameters);
     }
 }

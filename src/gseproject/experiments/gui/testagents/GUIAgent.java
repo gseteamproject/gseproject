@@ -3,6 +3,8 @@ package gseproject.experiments.gui.testagents;
 import java.util.ArrayList;
 import java.util.List;
 
+import gseproject.grid.GridSpace;
+import gseproject.infrastructure.serialization.SerializationController;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
@@ -23,13 +25,15 @@ public class GUIAgent extends Agent {
     private static final long serialVersionUID = 1L;
 
     protected void setup() {
-	ParallelBehaviour par = new ParallelBehaviour(ParallelBehaviour.WHEN_ALL);
+	System.out.println("GUIAgent started");
+	ParallelBehaviour par = new ParallelBehaviour(this,ParallelBehaviour.WHEN_ALL);
 	par.addSubBehaviour(new RequestBehaviour(this, 1000));
 	par.addSubBehaviour(new ReceiveStateBehaviour());
+	System.out.println("Behaviours added");
     }
 
     protected void takeDown() {
-
+	System.out.println("GUIAgent down!");
     }
 
     private class RequestBehaviour extends TickerBehaviour {
@@ -46,11 +50,18 @@ public class GUIAgent extends Agent {
 	@Override
 	protected void onTick() {
 	    ACLMessage positionRequest = new ACLMessage(ACLMessage.REQUEST);
-	    positionRequest.setContent("state");
-	    for(AID aid : getRobots()){
-		positionRequest.addReceiver(aid);
+	    positionRequest.setContent("gui");
+	    List<AID> robots = getRobots();
+	    if (robots.size() < 1) {
+		System.out.println("no robots found.");
+	    } else {
+		for (AID aid : robots) {
+		    System.out.println("foundRobot");
+		    positionRequest.addReceiver(aid);
+		}
+		send(positionRequest);
 	    }
-	    send(positionRequest);
+
 	}
 
 	private List<AID> getRobots() {
@@ -71,7 +82,7 @@ public class GUIAgent extends Agent {
 	}
 
     }
-    
+
     private class ReceiveStateBehaviour extends CyclicBehaviour {
 
 	/**
@@ -79,14 +90,17 @@ public class GUIAgent extends Agent {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private SerializationController sc = SerializationController.Instance;
+
 	@Override
 	public void action() {
 	    MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.INFORM);
 	    ACLMessage responseFromRobot = blockingReceive(mt);
-	    if(responseFromRobot != null){
-		//TODO: update from gui from here
+	    if (responseFromRobot != null) {
+		GridSpace gs = sc.Deserialize(GridSpace.class, responseFromRobot.getContent());
+		System.out.println(gs.getXCoordinate() + ", " + gs.getYCoordinate() + ", " + gs.getSpaceType());
 	    }
 	}
-	
+
     }
 }

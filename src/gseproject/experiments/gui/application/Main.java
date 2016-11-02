@@ -17,17 +17,17 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		// startTestAgents();
+		startTestAgents();
 		initGUI(primaryStage);
 		primaryStage.show();
 	}
 	
 	
 	private void startTestAgents() {
-		String[] parameters = new String[2];
-		parameters[0] = "-container";
-		parameters[1] = "testAgent0:main.java.testagents.TestAgent;";
-		parameters[1] += "testAgent1:main.java.testagents.TestAgent;";
+	    String[] parameters = new String[2];
+		parameters[0] = "-gui";
+		parameters[1] = "GUIAgent:gseproject.experiments.gui.testagents.GUIAgent;";
+		parameters[1] += "testAgent:gseproject.experiments.gui.testagents.TestAgent;";
 		Boot.main(parameters);
 	}
 	
