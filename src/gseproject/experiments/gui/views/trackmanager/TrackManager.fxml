@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane fx:id="main" xmlns="http://javafx.com/javafx/8"
+	xmlns:fx="http:/javafx.com/fxml/1" fx:controller="gseproject.experiments.gui.views.trackmanager.TrackManagerController">
+
+	<!-- Menü im oberen Bereich -->
+	<top>
+		<VBox>
+			<MenuBar>
+				<Menu text="File">
+					<MenuItem text="Import Robot preset ..."></MenuItem>
+					<MenuItem text="Export Robot preset ..."></MenuItem>
+					<MenuItem text="Close"></MenuItem>
+				</Menu>
+				<Menu text="Edit"></Menu>
+				<Menu text="Help"></Menu>
+			</MenuBar>
+		</VBox>
+	</top>
+
+	<!-- TrackManager -->
+	<center>
+		<BorderPane fx:id="trackManagerRootPane" prefWidth="800"
+			prefHeight="400">
+			<padding>
+				<Insets top="10" right="10" bottom="10" left="10" />
+			</padding>
+			<left>
+				<VBox spacing="10" alignment="center">
+					<padding>
+						<Insets top="10" right="10" bottom="10" left="10" />
+					</padding>
+					<BorderPane fx:id="sourcePalletOne" prefWidth="70.0"
+						prefHeight="120.0">
+					</BorderPane>
+					<BorderPane fx:id="sourcePalletTwo" prefWidth="70.0"
+						prefHeight="120.0">
+					</BorderPane>
+					<BorderPane fx:id="sourcePalletThree" prefWidth="70.0"
+						prefHeight="120.0">
+					</BorderPane>
+				</VBox>
+			</left>
+			<center>
+				<BorderPane fx:id="track">
+					<center>
+						<BorderPane>
+							<top>
+								<HBox spacing="30" alignment="center">
+									<padding>
+										<Insets left="10" right="10" />
+									</padding>
+									<ImageView fx:id="cleaningStation">
+										<image>
+											<Image url="@images/cleaningstation.png" />
+										</image>
+									</ImageView>
+									<ImageView fx:id="paintingStation">
+										<image>
+											<Image url="@images/paintingstation.png" />
+										</image>
+									</ImageView>
+								</HBox>
+							</top>
+						</BorderPane>
+					</center>
+				</BorderPane>
+			</center>
+			<right>
+				<VBox spacing="10" alignment="center">
+					<padding>
+						<Insets top="10" right="10" bottom="10" left="10" />
+					</padding>
+					<BorderPane fx:id="goalPalletOne" prefWidth="70.0"
+						prefHeight="120.0">
+					</BorderPane>
+					<BorderPane fx:id="goalPalletTwo" prefWidth="70.0"
+						prefHeight="120.0">
+					</BorderPane>
+					<BorderPane fx:id="goalPalletThree" prefWidth="70.0"
+						prefHeight="120.0">
+					</BorderPane>
+				</VBox>
+			</right>
+		</BorderPane>
+
+	</center>
+
+	<!-- Drag & Drop Operations -->
+	<right>
+		<VBox spacing="10" alignment="CENTER">
+			<padding>
+				<Insets top="10" right="10" bottom="10" left="10" />
+			</padding>
+			<children>
+				<ImageView fx:id="robotImage">
+					<image>
+						<Image url="@images/robot.png" />
+					</image>
+				</ImageView>
+				<ImageView fx:id="boxImage">
+					<image>
+						<Image url="@images/box.png" />
+					</image>
+				</ImageView>
+			</children>
+		</VBox>
+	</right>
+
+	<!-- Live Information about Track (nothing selected) / about object selected -->
+	<bottom>
+		<TableView fx:id="tableView" GridPane.columnIndex="0"
+			prefHeight="150" GridPane.rowIndex="1">
+			<columns>
+				<TableColumn fx:id="firstnameColumn" text="First Name"
+					prefWidth="100">
+				</TableColumn>
+			</columns>
+		</TableView>
+	</bottom>
+</BorderPane>
