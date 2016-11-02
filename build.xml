@@ -50,11 +50,7 @@
     <target name="junit" depends="build-project">
 
       <junit printsummary="yes" haltonfailure="no">
-        <!-- Project classpath, must include junit.jar -->
         <classpath refid="smartmason.classpath" />
-
-        <!-- test class -->
-        <classpath location="${test.classes.dir}" />
 
         <test name="gseproject.passive.SourcePalleteCommunicatorTest" haltonfailure="no">
           <formatter type="plain" />
