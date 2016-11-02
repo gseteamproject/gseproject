@@ -1,0 +1,12 @@
+package gseproject;
+
+public enum SpaceType {
+	NO_TRACK,
+	DEFAULT,
+	PALETTE_SOURCE,
+	PALETTE_GOAL,
+	CLEAN_TRANSPORT,
+	CLEAN_WORK,
+	PAINT_TRANSPORT,
+	PAINT_WORK
+}

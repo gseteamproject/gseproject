@@ -1,0 +1,9 @@
+language: java
+
+jdk: oraclejdk8
+  
+before_install: 
+  ant cleanall
+
+install: 
+  ant init build
