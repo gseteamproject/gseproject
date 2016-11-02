@@ -13,5 +13,4 @@ before_install:
   ant cleanall
 
 install: 
-  ant init build
-  ant junit
+  ant init junit build
