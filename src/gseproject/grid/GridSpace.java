@@ -2,34 +2,27 @@ package gseproject.grid;
 
 import java.util.*;
 
-import gseproject.Direction;
-import gseproject.IGridSpace;
-import gseproject.SpaceType;
-
 public class GridSpace implements IGridSpace {
-	
+
 	private int xCoordinate;
 	private int yCoordinate;
 	private SpaceType description;
-	private List<GridSpace> succesors;
-	
-	
-	public GridSpace(int x, int y, SpaceType description) {
+	private List<Direction> directions;
+
+	public GridSpace(int x, int y, SpaceType description, ArrayList<Direction> directions) {
 		this.xCoordinate = x;
 		this.yCoordinate = y;
 		this.description = description;
-		this.succesors =  new ArrayList<GridSpace> (2);
+		this.directions = directions;
 	}
-	public void setSuccesor(GridSpace succesor) {
-		
-	}
+
 	@Override
 	public int getXCoordinate() {
 		return this.xCoordinate;
 	}
 
 	@Override
-	public int getYCoordinate() {	
+	public int getYCoordinate() {
 		return this.yCoordinate;
 	}
 
@@ -39,11 +32,12 @@ public class GridSpace implements IGridSpace {
 	}
 
 	@Override
-	public List<GridSpace> getSuccesors() {
-		return this.succesors;
+	public List<Direction> getDirections() {
+		return this.directions;
 	}
 
-	public void setSpaceType() {
-		
+	public void setSpaceType(SpaceType description) {
+		this.description = description;
 	}
+
 }

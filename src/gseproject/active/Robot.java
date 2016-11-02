@@ -1,7 +1,7 @@
 package gseproject.active;
 
 import gseproject.Block;
-import gseproject.IGridSpace;
+import gseproject.grid.IGridSpace;
 
 public class Robot implements IRobotActions {
 
