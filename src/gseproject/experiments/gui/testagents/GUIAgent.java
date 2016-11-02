@@ -8,6 +8,7 @@ import gseproject.infrastructure.serialization.SerializationController;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
+import jade.core.behaviours.OneShotBehaviour;
 import jade.core.behaviours.ParallelBehaviour;
 import jade.core.behaviours.TickerBehaviour;
 import jade.domain.DFService;
@@ -26,10 +27,8 @@ public class GUIAgent extends Agent {
 
     protected void setup() {
 	System.out.println("GUIAgent started");
-	ParallelBehaviour par = new ParallelBehaviour(this,ParallelBehaviour.WHEN_ALL);
-	par.addSubBehaviour(new RequestBehaviour(this, 1000));
-	par.addSubBehaviour(new ReceiveStateBehaviour());
-	System.out.println("Behaviours added");
+	addBehaviour(new RequestBehaviour(this, 1000));
+	addBehaviour(new ReceiveStateBehaviour());
     }
 
     protected void takeDown() {
@@ -49,16 +48,17 @@ public class GUIAgent extends Agent {
 
 	@Override
 	protected void onTick() {
+	    System.out.println("tick");
 	    ACLMessage positionRequest = new ACLMessage(ACLMessage.REQUEST);
 	    positionRequest.setContent("gui");
 	    List<AID> robots = getRobots();
 	    if (robots.size() < 1) {
-		System.out.println("no robots found.");
+		System.out.println("no robots");
 	    } else {
 		for (AID aid : robots) {
-		    System.out.println("foundRobot");
 		    positionRequest.addReceiver(aid);
 		}
+		System.out.println("robots found");
 		send(positionRequest);
 	    }
 
@@ -98,7 +98,14 @@ public class GUIAgent extends Agent {
 	    ACLMessage responseFromRobot = blockingReceive(mt);
 	    if (responseFromRobot != null) {
 		GridSpace gs = sc.Deserialize(GridSpace.class, responseFromRobot.getContent());
-		System.out.println(gs.getXCoordinate() + ", " + gs.getYCoordinate() + ", " + gs.getSpaceType());
+		if (gs != null) {
+		    System.out.println(gs.getXCoordinate());
+		    System.out.println(gs.getYCoordinate());
+		    System.out.println(gs.getSpaceType());
+		} else {
+		    System.out.println("Serialization failed.");
+		}
+
 	    }
 	}
 

@@ -9,7 +9,6 @@ import gseproject.experiments.gui.views.trackmanager.TrackManagerView;
 
 public class Main extends Application {
 	
-	
 	public static void main(String[] args) {
 		launch(Main.class, args);
 	}
@@ -21,7 +20,6 @@ public class Main extends Application {
 		initGUI(primaryStage);
 		primaryStage.show();
 	}
-	
 	
 	private void startTestAgents() {
 	    String[] parameters = new String[2];
