@@ -41,7 +41,7 @@
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
                 
     <target description="Because travis is stupid" name="test">
-        <java classname="gseproject.experiments.MainTest" failonerror="true" fork="yes">
+        <java classname="gseproject.passive.Main" failonerror="true" fork="yes">
             <classpath refid="smartmason.classpath"/>
         </java>
     </target>
