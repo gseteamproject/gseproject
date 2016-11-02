@@ -56,8 +56,7 @@
         <!-- test class -->
         <classpath location="${test.classes.dir}" />
 
-        <test name="gseproject.passive.SourcePalleteCommunicatorTest"
-          haltonfailure="no" todir="${report.dir}">
+        <test name="gseproject.passive.SourcePalleteCommunicatorTest" haltonfailure="no">
           <formatter type="plain" />
           <formatter type="xml" />
         </test>
