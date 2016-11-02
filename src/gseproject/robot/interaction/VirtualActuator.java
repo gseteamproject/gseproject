@@ -1,41 +1,32 @@
 package gseproject.robot.interaction;
 
-import gseproject.IGridSpace;
-import gseproject.infrastructure.ICallback;
-import gseproject.infrastructure.ICallbackArgumented;
+import gseproject.Block;
+import gseproject.grid.GridSpace;
 
-public class VirtualActuator extends AbstractActuator {
+public class VirtualActuator implements IRobotActuator {
 
-    /**
     @Override
-    public void someAction(Object param, ICallback callback){
-        //WORK
-        callback.Callback();
+    public void init() {
+
     }
 
-    public void trySomeAction(Object param, ICallbackArgumented<Boolean> callback){
-
-        callback.Callback(true);
-
-    }*/
     @Override
-    public void move (Direction movePos) {
+    public void move(GridSpace gridSpace) {
 
-        return;
     }
-    @Override
-    public void doWork (IGridSpace workPos) {
 
-        return;
+    @Override
+    public Block pick(GridSpace blockPosition) {
+        return null;
     }
-    @Override
-    public void drop (IGridSpace dropPos) {
 
-        return;
+    @Override
+    public void drop(GridSpace dropPosition) {
+
     }
-    @Override
-    public void pick (IGridSpace dropPos) {
 
-        return;
+    @Override
+    public void doWork(GridSpace workPosition) {
+
     }
 }

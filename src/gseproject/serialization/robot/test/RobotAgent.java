@@ -1,13 +1,12 @@
 package gseproject.serialization.robot.test;
 
 import gseproject.infrastructure.serialization.SerializationController;
-import gseproject.robot.interaction.AbstractActuator;
-import gseproject.robot.interaction.AbstractSensor;
+import gseproject.robot.interaction.IRobotActuator;
 import jade.core.Agent;
 
 public class RobotAgent extends Agent {
 
-    private AbstractActuator _actuator;
+    private IRobotActuator _actuator;
     private AbstractSensor _sensor;
     private final SerializationController serializationController;
 
