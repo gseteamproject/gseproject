@@ -16,7 +16,11 @@ public class SourcePalleteCommunicatorTest {
 		fail("Not yet implemented");
 	}
 	*/
-
+	@Test
+	public void failureTestForTravisToSeeIfItRunsOrNot() {
+		assertTrue("This will fail!", false);
+	}
+	
 	@SuppressWarnings("deprecation")
 	@Test
 	public void testReceiveFINISH_BLOCKMessage() {
