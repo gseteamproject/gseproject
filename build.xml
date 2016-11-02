@@ -45,6 +45,24 @@
             <classpath refid="smartmason.classpath"/>
         </java>
     </target>
+                
+    <target name="junit" depends="compile">
+
+      <junit printsummary="yes" haltonfailure="no">
+        <!-- Project classpath, must include junit.jar -->
+        <classpath refid="smartmason.classpath" />
+
+        <!-- test class -->
+        <classpath location="${test.classes.dir}" />
+
+        <test name="gseproject.passive.SourcePalleteCommunicatorTest"
+          haltonfailure="no" todir="${report.dir}">
+          <formatter type="plain" />
+          <formatter type="xml" />
+        </test>
+
+      </junit>
+    </target>
    <!-- <target name="AgentAndPalette">
         <java classname="tests.MainClass" failonerror="true" fork="yes">
             <classpath refid="smartmason.classpath"/>
