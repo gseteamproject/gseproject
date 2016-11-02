@@ -1,0 +1,18 @@
+#trackManagerRootPane {
+	-fx-background-color: white;
+}
+
+#track {
+	-fx-border-color: #979797;
+	-fx-border-width: 30px;
+}
+
+#sourcePalletOne, #sourcePalletTwo, #sourcePalletThree {
+	-fx-background-color: rgba(255, 203, 2, 0.6);
+	-fx-border-color: #979797;
+}
+
+#goalPalletOne, #goalPalletTwo, #goalPalletThree {
+	-fx-background-color: rgba(255, 130, 0, 0.6);
+	-fx-border-color: #979797;
+}

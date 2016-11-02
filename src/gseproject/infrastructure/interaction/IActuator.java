@@ -4,7 +4,9 @@ package gseproject.infrastructure.interaction;
 	Every Actuators implementation should have action methods with callback
  */
 
-public interface IActuator {
+import gseproject.robot.interaction.IRobotActions;
+
+public interface IActuator extends IRobotActions {
 	
 	void init();
 
