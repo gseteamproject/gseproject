@@ -1,6 +1,5 @@
 package gseproject.robot;
 
-
 import gseproject.robot.interaction.IRobotActuator;
 import gseproject.robot.processing.IRobotProcessor;
 import gseproject.robot.processing.RobotDummyProcessor;

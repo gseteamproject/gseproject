@@ -7,7 +7,6 @@ import jade.core.Agent;
 public class RobotAgent extends Agent {
 
     private IRobotActuator _actuator;
-    private AbstractSensor _sensor;
     private final SerializationController serializationController;
 
     public RobotAgent() {
