@@ -46,7 +46,7 @@
         </java>
     </target>
                 
-    <target name="junit" depends="compile">
+    <target name="junit" depends="build-project">
 
       <junit printsummary="yes" haltonfailure="no">
         <!-- Project classpath, must include junit.jar -->
