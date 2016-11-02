@@ -49,7 +49,7 @@
                 
     <target name="junit" depends="build-project">
 
-      <junit printsummary="yes" haltonfailure="no" printsummary="yes">
+      <junit printsummary="yes" haltonfailure="no">
         <!-- Project classpath, must include junit.jar -->
         <classpath refid="smartmason.classpath" />
 
