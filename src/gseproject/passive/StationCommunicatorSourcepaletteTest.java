@@ -5,9 +5,10 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import gseproject.ServiceType;
+import gseproject.passive.palette.Sourcepalette;
 import jade.lang.acl.ACLMessage;
 
-public class SourcePalleteCommunicatorTest {
+public class StationCommunicatorSourcepaletteTest {
 	/*
 	@Test
 	public void testSetup() {
@@ -20,7 +21,7 @@ public class SourcePalleteCommunicatorTest {
 	@SuppressWarnings("deprecation")
 	@Test
 	public void testReceiveFINISH_BLOCKMessage() {
-		SourcePalleteCommunicator pcom = new SourcePalleteCommunicator();
+		StationCommunicator pcom = new StationCommunicator<Sourcepalette>(new Sourcepalette());
 		pcom.requestFromRobot = new ACLMessage();
 		pcom.reply(ServiceType.FINISH_BLOCK);
 		assertEquals("Content should be NOPE!", "NOPE", pcom.aclMsgJustForUnittests.getContent());
@@ -28,7 +29,7 @@ public class SourcePalleteCommunicatorTest {
 	@SuppressWarnings("deprecation")
 	@Test
 	public void testReceiveGIVE_BLOCK_CLEANEDMessage() {
-		SourcePalleteCommunicator pcom = new SourcePalleteCommunicator();
+		StationCommunicator pcom = new StationCommunicator<Sourcepalette>(new Sourcepalette());
 		pcom.requestFromRobot = new ACLMessage();
 		pcom.reply(ServiceType.GIVE_BLOCK_CLEANED);
 		assertEquals("Content should be false!", "false", pcom.aclMsgJustForUnittests.getContent());
@@ -36,7 +37,7 @@ public class SourcePalleteCommunicatorTest {
 	@SuppressWarnings("deprecation")
 	@Test
 	public void testReceiveGIVE_BLOCK_DIRTYMessage() {
-		SourcePalleteCommunicator pcom = new SourcePalleteCommunicator();
+		StationCommunicator pcom = new StationCommunicator<Sourcepalette>(new Sourcepalette());
 		pcom.requestFromRobot = new ACLMessage();
 		pcom.reply(ServiceType.GIVE_BLOCK_DIRTY);
 		assertEquals("Content should be false!", "false", pcom.aclMsgJustForUnittests.getContent());
@@ -44,7 +45,7 @@ public class SourcePalleteCommunicatorTest {
 	@SuppressWarnings("deprecation")
 	@Test
 	public void testReceiveGIVE_BLOCK_PAINTEDMessage() {
-		SourcePalleteCommunicator pcom = new SourcePalleteCommunicator();
+		StationCommunicator pcom = new StationCommunicator<Sourcepalette>(new Sourcepalette());
 		pcom.requestFromRobot = new ACLMessage();
 		pcom.reply(ServiceType.GIVE_BLOCK_PAINTED);
 		assertEquals("Content should be false!", "false", pcom.aclMsgJustForUnittests.getContent());
@@ -52,7 +53,7 @@ public class SourcePalleteCommunicatorTest {
 	@SuppressWarnings("deprecation")
 	@Test
 	public void testReceiveHAS_BLOCKMessage() {
-		SourcePalleteCommunicator pcom = new SourcePalleteCommunicator();
+		StationCommunicator pcom = new StationCommunicator<Sourcepalette>(new Sourcepalette());
 		pcom.requestFromRobot = new ACLMessage();
 		pcom.reply(ServiceType.HAS_BLOCK);
 		assertEquals("Content should be true!", "true", pcom.aclMsgJustForUnittests.getContent());
@@ -60,7 +61,7 @@ public class SourcePalleteCommunicatorTest {
 	@SuppressWarnings("deprecation")
 	@Test
 	public void testReceiveHAS_FINISHED_BLOCKMessage() {
-		SourcePalleteCommunicator pcom = new SourcePalleteCommunicator();
+		StationCommunicator pcom = new StationCommunicator<Sourcepalette>(new Sourcepalette());
 		pcom.requestFromRobot = new ACLMessage();
 		pcom.reply(ServiceType.HAS_FINISHED_BLOCK);
 		assertEquals("Content should be NOPE!", "NOPE", pcom.aclMsgJustForUnittests.getContent());
@@ -68,7 +69,7 @@ public class SourcePalleteCommunicatorTest {
 	@SuppressWarnings("deprecation")
 	@Test
 	public void testReceiveI_LEAVEMessage() {
-		SourcePalleteCommunicator pcom = new SourcePalleteCommunicator();
+		StationCommunicator pcom = new StationCommunicator<Sourcepalette>(new Sourcepalette());
 		pcom.requestFromRobot = new ACLMessage();
 		pcom.reply(ServiceType.I_LEAVE);
 		assertEquals("Content should be true!", "true", pcom.aclMsgJustForUnittests.getContent());
@@ -76,7 +77,7 @@ public class SourcePalleteCommunicatorTest {
 	@SuppressWarnings("deprecation")
 	@Test
 	public void testReceiveI_OCCUPYMessage() {
-		SourcePalleteCommunicator pcom = new SourcePalleteCommunicator();
+		StationCommunicator pcom = new StationCommunicator<Sourcepalette>(new Sourcepalette());
 		pcom.requestFromRobot = new ACLMessage();
 		pcom.reply(ServiceType.I_OCCUPY);
 		assertEquals("Content should be true!", "true", pcom.aclMsgJustForUnittests.getContent());
@@ -84,7 +85,7 @@ public class SourcePalleteCommunicatorTest {
 	@SuppressWarnings("deprecation")
 	@Test
 	public void testReceiveIS_OCCUPIEDMessage() {
-		SourcePalleteCommunicator pcom = new SourcePalleteCommunicator();
+		StationCommunicator pcom = new StationCommunicator<Sourcepalette>(new Sourcepalette());
 		pcom.requestFromRobot = new ACLMessage();
 		pcom.reply(ServiceType.IS_OCCUPIED);
 		assertEquals("Content should be false!", "false", pcom.aclMsgJustForUnittests.getContent());
@@ -92,7 +93,7 @@ public class SourcePalleteCommunicatorTest {
 	@SuppressWarnings("deprecation")
 	@Test
 	public void testReceiveNOPEMessage() {
-		SourcePalleteCommunicator pcom = new SourcePalleteCommunicator();
+		StationCommunicator pcom = new StationCommunicator<Sourcepalette>(new Sourcepalette());
 		pcom.requestFromRobot = new ACLMessage();
 		pcom.reply(ServiceType.NOPE);
 		assertEquals("aclMsgJustForUnittests should be null!", null, pcom.aclMsgJustForUnittests);
@@ -100,7 +101,7 @@ public class SourcePalleteCommunicatorTest {
 	@SuppressWarnings("deprecation")
 	@Test
 	public void testReceiveTAKE_BLOCKMessage() {
-		SourcePalleteCommunicator pcom = new SourcePalleteCommunicator();
+		StationCommunicator pcom = new StationCommunicator<Sourcepalette>(new Sourcepalette());
 		pcom.requestFromRobot = new ACLMessage();
 		pcom.reply(ServiceType.TAKE_BLOCK);
 		assertEquals("Content should be DIRTY!", "DIRTY", pcom.aclMsgJustForUnittests.getContent());

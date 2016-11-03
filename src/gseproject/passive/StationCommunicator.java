@@ -4,23 +4,31 @@ import gseproject.Block;
 import gseproject.Block.possibleBlockStatus;
 import gseproject.ServiceType;
 import gseproject.infrastructure.serialization.SerializationController;
+import gseproject.passive.palette.Goalpalette;
 import gseproject.passive.palette.Sourcepalette;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
-public class SourcePalleteCommunicator extends Agent implements IStationComm {
+public class StationCommunicator<T extends IStationLanguage> extends Agent implements IStationComm {
 	private static final long serialVersionUID = 4965866091852183019L;
-	//todo: this must be generic or distinct
+	// todo: this must be generic or distinct
 	private Sourcepalette sourcepalette = new Sourcepalette();
-	//todo: quick&dirty but i want my test, it was private
+	// todo: quick&dirty but i want my test, it was private
 	public ACLMessage requestFromRobot;
 	private SerializationController serializationController = SerializationController.Instance;
-	//todo: quick&dirty but i want my test
+	// todo: quick&dirty but i want my test
 	public ACLMessage aclMsgJustForUnittests = null;
-	
+
 	// ==> Start Jadesetup
+
+	private T t;
+
+	public StationCommunicator(T t) {
+		this.t = t;
+	}
+
 	protected void setup() {
 		this.addBehaviour(new CyclicBehaviour(this) {
 			private static final long serialVersionUID = 1;
@@ -32,12 +40,13 @@ public class SourcePalleteCommunicator extends Agent implements IStationComm {
 					ServiceType robotService = serializationController.Deserialize(ServiceType.class,
 							message.getContent());
 					reply(robotService);
-				} //todo: das hier sollte wieder rein
-				/*else {
-                    handleInformDone(message);
-					// TODO: this is what?
-					System.out.println("setup: action: else; screw you guys i'm going home");
-				}*/
+				} // todo: das hier sollte wieder rein
+				/*
+				 * else { handleInformDone(message); // TODO: this is what?
+				 * System.out.
+				 * println("setup: action: else; screw you guys i'm going home"
+				 * ); }
+				 */
 			}
 		});
 	}
@@ -67,6 +76,11 @@ public class SourcePalleteCommunicator extends Agent implements IStationComm {
 			return;
 		}
 
+		//todo: check the instance an then react to it in switch case
+		System.out.println(t instanceof Sourcepalette);
+		System.out.println(t instanceof Goalpalette);
+		System.out.println(t instanceof Floor);
+
 		Block block = new Block();
 		switch (request) {
 		case FINISH_BLOCK:
@@ -74,17 +88,17 @@ public class SourcePalleteCommunicator extends Agent implements IStationComm {
 			send(createReplyMessage(ServiceType.NOPE.name()));
 			break;
 		case GIVE_BLOCK_DIRTY:
-			//todo: check for the right palette
+			// todo: check for the right palette
 			block.Status = possibleBlockStatus.DIRTY;
 			send(createReplyMessage(Boolean.toString(sourcepalette.giveBlock(block))));
 			break;
 		case GIVE_BLOCK_CLEANED:
-			//todo: check for the right palette
+			// todo: check for the right palette
 			block.Status = possibleBlockStatus.CLEANED;
 			send(createReplyMessage(Boolean.toString(sourcepalette.giveBlock(block))));
 			break;
 		case GIVE_BLOCK_PAINTED:
-			//todo: check for the right palette
+			// todo: check for the right palette
 			block.Status = possibleBlockStatus.PAINTED;
 			send(createReplyMessage(Boolean.toString(sourcepalette.giveBlock(block))));
 			break;
@@ -96,7 +110,7 @@ public class SourcePalleteCommunicator extends Agent implements IStationComm {
 			send(createReplyMessage(ServiceType.NOPE.name()));
 			break;
 		case I_LEAVE:
-			//todo: inconsistent, function should return a boolean
+			// todo: inconsistent, function should return a boolean
 			sourcepalette.iLeave();
 			send(createReplyMessage("true"));
 			break;
@@ -122,10 +136,10 @@ public class SourcePalleteCommunicator extends Agent implements IStationComm {
 		aclMsgJustForUnittests = replyToRobot;
 		return replyToRobot;
 	}
-	
+
 	// ==> End Jadesetup
 
-	//todo: was das hier? wo kommt das her? was soll ich damit?
+	// todo: was das hier? wo kommt das her? was soll ich damit?
 	@Override
 	public Object receiveInform() {
 		// TODO Auto-generated method stub
