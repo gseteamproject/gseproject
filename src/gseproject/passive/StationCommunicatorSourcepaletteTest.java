@@ -32,7 +32,7 @@ public class StationCommunicatorSourcepaletteTest {
 		StationCommunicator pcom = new StationCommunicator<Sourcepalette>(new Sourcepalette());
 		pcom.requestFromRobot = new ACLMessage();
 		pcom.reply(ServiceType.GIVE_BLOCK_CLEANED);
-		assertEquals("Content should be false!", "false", pcom.aclMsgJustForUnittests.getContent());
+		assertEquals("Content should be NOPE!", "NOPE", pcom.aclMsgJustForUnittests.getContent());
 	}
 	@SuppressWarnings("deprecation")
 	@Test
@@ -40,7 +40,7 @@ public class StationCommunicatorSourcepaletteTest {
 		StationCommunicator pcom = new StationCommunicator<Sourcepalette>(new Sourcepalette());
 		pcom.requestFromRobot = new ACLMessage();
 		pcom.reply(ServiceType.GIVE_BLOCK_DIRTY);
-		assertEquals("Content should be false!", "false", pcom.aclMsgJustForUnittests.getContent());
+		assertEquals("Content should be NOPE!", "NOPE", pcom.aclMsgJustForUnittests.getContent());
 	}
 	@SuppressWarnings("deprecation")
 	@Test
@@ -48,7 +48,7 @@ public class StationCommunicatorSourcepaletteTest {
 		StationCommunicator pcom = new StationCommunicator<Sourcepalette>(new Sourcepalette());
 		pcom.requestFromRobot = new ACLMessage();
 		pcom.reply(ServiceType.GIVE_BLOCK_PAINTED);
-		assertEquals("Content should be false!", "false", pcom.aclMsgJustForUnittests.getContent());
+		assertEquals("Content should be NOPE!", "NOPE", pcom.aclMsgJustForUnittests.getContent());
 	}
 	@SuppressWarnings("deprecation")
 	@Test

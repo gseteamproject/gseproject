@@ -76,38 +76,65 @@ public class StationCommunicator<T extends IStationLanguage> extends Agent imple
 			return;
 		}
 
-		//todo: check the instance an then react to it in switch case
-		System.out.println(t instanceof Sourcepalette);
-		System.out.println(t instanceof Goalpalette);
-		System.out.println(t instanceof Floor);
+		// todo: check the instance an then react to it in switch case
+		Boolean isSourcepalette = (t instanceof Sourcepalette);
+		Boolean isGoalpalette = (t instanceof Goalpalette);
+		Boolean isFloor = (t instanceof Floor);
 
 		Block block = new Block();
 		switch (request) {
 		case FINISH_BLOCK:
-			System.out.println("reply: switch: FINISH_BLOCK; screw you guys i'm going home");
-			send(createReplyMessage(ServiceType.NOPE.name()));
+			if (!isFloor) {
+				System.out.println("reply: switch: FINISH_BLOCK; screw you guys i'm going home");
+				send(createReplyMessage(ServiceType.NOPE.name()));
+			} else {
+				System.out.println("reply: switch: else: FINISH_BLOCK; screw you guys i'm going home");
+				send(createReplyMessage(ServiceType.NOPE.name()));
+			}
 			break;
 		case GIVE_BLOCK_DIRTY:
-			// todo: check for the right palette
-			block.Status = possibleBlockStatus.DIRTY;
-			send(createReplyMessage(Boolean.toString(sourcepalette.giveBlock(block))));
+			if (!isFloor) {
+				System.out.println("reply: switch: FINISH_BLOCK; screw you guys i'm going home");
+				send(createReplyMessage(ServiceType.NOPE.name()));
+			} else {
+				System.out.println("reply: switch: else: FINISH_BLOCK; screw you guys i'm going home");
+				send(createReplyMessage(ServiceType.NOPE.name()));
+			}
 			break;
 		case GIVE_BLOCK_CLEANED:
-			// todo: check for the right palette
-			block.Status = possibleBlockStatus.CLEANED;
-			send(createReplyMessage(Boolean.toString(sourcepalette.giveBlock(block))));
+			if (!isFloor) {
+				System.out.println("reply: switch: FINISH_BLOCK; screw you guys i'm going home");
+				send(createReplyMessage(ServiceType.NOPE.name()));
+			} else {
+				System.out.println("reply: switch: else: FINISH_BLOCK; screw you guys i'm going home");
+				send(createReplyMessage(ServiceType.NOPE.name()));
+			}
 			break;
 		case GIVE_BLOCK_PAINTED:
-			// todo: check for the right palette
-			block.Status = possibleBlockStatus.PAINTED;
-			send(createReplyMessage(Boolean.toString(sourcepalette.giveBlock(block))));
+			if (!isGoalpalette) {
+				System.out.println("reply: switch: FINISH_BLOCK; screw you guys i'm going home");
+				send(createReplyMessage(ServiceType.NOPE.name()));
+			} else {
+				block.Status = possibleBlockStatus.PAINTED;
+				send(createReplyMessage(Boolean.toString(((Goalpalette)t).giveBlock(block))));
+			}
 			break;
 		case HAS_BLOCK:
-			send(createReplyMessage(Boolean.toString(sourcepalette.hasBlock())));
+			if (isGoalpalette) {
+				System.out.println("reply: switch: FINISH_BLOCK; screw you guys i'm going home");
+				send(createReplyMessage(ServiceType.NOPE.name()));
+			} else {
+				send(createReplyMessage(Boolean.toString(t.hasBlock())));
+			}
 			break;
 		case HAS_FINISHED_BLOCK:
-			System.out.println("reply: switch: HAS_FINISHED_BLOCK; screw you guys i'm going home");
-			send(createReplyMessage(ServiceType.NOPE.name()));
+			if (!isFloor) {
+				System.out.println("reply: switch: FINISH_BLOCK; screw you guys i'm going home");
+				send(createReplyMessage(ServiceType.NOPE.name()));
+			} else {
+				System.out.println("reply: switch: else: FINISH_BLOCK; screw you guys i'm going home");
+				send(createReplyMessage(ServiceType.NOPE.name()));
+			}
 			break;
 		case I_LEAVE:
 			// todo: inconsistent, function should return a boolean
@@ -115,13 +142,13 @@ public class StationCommunicator<T extends IStationLanguage> extends Agent imple
 			send(createReplyMessage("true"));
 			break;
 		case I_OCCUPY:
-			send(createReplyMessage(Boolean.toString(sourcepalette.iOccuppy())));
+			send(createReplyMessage(Boolean.toString(t.iOccuppy())));
 			break;
 		case IS_OCCUPIED:
-			send(createReplyMessage(Boolean.toString(sourcepalette.isOccupied())));
+			send(createReplyMessage(Boolean.toString(t.isOccupied())));
 			break;
 		case TAKE_BLOCK:
-			send(createReplyMessage(sourcepalette.takeBlock().Status.name()));
+			send(createReplyMessage(t.takeBlock().Status.name()));
 			break;
 		default:
 			// info: this should not happen....
