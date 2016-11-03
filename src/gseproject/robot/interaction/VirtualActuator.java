@@ -11,22 +11,28 @@ public class VirtualActuator implements IRobotActuator {
     }
 
     @Override
-    public void move(GridSpace gridSpace) {
-
+    /* Return TRUE if Ok, and FALSE if fails */
+    public boolean move(GridSpace gridSpace) {
+        return true;
     }
 
     @Override
+    /* Return Block instance if Ok, and null if fails */
     public Block pick(GridSpace blockPosition) {
         return null;
     }
 
     @Override
-    public void drop(GridSpace dropPosition) {
+    /* Return TRUE if Ok, and FALSE if fails */
+    public boolean drop(GridSpace dropPosition) {
 
+        return true;
     }
 
     @Override
-    public void doWork(GridSpace workPosition) {
+    /* Return TRUE if Ok, and FALSE if fails */
+    public boolean doWork(GridSpace workPosition) {
 
+        return true;
     }
 }
