@@ -3,12 +3,12 @@ package gseproject.tests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import gseproject.passive.SourcePalleteCommunicatorTest;
+import gseproject.passive.StationCommunicatorSourcepaletteTest;
 
 @RunWith(Suite.class)
 
 @Suite.SuiteClasses({
-    SourcePalleteCommunicatorTest.class,
+	StationCommunicatorSourcepaletteTest.class,
  })
 
 public class PassiveTests {   
