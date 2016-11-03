@@ -3,50 +3,52 @@
               Any modifications will be overwritten.
               To include a user specific buildfile here, simply create one in the same
               directory with the processing instruction <?eclipse.ant.import?>
-              as the first entry and export the buildfile again. --><project basedir="." default="build" name="smartmason">
-    <property environment="env"/>
-    <property name="debuglevel" value="source,lines,vars"/>
-    <property name="target" value="1.8"/>
-    <property name="source" value="1.8"/>
-    <property name="encoding" value="windows-1251"/>
-    <path id="smartmason.classpath">
-        <pathelement location="bin"/>
-        <pathelement location="lib/jade.jar"/>
-        <pathelement location="lib/testSuite.jar"/>
-        <pathelement location="lib/junit.jar"/>
-    	<pathelement location="lib/jfxrt.jar"/>
-        <pathelement location="lib/org.hamcrest.core_1.3.0.v201303031735.jar"/>
-    </path>
-    <target name="init">
-        <mkdir dir="bin"/>
-        <copy includeemptydirs="false" todir="bin">
-            <fileset dir="src">
-                <exclude name="**/*.java"/>
-            </fileset>
-        </copy>
-    </target>
-    <target name="clean">
-        <delete dir="bin"/>
-    </target>
-    <target depends="clean" name="cleanall"/>
-    <target depends="build-subprojects,build-project" name="build"/>
-    <target name="build-subprojects"/>
-    <target depends="init" name="build-project">
-        <echo message="${ant.project.name}: ${ant.file}"/>
-        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}" encoding="${encoding}" >
-            <src path="src"/>
-            <classpath refid="smartmason.classpath"/>
-        </javac>
-    </target>
-    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
-                
-    <target description="Because travis is stupid" name="test">
-       <!-- <java classname="gseproject.passive.Main" failonerror="true" fork="yes">
+              as the first entry and export the buildfile again. -->
+<project basedir="." default="build" name="smartmason">
+	<property environment="env" />
+	<property name="debuglevel" value="source,lines,vars" />
+	<property name="target" value="1.8" />
+	<property name="source" value="1.8" />
+	<property name="encoding" value="windows-1251" />
+	<path id="smartmason.classpath">
+		<pathelement location="bin" />
+		<pathelement location="lib/jade.jar" />
+		<pathelement location="lib/testSuite.jar" />
+		<pathelement location="lib/junit.jar" />
+		<pathelement location="lib/jfxrt.jar" />
+		<pathelement location="lib/org.hamcrest.core_1.3.0.v201303031735.jar" />
+	</path>
+	<target name="init">
+		<mkdir dir="bin" />
+		<copy includeemptydirs="false" todir="bin">
+			<fileset dir="src">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+	<target name="clean">
+		<delete dir="bin" />
+	</target>
+	<target depends="clean" name="cleanall" />
+	<target depends="build-subprojects,build-project" name="build" />
+	<target name="build-subprojects" />
+	<target depends="init" name="build-project">
+		<echo message="${ant.project.name}: ${ant.file}" />
+		<javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}" encoding="${encoding}">
+			<src path="src" />
+			<classpath refid="smartmason.classpath" />
+		</javac>
+	</target>
+	<target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects" />
+
+	<target description="Because travis is stupid" name="test">
+		<!-- <java classname="gseproject.passive.Main" failonerror="true" fork="yes">
             <classpath refid="smartmason.classpath"/>
         </java> -->
-       <echo>Test echo</echo>
-    </target>
-                
+		<echo>Test echo</echo>
+	</target>
+
+	<!--
     <target name="junit" depends="build-project">
 
       <junit printsummary="yes" haltonfailure="no">
@@ -59,7 +61,20 @@
 
       </junit>
     </target>
-   <!-- <target name="AgentAndPalette">
+    -->
+	<target name="junit" depends="build-project">
+
+		<junit printsummary="yes" haltonfailure="no">
+			<classpath refid="smartmason.classpath" />
+
+			<test name="gseproject.tests.PassiveTests" haltonfailure="no">
+				<formatter type="plain" />
+				<formatter type="xml" />
+			</test>
+
+		</junit>
+	</target>
+	<!-- <target name="AgentAndPalette">
         <java classname="tests.MainClass" failonerror="true" fork="yes">
             <classpath refid="smartmason.classpath"/>
         </java>
