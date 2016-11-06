@@ -4,8 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import gseproject.Block;
-import gseproject.Block.possibleBlockStatus;
+import gseproject.grid.Block;
+import gseproject.grid.Block.possibleBlockStatus;
 
 public class GoalpaletteTest {
 

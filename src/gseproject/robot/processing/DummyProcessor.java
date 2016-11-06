@@ -1,14 +1,13 @@
 package gseproject.robot.processing;
 
-import gseproject.SpaceType;
+import gseproject.grid.SpaceType;
 import gseproject.grid.Grid;
 import gseproject.grid.GridSpace;
 import gseproject.robot.communicator.ICommunicator;
-import gseproject.robot.controller.DummyController;
 import gseproject.robot.controller.IController;
 import jade.core.AID;
 
-public class RobotDummyProcessor implements IRobotProcessor {
+public class DummyProcessor implements IProcessor {
 
     /** Grid */
     private Grid _grid;

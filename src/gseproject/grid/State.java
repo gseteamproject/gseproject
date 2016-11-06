@@ -1,4 +1,4 @@
-package gseproject;
+package gseproject.grid;
 
 public class State {
 

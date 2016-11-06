@@ -2,7 +2,7 @@ package gseproject.active;
 
 import java.util.List;
 
-import gseproject.ServiceType;
+import gseproject.grid.ServiceType;
 import jade.core.AID;
 
 

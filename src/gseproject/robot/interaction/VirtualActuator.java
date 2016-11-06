@@ -1,6 +1,6 @@
 package gseproject.robot.interaction;
 
-import gseproject.Block;
+import gseproject.grid.Block;
 import gseproject.grid.GridSpace;
 
 public class VirtualActuator implements IRobotActuator {

@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import gseproject.ServiceType;
+import gseproject.grid.ServiceType;
 import gseproject.passive.palette.Sourcepalette;
 import jade.lang.acl.ACLMessage;
 

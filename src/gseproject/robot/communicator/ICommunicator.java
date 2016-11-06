@@ -1,11 +1,12 @@
 package gseproject.robot.communicator;
 
-import gseproject.robot.processing.IRobotProcessor;
+import gseproject.grid.GridSpace;
+import gseproject.robot.processing.IProcessor;
 
 public interface ICommunicator {
 
-    /* Connect Communicator with Processor */
-    public void connect(IRobotProcessor Processor);
+    void initiate(IProcessor processor);
 
+    void broadcastPosition(GridSpace position);
 
 }

@@ -1,6 +1,6 @@
 package gseproject.passive;
 
-import gseproject.Block;
+import gseproject.grid.Block;
 
 public class Floor implements IFloorLanguage, IStationLanguage {
 

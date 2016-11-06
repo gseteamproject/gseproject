@@ -1,6 +1,6 @@
 package gseproject.active;
 
-import gseproject.*;
+import gseproject.grid.IGridSpace;
 import jade.core.AID;
 import java.util.*;
 

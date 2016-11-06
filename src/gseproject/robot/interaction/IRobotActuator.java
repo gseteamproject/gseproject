@@ -1,6 +1,6 @@
 package gseproject.robot.interaction;
 
-import gseproject.Block;
+import gseproject.grid.Block;
 import gseproject.grid.GridSpace;
 import gseproject.infrastructure.interaction.IActuator;
 

@@ -1,12 +1,13 @@
 package gseproject.robot.communicator;
 
-import gseproject.IGridSpace;
-import gseproject.State;
+import gseproject.grid.GridSpace;
+import gseproject.grid.IGridSpace;
+import gseproject.grid.State;
 import gseproject.active.IRobotToRobotComm;
 import gseproject.active.IRobotToStationComm;
-import gseproject.IAgentToGUIComm;
+import gseproject.grid.IAgentToGUIComm;
 import gseproject.active.Robot;
-import gseproject.robot.processing.IRobotProcessor;
+import gseproject.robot.processing.IProcessor;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
@@ -14,17 +15,21 @@ import jade.core.behaviours.Behaviour;
 import java.util.List;
 
 
-public class DummyCommunicator extends Agent implements ICommunicator, IAgentToGUIComm, IRobotToRobotComm, IRobotToStationComm {
+public class DummyCommunicator extends Agent implements ICommunicator{
 
     /* Processor */
-    private IRobotProcessor _processor;
+    private IProcessor _processor;
+    private Agent _robot;
 
-    public void connect(IRobotProcessor Processor){
+    public void DummyCommunicator(Agent robot){
+        _robot = robot;
+    }
+
+    public void initiate(IProcessor Processor){
         _processor = Processor;
     }
-    private Robot robot;
-    private List<Behaviour> behaviours;
-    private static final long serialVersionUID = 669015027861824282L;
+
+
 
     public Object receiveReply() {
         return null;
@@ -34,7 +39,8 @@ public class DummyCommunicator extends Agent implements ICommunicator, IAgentToG
 
     }
 
-    public void broadCastPosition(IGridSpace Position) {
+    public void broadcastPosition(GridSpace position) {
+
     }
 
     public void informAboutBestRobot(AID bestRobot, List<AID> allRobots) {
@@ -53,6 +59,4 @@ public class DummyCommunicator extends Agent implements ICommunicator, IAgentToG
     public void informGUIState(State State) {
 
     }
-
-
 }

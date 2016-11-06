@@ -1,7 +1,6 @@
-package gseproject;
+package gseproject.grid;
 
 import java.util.List;
-import gseproject.grid.*;
 
 public interface IGridSpace {
 	

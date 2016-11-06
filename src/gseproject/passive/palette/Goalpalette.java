@@ -1,6 +1,6 @@
 package gseproject.passive.palette;
 
-import gseproject.Block;
+import gseproject.grid.Block;
 
 public class Goalpalette extends Palette {
 	@Override

@@ -2,10 +2,6 @@ package gseproject.grid;
 
 import java.util.*;
 
-import gseproject.Direction;
-import gseproject.IGridSpace;
-import gseproject.SpaceType;
-
 public class GridSpace implements IGridSpace {
 	
 	private int xCoordinate;

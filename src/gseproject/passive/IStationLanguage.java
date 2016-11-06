@@ -1,6 +1,6 @@
 package gseproject.passive;
 
-import gseproject.*;
+import gseproject.grid.Block;
 
 public interface IStationLanguage {
 	

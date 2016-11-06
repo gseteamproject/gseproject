@@ -1,15 +1,15 @@
 package gseproject.robot.controller;
 
-import gseproject.Block;
+import gseproject.grid.Block;
 import gseproject.grid.GridSpace;
 import gseproject.robot.interaction.IRobotActuator;
 import gseproject.robot.interaction.VirtualActuator;
-import gseproject.robot.processing.IRobotProcessor;
+import gseproject.robot.processing.IProcessor;
 
 public class DummyController implements IController {
 
     /** Processor */
-    private IRobotProcessor _processor;
+    private IProcessor _processor;
     private GridSpace CurrentPosition;
 
     /** Actuators */
@@ -22,13 +22,6 @@ public class DummyController implements IController {
         _virtActuator = new VirtualActuator();
         _processor = null;
     }
-
-    /* Connect *this with Processor */
-    public void connect(IRobotProcessor Processor){
-        _processor = Processor;
-        return;
-    }
-
     /* Move Forward */
     public void move(GridSpace position) {
         _virtActuator.move(position);
