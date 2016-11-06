@@ -2,7 +2,7 @@ package gseproject.passive.palette;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
-import gseproject.grid.Block;
+import gseproject.core.Block;
 
 public class SourcepaletteTest {
 

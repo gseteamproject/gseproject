@@ -2,9 +2,9 @@ package gseproject.active;
 
 import java.util.List;
 
-import gseproject.grid.IAgentToGUIComm;
-import gseproject.grid.IGridSpace;
-import gseproject.grid.State;
+import gseproject.core.IAgentToGUIComm;
+import gseproject.core.grid.IGridSpace;
+import gseproject.core.State;
 import jade.core.AID;
 import jade.core.behaviours.Behaviour;
 import jade.core.*;

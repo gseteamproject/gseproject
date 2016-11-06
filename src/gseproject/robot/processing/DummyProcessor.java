@@ -1,8 +1,8 @@
 package gseproject.robot.processing;
 
-import gseproject.grid.SpaceType;
-import gseproject.grid.Grid;
-import gseproject.grid.GridSpace;
+import gseproject.core.grid.SpaceType;
+import gseproject.core.grid.Grid;
+import gseproject.core.grid.GridSpace;
 import gseproject.robot.communicator.ICommunicator;
 import gseproject.robot.controller.IController;
 import jade.core.AID;

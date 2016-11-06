@@ -1,7 +1,7 @@
 package gseproject.experiments.gui.testagents;
 
-import gseproject.grid.SpaceType;
-import gseproject.grid.GridSpace;
+import gseproject.core.grid.SpaceType;
+import gseproject.core.grid.GridSpace;
 import gseproject.infrastructure.serialization.SerializationController;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;

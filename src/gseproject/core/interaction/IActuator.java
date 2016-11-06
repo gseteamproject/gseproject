@@ -1,4 +1,4 @@
-package gseproject.infrastructure.interaction;
+package gseproject.core.interaction;
 
 public interface IActuator {
 	

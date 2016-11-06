@@ -1,7 +1,7 @@
 package gseproject.robot.processing;
 
-import gseproject.grid.SpaceType;
-import gseproject.grid.GridSpace;
+import gseproject.core.grid.SpaceType;
+import gseproject.core.grid.GridSpace;
 import jade.core.AID;
 
 public interface IProcessor {

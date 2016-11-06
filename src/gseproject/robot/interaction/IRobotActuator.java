@@ -1,8 +1,8 @@
 package gseproject.robot.interaction;
 
-import gseproject.grid.Block;
-import gseproject.grid.GridSpace;
-import gseproject.infrastructure.interaction.IActuator;
+import gseproject.core.Block;
+import gseproject.core.grid.GridSpace;
+import gseproject.core.interaction.IActuator;
 
 public interface IRobotActuator extends IActuator {
 

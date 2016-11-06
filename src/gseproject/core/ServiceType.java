@@ -1,4 +1,4 @@
-package gseproject.grid;
+package gseproject.core;
 
 public enum ServiceType {
 	

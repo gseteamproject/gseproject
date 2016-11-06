@@ -3,7 +3,7 @@ package gseproject.passive.palette;
 import java.util.ArrayList;
 import java.util.List;
 
-import gseproject.grid.Block;
+import gseproject.core.Block;
 import gseproject.passive.IStationLanguage;
 
 //info: abstract coz this a normal palette, no goal or sourcepalette

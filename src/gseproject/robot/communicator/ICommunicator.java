@@ -1,6 +1,6 @@
 package gseproject.robot.communicator;
 
-import gseproject.grid.GridSpace;
+import gseproject.core.grid.GridSpace;
 import gseproject.robot.processing.IProcessor;
 
 public interface ICommunicator {

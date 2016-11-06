@@ -1,16 +1,11 @@
 package gseproject.robot.communicator;
 
-import gseproject.grid.GridSpace;
-import gseproject.grid.IGridSpace;
-import gseproject.grid.State;
-import gseproject.active.IRobotToRobotComm;
-import gseproject.active.IRobotToStationComm;
-import gseproject.grid.IAgentToGUIComm;
-import gseproject.active.Robot;
+import gseproject.core.grid.GridSpace;
+import gseproject.core.grid.IGridSpace;
+import gseproject.core.State;
 import gseproject.robot.processing.IProcessor;
 import jade.core.AID;
 import jade.core.Agent;
-import jade.core.behaviours.Behaviour;
 
 import java.util.List;
 

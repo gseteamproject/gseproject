@@ -3,13 +3,11 @@ package gseproject.experiments.gui.testagents;
 import java.util.ArrayList;
 import java.util.List;
 
-import gseproject.grid.GridSpace;
+import gseproject.core.grid.GridSpace;
 import gseproject.infrastructure.serialization.SerializationController;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
-import jade.core.behaviours.OneShotBehaviour;
-import jade.core.behaviours.ParallelBehaviour;
 import jade.core.behaviours.TickerBehaviour;
 import jade.domain.DFService;
 import jade.domain.FIPAException;

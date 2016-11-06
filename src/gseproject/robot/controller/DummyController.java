@@ -1,7 +1,7 @@
 package gseproject.robot.controller;
 
-import gseproject.grid.Block;
-import gseproject.grid.GridSpace;
+import gseproject.core.Block;
+import gseproject.core.grid.GridSpace;
 import gseproject.robot.interaction.IRobotActuator;
 import gseproject.robot.interaction.VirtualActuator;
 import gseproject.robot.processing.IProcessor;

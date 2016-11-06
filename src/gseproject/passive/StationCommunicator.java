@@ -1,8 +1,8 @@
 package gseproject.passive;
 
-import gseproject.grid.Block;
-import gseproject.grid.Block.possibleBlockStatus;
-import gseproject.grid.ServiceType;
+import gseproject.core.Block;
+import gseproject.core.Block.possibleBlockStatus;
+import gseproject.core.ServiceType;
 import gseproject.infrastructure.serialization.SerializationController;
 import gseproject.passive.palette.Goalpalette;
 import gseproject.passive.palette.Sourcepalette;

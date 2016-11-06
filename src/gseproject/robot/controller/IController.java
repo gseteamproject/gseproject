@@ -1,8 +1,8 @@
 package gseproject.robot.controller;
 
 
-import gseproject.grid.Block;
-import gseproject.grid.GridSpace;
+import gseproject.core.Block;
+import gseproject.core.grid.GridSpace;
 
 public interface IController {
 
