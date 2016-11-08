@@ -1,11 +1,13 @@
 package gseproject.core;
 
-public class Block{
-	public enum possibleBlockStatus {
-		DIRTY,
-		CLEANED,
-		PAINTED
-	}
-	
-	public possibleBlockStatus Status = possibleBlockStatus.DIRTY;
+import java.io.Serializable;
+
+public class Block implements Serializable {
+    private static final long serialVersionUID = -1589700626683942575L;
+
+    public enum possibleBlockStatus {
+	DIRTY, CLEANED, PAINTED
+    }
+
+    public possibleBlockStatus Status = possibleBlockStatus.DIRTY;
 }
