@@ -3,8 +3,8 @@ package gseproject.active;
 import java.util.List;
 
 import gseproject.core.IAgentToGUIComm;
-import gseproject.core.grid.IGridSpace;
 import gseproject.core.State;
+import gseproject.core.grid.GridSpace;
 import jade.core.AID;
 import jade.core.behaviours.Behaviour;
 import jade.core.*;
@@ -28,7 +28,7 @@ public class RobotCommunicator extends Agent implements IAgentToGUIComm, IRobotT
 	}
 
 	@Override
-	public void broadCastPosition(IGridSpace Position) {
+	public void broadCastPosition(GridSpace Position) {
 		// TODO Auto-generated method stub
 
 	}
@@ -46,7 +46,7 @@ public class RobotCommunicator extends Agent implements IAgentToGUIComm, IRobotT
 	}
 
 	@Override
-	public IGridSpace receivePosition() {
+	public GridSpace receivePosition() {
 		// TODO Auto-generated method stub
 		return null;
 	}

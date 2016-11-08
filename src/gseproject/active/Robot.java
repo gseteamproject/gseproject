@@ -1,7 +1,7 @@
 package gseproject.active;
 
 import gseproject.core.Block;
-import gseproject.core.grid.IGridSpace;
+import gseproject.core.grid.GridSpace;
 
 public class Robot implements IRobotActions {
 
@@ -12,19 +12,19 @@ public class Robot implements IRobotActions {
 	}
 
 	@Override
-	public Block pick(IGridSpace position) {
+	public Block pick(GridSpace position) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void drop(IGridSpace dropPosition) {
+	public void drop(GridSpace dropPosition) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void doWork(IGridSpace workPosition) {
+	public void doWork(GridSpace workPosition) {
 		// TODO Auto-generated method stub
 
 	}

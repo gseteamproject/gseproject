@@ -1,45 +1,32 @@
 package gseproject.core.grid;
 
-import java.util.*;
+import java.io.Serializable;
 
-public class GridSpace implements IGridSpace {
-	
-	private int xCoordinate;
-	private int yCoordinate;
-	private SpaceType description;
-	private List<GridSpace> succesors;
-	
-	
-	public GridSpace(int x, int y, SpaceType description) {
-		this.xCoordinate = x;
-		this.yCoordinate = y;
-		this.description = description;
-		this.succesors =  new ArrayList<GridSpace> (2);
-	}
-	public void setSuccesor(GridSpace succesor) {
-		
-	}
-	@Override
-	public int getXCoordinate() {
-		return this.xCoordinate;
-	}
+import jade.core.AID;
 
-	@Override
-	public int getYCoordinate() {	
-		return this.yCoordinate;
+public class GridSpace implements Serializable {
+	private static final long serialVersionUID = -7955993637810412462L;
+	private final SpaceType spacetype;
+	private AID robot;
+	
+	public GridSpace(SpaceType spacetype, AID robot) {
+		this.spacetype = spacetype;
+		this.robot = robot;
 	}
-
-	@Override
+	
+	public GridSpace(SpaceType spacetype) {
+		this(spacetype, null);
+	}
+	
 	public SpaceType getSpaceType() {
-		return this.description;
+		return spacetype;
 	}
-
-	@Override
-	public List<GridSpace> getSuccesors() {
-		return this.succesors;
+	
+	public void occupy(AID robot) {
+		this.robot = robot;
 	}
-
-	public void setSpaceType() {
-		
+	
+	public boolean isOccupied() {
+		return robot == null;
 	}
 }

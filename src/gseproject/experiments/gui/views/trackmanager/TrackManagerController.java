@@ -1,11 +1,14 @@
 package gseproject.experiments.gui.views.trackmanager;
 
+import java.awt.Point;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import gseproject.experiments.gui.testagents.GUIAgent;
+import jade.core.AID;
 import jade.core.Agent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -78,6 +81,7 @@ public class TrackManagerController implements Initializable {
 		
 		robotImage.setOnDragDetected(event -> System.out.println(event));
 		boxImage.setOnDragDetected(event -> handleDragOnBlockDetected(event));
+		
 		//imageWrapper.setOnDragOver(event -> handleDragOver(event));
 		//imageWrapper.setOnDragDropped(event -> handleImageDrop(event));
 		
@@ -164,4 +168,15 @@ public class TrackManagerController implements Initializable {
 		System.out.println(Arrays.toString(sourcePallets));
 		event.consume();
 	}
+	
+	
+	
+	
+	
+	public void updateCell(Point p, AID robot) {
+		
+	}
+	
+	
+	
 }

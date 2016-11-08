@@ -1,8 +1,7 @@
 package gseproject.robot.communicator;
 
-import gseproject.core.grid.GridSpace;
-import gseproject.core.grid.IGridSpace;
 import gseproject.core.State;
+import gseproject.core.grid.GridSpace;
 import gseproject.robot.processing.IProcessor;
 import jade.core.AID;
 import jade.core.Agent;
@@ -46,7 +45,7 @@ public class DummyCommunicator extends Agent implements ICommunicator{
 
     }
 
-    public IGridSpace receivePosition() {
+    public GridSpace receivePosition() {
 
         return _processor.getCurrentPosition();
     }

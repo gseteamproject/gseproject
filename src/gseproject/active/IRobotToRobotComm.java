@@ -1,14 +1,15 @@
 package gseproject.active;
 
-import gseproject.core.grid.IGridSpace;
 import jade.core.AID;
 import java.util.*;
+
+import gseproject.core.grid.GridSpace;
 
 
 public interface IRobotToRobotComm {
 	
-	public void broadCastPosition(IGridSpace Position);
+	public void broadCastPosition(GridSpace Position);
 	public void informAboutBestRobot(AID bestRobot, List<AID> allRobots);
 	public void sendService();
-	public IGridSpace receivePosition();
+	public GridSpace receivePosition();
 }

@@ -1,11 +1,11 @@
 package gseproject.active;
 
 import gseproject.core.Block;
-import gseproject.core.grid.IGridSpace;
+import gseproject.core.grid.GridSpace;
 
 public interface IRobotActions {
 	public void move();
-	public Block pick(IGridSpace position);
-	public void drop(IGridSpace dropPosition);
-	public void doWork(IGridSpace workPosition);
+	public Block pick(GridSpace position);
+	public void drop(GridSpace dropPosition);
+	public void doWork(GridSpace workPosition);
 }
