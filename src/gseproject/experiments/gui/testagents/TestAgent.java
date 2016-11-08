@@ -7,10 +7,13 @@ import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
+import jade.domain.FIPANames;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
+import jade.proto.AchieveREResponder;
+import jade.proto.SubscriptionResponder;
 
 public class TestAgent extends Agent {
 
@@ -18,6 +21,10 @@ public class TestAgent extends Agent {
      * 
      */
     private static final long serialVersionUID = 1L;
+
+    private static MessageTemplate getGUIMessageTemplate() {
+	return AchieveREResponder.createMessageTemplate(FIPANames.InteractionProtocol.FIPA_REQUEST);
+    }
 
     private void registerService() {
 	DFAgentDescription dfd = new DFAgentDescription();
@@ -35,36 +42,22 @@ public class TestAgent extends Agent {
     protected void setup() {
 	System.out.println("TestAgent started");
 	registerService();
-	addBehaviour(new InformGUIBehaviour());
-	System.out.println("Behaviour added.");
+	this.addBehaviour(new AchieveREResponder(this, getGUIMessageTemplate()) {
+	    /**
+	     * 
+	     */
+	    private static final long serialVersionUID = 3644918222515037051L;
+
+	    protected ACLMessage prepareResultNotification(ACLMessage request, ACLMessage response) {
+		ACLMessage informDone = request.createReply();
+		informDone.setPerformative(ACLMessage.INFORM);
+		return informDone;
+	    }
+	});
     }
 
     protected void takeDown() {
 	System.out.println("TestAgent down!");
-    }
-
-    private class InformGUIBehaviour extends CyclicBehaviour {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	SerializationController sc = SerializationController.Instance;
-
-	@Override
-	public void action() {
-	    MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.REQUEST);
-	    mt = MessageTemplate.and(mt, MessageTemplate.MatchContent("gui"));
-	    ACLMessage requestFromGUI = blockingReceive(mt);
-	    ACLMessage reply = requestFromGUI.createReply();
-	    reply.setPerformative(ACLMessage.INFORM);
-	    reply.setContent(serializedGridSpace());
-	    send(reply);
-	}
-
-	private String serializedGridSpace() {
-	    return sc.Serialize(new GridSpace(3, 3, SpaceType.NO_TRACK));
-	}
-
     }
 
 }
