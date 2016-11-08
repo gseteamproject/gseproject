@@ -4,6 +4,7 @@ import gseproject.core.Block;
 import gseproject.core.Block.possibleBlockStatus;
 import gseproject.core.ServiceType;
 import gseproject.infrastructure.serialization.SerializationController;
+import gseproject.passive.floor.Floor;
 import gseproject.passive.palette.Goalpalette;
 import gseproject.passive.palette.Sourcepalette;
 import jade.core.Agent;

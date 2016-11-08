@@ -1,5 +1,6 @@
 package gseproject.passive;
 
+import gseproject.passive.floor.Floor;
 import jade.core.Agent;
 
 public class FloorCommunicator extends Agent implements IStationComm{
