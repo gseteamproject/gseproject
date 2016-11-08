@@ -10,4 +10,10 @@ public class Block implements Serializable {
     }
 
     public possibleBlockStatus Status = possibleBlockStatus.DIRTY;
+
+    @Override
+    public String toString() {
+	return "Block [Status=" + Status + "]";
+    }
+    
 }

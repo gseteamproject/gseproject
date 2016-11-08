@@ -1,6 +1,12 @@
 package gseproject.passive.floor;
 
 import java.awt.Point;
+import java.io.IOException;
+
+import gseproject.core.ServiceType;
+import jade.core.AID;
+import jade.core.behaviours.CyclicBehaviour;
+import jade.lang.acl.ACLMessage;
 
 public class CleaningFloorAgent extends FloorAgent {
 
@@ -20,5 +26,6 @@ public class CleaningFloorAgent extends FloorAgent {
     protected void takeDown() {
 	
     }
+   
 
 }

@@ -26,6 +26,7 @@ public class FloorBehaviour extends CyclicBehaviour {
 
     @Override
     public void action() {
+	System.out.println("current floorstate: " + this.floor.toString());
 	ACLMessage messageFromRobot = myAgent.blockingReceive(requestAndInform());
 	handleMessageFromRobot(messageFromRobot);
     }
@@ -43,6 +44,7 @@ public class FloorBehaviour extends CyclicBehaviour {
 	ServiceType serviceType = null;
 	try {
 	    serviceType = (ServiceType) request.getContentObject();
+	    System.out.println("Robot asked: " + serviceType.name());
 	} catch (UnreadableException e) {
 	    e.printStackTrace();
 	}
@@ -80,12 +82,14 @@ public class FloorBehaviour extends CyclicBehaviour {
 	if (block == null) {
 	    sendBlockToRobot(inform);
 	} else {
+	    System.out.println("Robot has sent me: " + block.Status);
 	    try {
 		floor.giveBlock(block);
 	    } catch (FloorException e) {
 		// TODO: send fail message
 		e.printStackTrace();
 	    }
+	    System.out.println("New Floorstate: " + this.floor.toString());
 	}
 
     }
