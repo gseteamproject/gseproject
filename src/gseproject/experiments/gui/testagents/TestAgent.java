@@ -1,10 +1,9 @@
 package gseproject.experiments.gui.testagents;
 
-import gseproject.core.grid.SpaceType;
-import gseproject.core.grid.GridSpace;
-import gseproject.infrastructure.serialization.SerializationController;
+import java.awt.Point;
+import java.io.IOException;
+
 import jade.core.Agent;
-import jade.core.behaviours.CyclicBehaviour;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
 import jade.domain.FIPANames;
@@ -13,7 +12,6 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.proto.AchieveREResponder;
-import jade.proto.SubscriptionResponder;
 
 public class TestAgent extends Agent {
 
@@ -49,9 +47,13 @@ public class TestAgent extends Agent {
 	    private static final long serialVersionUID = 3644918222515037051L;
 
 	    protected ACLMessage prepareResultNotification(ACLMessage request, ACLMessage response) {
-		//TODO: send state
 		ACLMessage informDone = request.createReply();
 		informDone.setPerformative(ACLMessage.INFORM);
+		try {
+		    informDone.setContentObject(new Point(3,3));
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
 		return informDone;
 	    }
 	});
