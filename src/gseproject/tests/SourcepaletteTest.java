@@ -1,8 +1,9 @@
-package gseproject.passive.palette;
+package gseproject.tests;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
 import gseproject.core.Block;
+import gseproject.passive.palette.Sourcepalette;
 
 public class SourcepaletteTest {
 

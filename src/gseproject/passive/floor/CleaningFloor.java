@@ -6,8 +6,8 @@ public class CleaningFloor extends Floor {
 
     @Override
     public void giveBlock(Block block) throws FloorException {
-	if (!this.block.Status.equals(Block.possibleBlockStatus.DIRTY)) {
-	    throw new FloorException("Block is not dirty");
+	if (this.hasFinishedBlock) {
+	    throw new FloorException("Cannot take another block. Finished block needs to be picked.");
 	}
 	if (this.block != null || this.hasBlock) {
 	    throw new FloorException("Already have a block");
@@ -45,5 +45,13 @@ public class CleaningFloor extends Floor {
 	this.hasFinishedBlock = true;
 	this.hasBlock = false;
     }
+
+    @Override
+    public String toString() {
+	return "CleaningFloor [hasBlock=" + hasBlock + ", isOccupied=" + isOccupied + ", hasFinishedBlock="
+		+ hasFinishedBlock + ", block=" + block + "]";
+    }
+    
+    
 
 }

@@ -1,10 +1,11 @@
-package gseproject.passive;
+package gseproject.tests;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
 import gseproject.core.ServiceType;
+import gseproject.passive.StationCommunicator;
 import gseproject.passive.palette.Sourcepalette;
 import jade.lang.acl.ACLMessage;
 

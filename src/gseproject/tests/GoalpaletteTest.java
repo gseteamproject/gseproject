@@ -1,4 +1,4 @@
-package gseproject.passive.palette;
+package gseproject.tests;
 
 import static org.junit.Assert.*;
 
@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import gseproject.core.Block;
 import gseproject.core.Block.possibleBlockStatus;
+import gseproject.passive.palette.Goalpalette;
 
 public class GoalpaletteTest {
 

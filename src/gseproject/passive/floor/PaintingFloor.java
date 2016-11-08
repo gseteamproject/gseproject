@@ -6,11 +6,11 @@ public class PaintingFloor extends Floor {
 
     @Override
     public void giveBlock(Block block) throws FloorException {
-	if (this.block != null || !this.hasBlock) {
+	if (this.block != null || this.hasBlock) {
 	    throw new FloorException("Already have a block");
 	}
-	if (block.Status.equals(Block.possibleBlockStatus.CLEANED)) {
-	    throw new FloorException("Block you want to give is not cleaned.");
+	if(this.hasFinishedBlock){
+	    throw new FloorException("Cannot take another block.");
 	}
 	this.block = block;
 	this.hasBlock = true;
@@ -45,6 +45,12 @@ public class PaintingFloor extends Floor {
 	this.block.Status = Block.possibleBlockStatus.PAINTED;
 	this.hasFinishedBlock = true;
 	this.hasBlock = false;
+    }
+
+    @Override
+    public String toString() {
+	return "PaintingFloor [hasBlock=" + hasBlock + ", isOccupied=" + isOccupied + ", hasFinishedBlock="
+		+ hasFinishedBlock + ", block=" + block + "]";
     }
 
 }
