@@ -39,7 +39,7 @@ public class PaintingFloor extends Floor {
 	if (!this.block.Status.equals(Block.possibleBlockStatus.CLEANED)) {
 	    throw new FloorException("Block is not cleaned. So it cannot be painted.");
 	}
-	if (!this.hasBlock || this.block != null) {
+	if (!this.hasBlock || this.block == null) {
 	    throw new FloorException("there is no block that can be cleaned");
 	}
 	this.block.Status = Block.possibleBlockStatus.PAINTED;

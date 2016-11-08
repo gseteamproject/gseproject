@@ -10,9 +10,9 @@ import gseproject.passive.floor.FloorException;
 
 public abstract class FloorTest {
     protected Floor f;
-    
+
     @Test
-    public void iOccupyTest(){
+    public void iOccupyTest() {
 	try {
 	    f.iOccupy();
 	} catch (FloorException e) {
@@ -20,32 +20,15 @@ public abstract class FloorTest {
 	}
 	assertTrue(f.isOccupied());
     }
-    
+
     @Test
-    public void iLeaveTest(){
+    public void iLeaveTest() {
 	try {
 	    f.iOccupy();
 	    f.iLeave();
 	} catch (FloorException e) {
 	    e.printStackTrace();
 	}
-	assertTrue(!f.isOccupied());
-    }
-
-    @Test
-    public void giveBlockTest(){
-	Block b = new Block();
-	b.Status = Block.possibleBlockStatus.DIRTY;
-	try {
-	    f.giveBlock(b);
-	} catch (FloorException e) {
-	    e.printStackTrace();
-	}
-	assertTrue(f.hasBlock());
-    }
-    
-    @Test
-    public void takeBlockTest(){
-	
+	assertFalse(f.isOccupied());
     }
 }

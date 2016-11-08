@@ -38,7 +38,7 @@ public class CleaningFloor extends Floor {
 	if (!this.block.Status.equals(Block.possibleBlockStatus.DIRTY)) {
 	    throw new FloorException("Block is not dirty. So it cannot be cleaned.");
 	}
-	if (this.block != null) {
+	if (this.block == null) {
 	    throw new FloorException("there is no block that can be cleaned");
 	}
 	this.block.Status = Block.possibleBlockStatus.CLEANED;
