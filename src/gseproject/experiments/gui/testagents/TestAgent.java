@@ -49,6 +49,7 @@ public class TestAgent extends Agent {
 	    private static final long serialVersionUID = 3644918222515037051L;
 
 	    protected ACLMessage prepareResultNotification(ACLMessage request, ACLMessage response) {
+		//TODO: send state
 		ACLMessage informDone = request.createReply();
 		informDone.setPerformative(ACLMessage.INFORM);
 		return informDone;
