@@ -10,6 +10,21 @@ import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
 
+
+/**
+ * @author Tobias
+ * The floor can receive REQUESTS and INFORM.
+ * REQUESTS means that a robot is asking a floor to perform an action (GIVE_BLOCK, TAKE_BLOCK).
+ * One a request came in, the floor checks whether the REQUEST is need or not.
+ * 
+ * If a REQUEST is needed, the floor sends an INFORM to the robot. The robot then knows, that he can start his action.
+ * Lastly, the robot INFORM the floor that he has finished performing his action. 
+ * The floor can then update the state by calling the specific method e.g. floor.takeblock().
+ * 
+ * If a REQUEST is not needed, the floor sends REFUSE to the robot. The robot then knows, that he cannot start his action.
+ * 
+ * If something fails, the floor sends a FAILURE to the robot. The robot then knows, that he cannot start his action. 
+ */
 public class FloorBehaviour extends CyclicBehaviour {
     private static final long serialVersionUID = -2955978898186249576L;
     private Floor floor;
