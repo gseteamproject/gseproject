@@ -6,11 +6,14 @@ public class CleaningFloor extends Floor {
 
     @Override
     public void giveBlock(Block block) throws FloorException {
-	if (this.hasFinishedBlock) {
-	    throw new FloorException("Cannot take another block. Finished block needs to be picked.");
-	}
 	if (this.block != null || this.hasBlock) {
 	    throw new FloorException("Already have a block");
+	}
+	if (!block.Status.equals(Block.possibleBlockStatus.CLEANED)) {
+	    throw new FloorException("Cleaning floor can only take dirty blocks. Your block is: " + block.toString());
+	}
+	if (this.hasFinishedBlock) {
+	    throw new FloorException("Need to get rid of finished block before you can give me another.");
 	}
 	this.block = block;
 	this.hasBlock = true;
@@ -19,11 +22,8 @@ public class CleaningFloor extends Floor {
 
     @Override
     public Block takeBlock() throws FloorException {
-	if (!this.block.Status.equals(Block.possibleBlockStatus.CLEANED)) {
-	    throw new FloorException("block is not cleaned.");
-	}
-	if (!this.hasFinishedBlock) {
-	    throw new FloorException("Do not have a finished block");
+	if (!this.block.Status.equals(Block.possibleBlockStatus.CLEANED) || !this.hasFinishedBlock) {
+	    throw new FloorException("Occupier needs to finish block first.");
 	}
 	Block toReturn = new Block();
 	toReturn.Status = this.block.Status;
@@ -38,8 +38,8 @@ public class CleaningFloor extends Floor {
 	if (!this.block.Status.equals(Block.possibleBlockStatus.DIRTY)) {
 	    throw new FloorException("Block is not dirty. So it cannot be cleaned.");
 	}
-	if (this.block == null) {
-	    throw new FloorException("there is no block that can be cleaned");
+	if (this.block == null || !this.hasBlock) {
+	    throw new FloorException("there is no block that can be cleaned.");
 	}
 	this.block.Status = Block.possibleBlockStatus.CLEANED;
 	this.hasFinishedBlock = true;
@@ -48,10 +48,7 @@ public class CleaningFloor extends Floor {
 
     @Override
     public String toString() {
-	return "CleaningFloor [hasBlock=" + hasBlock + ", isOccupied=" + isOccupied + ", hasFinishedBlock="
+	return "CleaningFloor [hasBlock=" + hasBlock + ", isOccupied=" + occupied + ", hasFinishedBlock="
 		+ hasFinishedBlock + ", block=" + block + "]";
     }
-    
-    
-
 }
