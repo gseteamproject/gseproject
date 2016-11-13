@@ -1,4 +1,4 @@
-package gseproject.infrastructure;
+package gseproject.core;
 
 public interface ICallback {
 
