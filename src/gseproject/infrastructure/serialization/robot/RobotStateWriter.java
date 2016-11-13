@@ -8,7 +8,6 @@ import java.io.IOException;
 
 public class RobotStateWriter implements IWriter<RobotStateContract>{
 
-    @Override
     public void write(RobotStateContract data, DataOutputStream stream) throws IOException {
         stream.writeBoolean(data.isCarryingBlock);
         stream.writeInt(data.position.x);
