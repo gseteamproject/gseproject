@@ -1,8 +1,10 @@
 package gseproject.infrastructure.contracts;
 
+import java.awt.*;
+
 public class RobotStateContract implements IContract{
 
     public boolean isCarryingBlock;
-    public float position;
+    public Point position;
 
 }

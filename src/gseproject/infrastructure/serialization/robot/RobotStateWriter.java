@@ -11,6 +11,7 @@ public class RobotStateWriter implements IWriter<RobotStateContract>{
     @Override
     public void write(RobotStateContract data, DataOutputStream stream) throws IOException {
         stream.writeBoolean(data.isCarryingBlock);
-        stream.writeFloat(data.position);
+        stream.writeInt(data.position.x);
+        stream.writeInt(data.position.y);
     }
 }

@@ -1,15 +1,17 @@
 package gseproject.robot.domain;
 import gseproject.core.interaction.IState;
 
-public class RobotStateDto implements IState {
+import java.awt.*;
+
+public class RobotState implements IState {
 
     public boolean isCarryingBlock;
-    public float position;
+    public Point position;
 
     @Override
     public Object Clone() {
 
-        RobotStateDto state = new RobotStateDto();
+        RobotState state = new RobotState();
 
         state.isCarryingBlock = isCarryingBlock;
         state.position = position;
