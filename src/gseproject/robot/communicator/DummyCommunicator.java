@@ -1,66 +1,47 @@
 package gseproject.robot.communicator;
 
-import gseproject.core.grid.GridSpace;
 import gseproject.infrastructure.contracts.RobotStateContract;
 import gseproject.infrastructure.serialization.SerializationController;
 import gseproject.infrastructure.serialization.robot.RobotStateReader;
 import gseproject.infrastructure.serialization.robot.RobotStateWriter;
 import gseproject.robot.RobotAgent;
 import gseproject.robot.domain.RobotState;
-import gseproject.robot.processing.IProcessor;
 import jade.core.AID;
+import jade.domain.FIPANames;
 import jade.lang.acl.ACLMessage;
-
-import java.util.List;
 
 public class DummyCommunicator implements ICommunicator {
 
     private RobotAgent _robot;
-    private RobotStateSubscriptionResponder _stateSubscriptionResponder;
+
+    private SerializationController _serializationController;
 
     public DummyCommunicator(RobotAgent robot) {
-	_robot = robot;
+        _robot = robot;
 
-	_stateSubscriptionResponder = new RobotStateSubscriptionResponder(robot);
-	robot.addBehaviour(_stateSubscriptionResponder);
+        _serializationController = SerializationController.Instance;
 
-	initiateSerialization();
+        initiateSerialization();
     }
 
     private void initiateSerialization() {
-	RobotStateWriter writer = new RobotStateWriter();
-	RobotStateReader reader = new RobotStateReader();
+        RobotStateWriter writer = new RobotStateWriter();
+        RobotStateReader reader = new RobotStateReader();
 
-	SerializationController.Instance.RegisterSerializator(RobotStateContract.class, writer, reader);
+        _serializationController.RegisterSerializator(RobotStateContract.class, writer, reader);
     }
 
-    public void notifyState(RobotState state) {
-	RobotStateContract stateContract = new RobotStateContract();
-	stateContract.isCarryingBlock = state.isCarryingBlock;
-	stateContract.position = state.position;
 
-	ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
-	msg.setContent(SerializationController.Instance.Serialize(stateContract));
-	_stateSubscriptionResponder.notify(msg);
-    }
+    public void notifyGridAgent(RobotState state) {
+        AID receiverAgent = new AID("GridAgent", AID.ISLOCALNAME);
+        String content = _serializationController.Serialize(state);
 
-    public Object receiveReply() {
-	return null;
-    }
+        ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
+        msg.setProtocol(FIPANames.InteractionProtocol.FIPA_REQUEST);
+        msg.addReceiver(receiverAgent);
+        msg.setContent(content);
+        RobotStateInitiator robotStateInitiator = new RobotStateInitiator(_robot, msg);
 
-    public void broadcastPosition(GridSpace position) {
-
-    }
-
-    public void informAboutBestRobot(AID bestRobot, List<AID> allRobots) {
-
-    }
-
-    public void sendService() {
-
-    }
-
-    public void informGUIState(RobotState State) {
-
+        _robot.addBehaviour(robotStateInitiator);
     }
 }
