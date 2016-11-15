@@ -1,8 +1,8 @@
 package gseproject.core;
 
-import gseproject.core.State;
+import gseproject.robot.domain.RobotState;
 
 public interface IAgentToGUIComm {
-	public void informGUIState(State State);
+	public void informGUIState(RobotState State);
 	
 }

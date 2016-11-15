@@ -1,48 +1,45 @@
 package gseproject.serialization.robot.test;
 
+import static org.junit.Assert.*;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import gseproject.core.Direction;
+import gseproject.core.grid.Position;
+import gseproject.infrastructure.contracts.RobotStateContract;
 import gseproject.infrastructure.serialization.SerializationController;
+import gseproject.infrastructure.serialization.robot.RobotStateReader;
+import gseproject.infrastructure.serialization.robot.RobotStateWriter;
 
 public class SerializationControllerTest {
 
-	SerializationController sc;
-	RobotStateWriter writer = new RobotStateWriter();
-	RobotStateReader reader = new RobotStateReader();
-	
+    SerializationController sc;
+    RobotStateWriter writer = new RobotStateWriter();
+    RobotStateReader reader = new RobotStateReader();
 
-	@Before
-	public void setUp() {
-		sc = SerializationController.Instance;
-		sc.RegisterSerializator(RobotStateContract.class, writer, reader);
-	}
+    @Before
+    public void setUp() {
+	sc = SerializationController.Instance;
+	sc.RegisterSerializator(RobotStateContract.class, writer, reader);
+    }
 
-	@Test
-	public void serializeDeserialize() {
-		RobotStateContract rtcA = new RobotStateContract();
-		rtcA.isCarryingBlock = true;
-		rtcA.position = 65f;
-		rtcA.by = 127;
-		rtcA.sh = 1000;
-		rtcA.intt = 13999;
-		rtcA.lng = 1;
-		rtcA.dbl = 10.001;
-		rtcA.ch = 'G';
-		rtcA.str1 = "Hello";
-		String str = sc.Serialize(rtcA);			
+    @Test
+    public void serializeDeserialize() {
+	RobotStateContract rtcA = new RobotStateContract();
+	rtcA.isCarryingBlock = true;
+	rtcA.direction = Direction.EAST;
+	rtcA.position = new Position(1, 5);
+	rtcA.goal = new Position(5, 5);
 
-		RobotStateContract rtcB = sc.Deserialize(RobotStateContract.class, str);
+	String str = sc.Serialize(rtcA);
 
-		Assert.assertEquals(rtcA.isCarryingBlock, rtcB.isCarryingBlock);
-		Assert.assertEquals(rtcA.position, rtcB.position, 0.05);
-		Assert.assertEquals(rtcA.by, rtcB.by);
-		Assert.assertEquals(rtcA.sh, rtcB.sh);
-		Assert.assertEquals(rtcA.intt, rtcB.intt);
-		Assert.assertEquals(rtcA.lng, rtcB.lng);
-		Assert.assertEquals(rtcA.dbl, rtcB.dbl, 0.05);
-		Assert.assertEquals(rtcA.ch, rtcB.ch);
-		Assert.assertEquals(rtcA.str1, rtcB.str1);
-	}
+	RobotStateContract rtcB = sc.Deserialize(RobotStateContract.class, str);
+
+	assertEquals(rtcA.isCarryingBlock, rtcB.isCarryingBlock);
+	assertEquals(rtcA.direction, rtcB.direction);
+	assertEquals(rtcA.position, rtcB.position);
+	assertEquals(rtcA.goal, rtcB.goal);
+    }
 }

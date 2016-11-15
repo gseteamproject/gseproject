@@ -1,6 +1,5 @@
 package gseproject.robot.communicator;
 
-import gseproject.core.State;
 import gseproject.core.grid.GridSpace;
 import gseproject.infrastructure.contracts.RobotStateContract;
 import gseproject.infrastructure.serialization.SerializationController;
@@ -14,40 +13,39 @@ import jade.lang.acl.ACLMessage;
 
 import java.util.List;
 
-
-public class DummyCommunicator implements ICommunicator{
+public class DummyCommunicator implements ICommunicator {
 
     private RobotAgent _robot;
     private RobotStateSubscriptionResponder _stateSubscriptionResponder;
 
-    public DummyCommunicator(RobotAgent robot){
-        _robot = robot;
+    public DummyCommunicator(RobotAgent robot) {
+	_robot = robot;
 
-        _stateSubscriptionResponder = new RobotStateSubscriptionResponder(robot);
-        robot.addBehaviour(_stateSubscriptionResponder);
+	_stateSubscriptionResponder = new RobotStateSubscriptionResponder(robot);
+	robot.addBehaviour(_stateSubscriptionResponder);
 
-        initiateSerialization();
+	initiateSerialization();
     }
 
-    private void initiateSerialization(){
-        RobotStateWriter writer = new RobotStateWriter();
-        RobotStateReader reader = new RobotStateReader();
+    private void initiateSerialization() {
+	RobotStateWriter writer = new RobotStateWriter();
+	RobotStateReader reader = new RobotStateReader();
 
-        SerializationController.Instance.RegisterSerializator(RobotStateContract.class, writer, reader);
+	SerializationController.Instance.RegisterSerializator(RobotStateContract.class, writer, reader);
     }
 
-    public void notifyState(RobotState state){
-        RobotStateContract stateContract = new RobotStateContract();
-        stateContract.isCarryingBlock = state.isCarryingBlock;
-        stateContract.position = state.position;
+    public void notifyState(RobotState state) {
+	RobotStateContract stateContract = new RobotStateContract();
+	stateContract.isCarryingBlock = state.isCarryingBlock;
+	stateContract.position = state.position;
 
-        ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
-        msg.setContent(SerializationController.Instance.Serialize(stateContract));
-        _stateSubscriptionResponder.notify(msg);
+	ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
+	msg.setContent(SerializationController.Instance.Serialize(stateContract));
+	_stateSubscriptionResponder.notify(msg);
     }
 
     public Object receiveReply() {
-        return null;
+	return null;
     }
 
     public void broadcastPosition(GridSpace position) {
@@ -62,7 +60,7 @@ public class DummyCommunicator implements ICommunicator{
 
     }
 
-    public void informGUIState(State State) {
+    public void informGUIState(RobotState State) {
 
     }
 }

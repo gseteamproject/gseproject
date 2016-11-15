@@ -1,6 +1,11 @@
 package gseproject.serialization.robot.test;
 
+import gseproject.core.Direction;
+import gseproject.core.grid.Position;
+import gseproject.infrastructure.contracts.RobotStateContract;
 import gseproject.infrastructure.serialization.SerializationController;
+import gseproject.infrastructure.serialization.robot.RobotStateReader;
+import gseproject.infrastructure.serialization.robot.RobotStateWriter;
 import gseproject.robot.interaction.IRobotActuator;
 import jade.core.Agent;
 
@@ -18,27 +23,18 @@ public class RobotAgent extends Agent {
     private void robotStateContract_Serialization_Test() {
 	RobotStateContract rtcA = new RobotStateContract();
 	rtcA.isCarryingBlock = true;
-	rtcA.position = 65f;
-	rtcA.by = 127;
-	rtcA.sh = 1000;
-	rtcA.intt = 13999;
-	rtcA.lng = 789456;
-	rtcA.dbl = 10.001;
-	rtcA.ch = 'G';
-	rtcA.str1 = "Hello";
+	rtcA.direction = Direction.EAST;
+	rtcA.position = new Position(1, 5);
+	rtcA.goal = new Position(5, 5);
 	String str = serializationController.Serialize(rtcA);
 	RobotStateContract rtcB = serializationController.Deserialize(RobotStateContract.class, str);
 	System.out.println("_____________________________");
 	System.out.println(rtcB.isCarryingBlock);
 	System.out.println(rtcB.position);
-	System.out.println(rtcB.by);
-	System.out.println(rtcB.sh);
-	System.out.println(rtcB.intt);
-	System.out.println(rtcB.lng);
-	System.out.println(rtcB.dbl);
-	System.out.println(rtcB.ch);
-	System.out.println(rtcB.str1);
+	System.out.println(rtcB.goal);
+	System.out.println(rtcB.direction);
     }
+	
 
     private void SerializatorsInitialization() {
 

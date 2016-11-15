@@ -61,6 +61,7 @@ public class SerializationController {
         //todo: throw exception if null
         CustomSerializers serializers = serializationDictionary.get(serializableClass);
         if (serializers == null){
+            System.out.println("the class you want to serialize is not in dictionary");
             return null;
         }
         IWriter<T> writer = serializers.writer;
