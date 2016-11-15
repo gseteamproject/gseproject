@@ -1,4 +1,5 @@
 package gseproject.robot.domain;
+import gseproject.core.grid.Position;
 import gseproject.core.interaction.IState;
 
 import java.awt.*;
@@ -6,7 +7,7 @@ import java.awt.*;
 public class RobotState implements IState {
 
     public boolean isCarryingBlock;
-    public Point position;
+    public Position position;
 
     @Override
     public Object Clone() {

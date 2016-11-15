@@ -13,6 +13,7 @@ public enum ServiceType {
 	GIVE_BLOCK_DIRTY,
 	GIVE_BLOCK_CLEANED,
 	GIVE_BLOCK_PAINTED,
+	GIVE_BLOCK,
 	//info: if something can't be done
 	NOPE
 }

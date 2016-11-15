@@ -64,7 +64,7 @@ public class FloorBehaviour extends CyclicBehaviour {
 	    e.printStackTrace();
 	}
 	switch (serviceType) {
-	case GIVE_BLOCK_DIRTY: {
+	case GIVE_BLOCK: {
 	    if (!floor.hasBlock) {
 		reply.setPerformative(ACLMessage.AGREE);
 	    } else {
@@ -74,13 +74,20 @@ public class FloorBehaviour extends CyclicBehaviour {
 	    break;
 	}
 	case TAKE_BLOCK: {
-	    if (!floor.hasFinishedBlock) {
+	    if (floor.hasFinishedBlock) {
 		reply.setPerformative(ACLMessage.AGREE);
 	    } else {
 		reply.setPerformative(ACLMessage.REFUSE);
 	    }
 	    myAgent.send(reply);
 	    break;
+	}
+	case FINISH_BLOCK: {
+	    if(floor.hasBlock){
+		reply.setPerformative(ACLMessage.AGREE);
+	    } else {
+		reply.setPerformative(ACLMessage.REFUSE);
+	    }
 	}
 	default:
 	    break;
