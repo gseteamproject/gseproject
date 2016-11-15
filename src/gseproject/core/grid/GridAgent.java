@@ -1,8 +1,7 @@
-package gseproject.gridagent;
+package gseproject.core.grid;
 
-import gseproject.core.grid.Grid;
-import gseproject.core.grid.Grid.GridBuilder;
-import gseproject.core.grid.SpaceType;
+import gseproject.core.grid.communicator.GridCommunicator;
+import gseproject.core.grid.communicator.IGridCommunicator;
 import jade.core.Agent;
 import jade.domain.FIPANames;
 import jade.lang.acl.MessageTemplate;
@@ -11,6 +10,7 @@ import jade.proto.AchieveREResponder;
 public class GridAgent extends Agent {
     private static final long serialVersionUID = -9064311405865477921L;
     private Grid grid;
+    private IGridCommunicator gridCommunicator;
 
     private static MessageTemplate getMessageTemplate() {
 	return AchieveREResponder.createMessageTemplate(FIPANames.InteractionProtocol.FIPA_REQUEST);
@@ -30,7 +30,8 @@ public class GridAgent extends Agent {
 	 * SpaceType.TRACK) .setSpaceType(0, 2, SpaceType.TRACK).setSpaceType(0,
 	 * 1, SpaceType.TRACK).build();
 	 */
-	addBehaviour(new RobotStateResponder(this, getMessageTemplate(), grid));
+	gridCommunicator = new GridCommunicator(this);
+	addBehaviour(new RobotStateResponder(this, getMessageTemplate(), gridCommunicator));
 
     }
 

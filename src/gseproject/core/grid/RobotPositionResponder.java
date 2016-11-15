@@ -1,9 +1,6 @@
-package gseproject.gridagent;
+package gseproject.core.grid;
 
 import gseproject.core.Direction;
-import gseproject.core.grid.Grid;
-import gseproject.core.grid.Position;
-import gseproject.core.grid.SpaceType;
 import gseproject.infrastructure.contracts.RobotStateContract;
 import gseproject.infrastructure.serialization.SerializationController;
 import gseproject.robot.domain.RobotState;
