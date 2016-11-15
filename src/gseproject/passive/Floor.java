@@ -52,5 +52,4 @@ public class Floor implements IFloorLanguage, IStationLanguage {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 }
