@@ -34,6 +34,7 @@ public class RobotStateResponder extends SimpleAchieveREResponder {
 	sendNewGridToGUI();
 	System.out.println(request.getSender() + ":" + state.toString());
 	ACLMessage agree = request.createReply();
+	agree.setPerformative(ACLMessage.AGREE);
 	return agree;
     }
 
