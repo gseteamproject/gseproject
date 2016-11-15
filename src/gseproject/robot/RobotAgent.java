@@ -1,5 +1,6 @@
 package gseproject.robot;
 
+import gseproject.core.grid.Position;
 import gseproject.core.interaction.IActuator;
 import gseproject.robot.communicator.DummyCommunicator;
 import gseproject.robot.communicator.ICommunicator;
@@ -24,6 +25,10 @@ public class RobotAgent extends Agent {
     public RobotAgent(){
         _communicator = new DummyCommunicator(this);
         _controller = new DummyController();
+
+        _state = new RobotState();
+        _state.isCarryingBlock = true;
+        _state.position = new Position(5, 1);
     }
 
     public void setup(){
@@ -31,11 +36,10 @@ public class RobotAgent extends Agent {
         transportSkill.registerService(this);
         _skills.add(transportSkill);
 
-        //temporary for simulating state changing
-        addBehaviour(new TickerBehaviour(this, 2000) {
+        addBehaviour(new TickerBehaviour(this, 1000) {
             @Override
             protected void onTick() {
-                _communicator.notifyState(_state);
+                _communicator.notifyGridAgent(_state);
             }
         });
     }

@@ -34,7 +34,8 @@ public class DummyCommunicator implements ICommunicator {
 
     public void notifyGridAgent(RobotState state) {
         AID receiverAgent = new AID("GridAgent", AID.ISLOCALNAME);
-        String content = _serializationController.Serialize(state);
+        RobotStateContract contract = _robotStateConverter(state);
+        String content = _serializationController.Serialize(contract);
 
         ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
         msg.setProtocol(FIPANames.InteractionProtocol.FIPA_REQUEST);
@@ -43,5 +44,14 @@ public class DummyCommunicator implements ICommunicator {
         RobotStateInitiator robotStateInitiator = new RobotStateInitiator(_robot, msg);
 
         _robot.addBehaviour(robotStateInitiator);
+    }
+
+    private RobotStateContract _robotStateConverter(RobotState state){
+        RobotStateContract contract = new RobotStateContract();
+        contract.isCarryingBlock = state.isCarryingBlock;
+        contract.position = state.position;
+        contract.goal = state.goal;
+        contract.direction = state.direction;
+        return contract;
     }
 }
