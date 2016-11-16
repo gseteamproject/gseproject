@@ -1,8 +1,12 @@
 package gseproject.experiments.gui.testagents;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import gseproject.core.grid.Grid;
+import gseproject.infrastructure.contracts.GridContract;
+import gseproject.infrastructure.serialization.SerializationController;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.domain.DFService;
@@ -19,10 +23,12 @@ public class GUIAgent extends Agent {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private Grid grid;
 
 	private static ACLMessage getRequestTemplate() {
 		ACLMessage request = new ACLMessage(ACLMessage.REQUEST);
 		request.setProtocol(FIPANames.InteractionProtocol.FIPA_REQUEST);
+		request.addReceiver(new AID("GridAgent", AID.ISLOCALNAME));
 		return request;
 	};
 
@@ -62,8 +68,9 @@ public class GUIAgent extends Agent {
 			private static final long serialVersionUID = -4614760831840986042L;
 
 			protected void handleInform(ACLMessage inform) {
-				// TODO: update GUI here
-				
+				GridContract gc = (GridContract) SerializationController.Instance.Deserialize(GridContract.class, inform.getContent());
+				grid = gc.getGrid();
+				System.out.println(Arrays.deepToString(gc.getGrid().getSpaces()));
 			}
 		});
 	}
@@ -72,4 +79,8 @@ public class GUIAgent extends Agent {
 		System.out.println("GUIAgent down!");
 	}
 
+	
+	public Grid getGrid() {
+		return grid;
+	}
 }
