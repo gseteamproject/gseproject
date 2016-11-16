@@ -7,40 +7,44 @@ public class Grid implements Serializable {
 	private final int width;
 	private final int height;
 	private final SpaceType[][] spaces;
-	
+
 	public Grid(int width, int height, SpaceType[][] spaces) {
-		this.width	= width;
-		this.height	= height;
-		this.spaces	= spaces;
+		this.width = width;
+		this.height = height;
+		this.spaces = spaces;
 	}
-	
+
 	public Grid(int width, int height) {
 		this(width, height, new SpaceType[width][height]);
 	}
-	
+
 	public int getWidth() {
 		return this.width;
 	}
-	
+
 	public int getHeight() {
 		return this.height;
 	}
-	
+
 	public void set(int x, int y, SpaceType space) {
 		spaces[x][y] = space;
 	}
-	
+
 	public SpaceType get(int x, int y) {
 		return spaces[x][y];
 	}
-	
+
+	public SpaceType[][] getSpaces() {
+		return spaces;
+	}
+
 	public static class GridBuilder {
 		private final int width;
 		private final int height;
 		private final SpaceType[][] spaces;
-		
+
 		public GridBuilder(int width, int height) {
-			this.width  = width;
+			this.width = width;
 			this.height = height;
 			this.spaces = new SpaceType[width][width];
 			for (int x = 0; x < width; x++) {
@@ -49,14 +53,15 @@ public class Grid implements Serializable {
 				}
 			}
 		}
-		
+
 		public GridBuilder setSpaceType(int x, int y, SpaceType type) {
 			spaces[x][y] = type;
 			return this;
 		}
-		
+
 		public Grid build() {
 			return new Grid(width, height, spaces);
 		}
 	}
+
 }
