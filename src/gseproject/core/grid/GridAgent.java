@@ -2,6 +2,9 @@ package gseproject.core.grid;
 
 import gseproject.core.grid.communicator.GridCommunicator;
 import gseproject.core.grid.communicator.IGridCommunicator;
+import gseproject.infrastructure.contracts.RobotStateContract;
+import gseproject.infrastructure.serialization.grid.GridReader;
+import gseproject.infrastructure.serialization.grid.GridWriter;
 import jade.core.Agent;
 import jade.domain.FIPANames;
 import jade.lang.acl.MessageTemplate;
@@ -79,12 +82,12 @@ public class GridAgent extends Agent {
 				.build();
 
 	}
-
+	
 	protected void setup() {
+		System.out.println("Grid Agent started");
 		gridCommunicator = new GridCommunicator(this);
 		this.grid = initGrid();
-		gridCommunicator.sendInitialGridToGUI(grid);
-		addBehaviour(new RobotStateResponder(this, getMessageTemplate(), gridCommunicator));
+		addBehaviour(new StateResponder(this, getMessageTemplate(), gridCommunicator));
 	}
 
 	protected void takeDown() {

@@ -1,10 +1,10 @@
 package gseproject.infrastructure.serialization.basic;
 
-import gseproject.core.ServiceType;
-import gseproject.infrastructure.contracts.ServiceTypeContract;
-import gseproject.infrastructure.serialization.IWriter;
 import java.io.DataOutputStream;
 import java.io.IOException;
+
+import gseproject.infrastructure.contracts.ServiceTypeContract;
+import gseproject.infrastructure.serialization.IWriter;
 
 public class ServiceTypeReader implements IWriter<ServiceTypeContract> {
 

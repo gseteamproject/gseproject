@@ -1,4 +1,4 @@
-package gseproject.tests.interaction;
+package gseproject.tests.interaction.robot_grid;
 
 import jade.Boot;
 

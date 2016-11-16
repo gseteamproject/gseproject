@@ -1,4 +1,4 @@
-package gseproject.tests.interaction;
+package gseproject.tests.interaction.robot_floor;
 
 import java.io.IOException;
 

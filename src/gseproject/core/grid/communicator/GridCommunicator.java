@@ -1,19 +1,21 @@
 package gseproject.core.grid.communicator;
 
-import gseproject.core.grid.Grid;
 import gseproject.core.grid.GridAgent;
+import gseproject.infrastructure.contracts.GridContract;
 import gseproject.infrastructure.contracts.RobotStateContract;
 import gseproject.infrastructure.serialization.SerializationController;
+import gseproject.infrastructure.serialization.grid.GridReader;
+import gseproject.infrastructure.serialization.grid.GridWriter;
 import gseproject.infrastructure.serialization.robot.RobotStateReader;
 import gseproject.infrastructure.serialization.robot.RobotStateWriter;
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
 
 public class GridCommunicator implements IGridCommunicator {
-	private SerializationController _serializationController = SerializationController.Instance;
+	private SerializationController sc = SerializationController.Instance;
 	private GridAgent gridAgent;
-	private AID GUI = new AID("GUI", AID.ISLOCALNAME);
-	
+	private AID GUI_AID = new AID("GUI", AID.ISLOCALNAME);
+
 	public GridCommunicator(GridAgent gridAgent) {
 		this.gridAgent = gridAgent;
 		initiateSerialization();
@@ -22,10 +24,14 @@ public class GridCommunicator implements IGridCommunicator {
 	private void initiateSerialization() {
 		RobotStateWriter writer = new RobotStateWriter();
 		RobotStateReader reader = new RobotStateReader();
-
-		_serializationController.RegisterSerializator(RobotStateContract.class, writer, reader);
+		
+		sc.RegisterSerializator(RobotStateContract.class, writer, reader);
+		
+		GridWriter gridWriter = new GridWriter();
+        GridReader gridReader = new GridReader();
+        sc.RegisterSerializator(GridContract.class, gridWriter, gridReader);
 	}
-
+	
 	@Override
 	public ACLMessage agreeRobot(ACLMessage messageFromRobot) {
 		ACLMessage reply = messageFromRobot.createReply();
@@ -34,21 +40,28 @@ public class GridCommunicator implements IGridCommunicator {
 	}
 
 	@Override
-	public void sendRobotStateToGUI(RobotStateContract robotState) {
-		
+	public ACLMessage sendInitialGrid(ACLMessage messageFromGUI) {
+		ACLMessage reply = messageFromGUI.createReply();
+		reply.setPerformative(ACLMessage.INFORM);
+		if(gridAgent.getGrid() == null){
+			System.out.println("init failed");
+		}
+		reply.setContent(sc.Serialize(new GridContract(gridAgent.getGrid())));
+		return reply;
 	}
 
 	@Override
-	public void sendInitialGridToGUI(Grid grid) {
-		
+	public void sendRobotStateToGUI(RobotStateContract robotState) {
+
 	}
 
-	public GridAgent getGridAgent(){
+	public GridAgent getGridAgent() {
 		return this.gridAgent;
 	}
-	
-	public AID getGUIAgent(){
-		return this.GUI;
+
+	@Override
+	public AID GUI_AID() {
+		return this.GUI_AID;
 	}
 
 }
