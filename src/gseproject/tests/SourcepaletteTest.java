@@ -3,7 +3,7 @@ package gseproject.tests;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import gseproject.core.Block;
-import gseproject.passive.palette.Sourcepalette;
+import gseproject.passive.pallete.core.Sourcepalette;
 
 public class SourcepaletteTest {
 

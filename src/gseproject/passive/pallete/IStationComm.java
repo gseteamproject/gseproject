@@ -1,4 +1,4 @@
-package gseproject.passive;
+package gseproject.passive.pallete;
 
 public interface IStationComm {
 	

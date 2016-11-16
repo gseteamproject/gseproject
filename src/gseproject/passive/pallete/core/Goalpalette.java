@@ -1,4 +1,4 @@
-package gseproject.passive.palette;
+package gseproject.passive.pallete.core;
 
 import gseproject.core.Block;
 

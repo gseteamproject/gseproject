@@ -2,6 +2,7 @@ package gseproject.passive.floor;
 
 import java.awt.Point;
 
+import gseproject.passive.floor.core.Floor;
 import jade.core.Agent;
 
 public abstract class FloorAgent extends Agent{

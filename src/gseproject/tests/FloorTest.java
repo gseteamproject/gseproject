@@ -5,8 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import gseproject.core.Block;
-import gseproject.passive.floor.Floor;
-import gseproject.passive.floor.FloorException;
+import gseproject.passive.floor.core.Floor;
+import gseproject.passive.floor.core.FloorException;
 
 public abstract class FloorTest {
     protected Floor f;

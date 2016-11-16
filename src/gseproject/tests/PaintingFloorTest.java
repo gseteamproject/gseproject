@@ -8,8 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import gseproject.core.Block;
-import gseproject.passive.floor.FloorException;
-import gseproject.passive.floor.PaintingFloor;
+import gseproject.passive.floor.core.FloorException;
+import gseproject.passive.floor.core.PaintingFloor;
 
 public class PaintingFloorTest extends FloorTest {
     @Before

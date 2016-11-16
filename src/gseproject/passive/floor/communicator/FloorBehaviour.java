@@ -1,9 +1,11 @@
-package gseproject.passive.floor;
+package gseproject.passive.floor.communicator;
 
 import java.io.IOException;
 
 import gseproject.core.Block;
 import gseproject.core.ServiceType;
+import gseproject.passive.floor.core.Floor;
+import gseproject.passive.floor.core.FloorException;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
@@ -65,7 +67,7 @@ public class FloorBehaviour extends CyclicBehaviour {
 	}
 	switch (serviceType) {
 	case GIVE_BLOCK: {
-	    if (!floor.hasBlock) {
+	    if (!floor.hasBlock()) {
 		reply.setPerformative(ACLMessage.AGREE);
 	    } else {
 		reply.setPerformative(ACLMessage.REFUSE);
@@ -74,7 +76,7 @@ public class FloorBehaviour extends CyclicBehaviour {
 	    break;
 	}
 	case TAKE_BLOCK: {
-	    if (floor.hasFinishedBlock) {
+	    if (floor.hasFinishedBlock()) {
 		reply.setPerformative(ACLMessage.AGREE);
 	    } else {
 		reply.setPerformative(ACLMessage.REFUSE);
@@ -83,7 +85,7 @@ public class FloorBehaviour extends CyclicBehaviour {
 	    break;
 	}
 	case FINISH_BLOCK: {
-	    if(floor.hasBlock){
+	    if(floor.hasBlock()){
 		reply.setPerformative(ACLMessage.AGREE);
 	    } else {
 		reply.setPerformative(ACLMessage.REFUSE);

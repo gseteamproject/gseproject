@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import gseproject.core.Block;
 import gseproject.core.Block.possibleBlockStatus;
-import gseproject.passive.palette.Goalpalette;
+import gseproject.passive.pallete.core.Goalpalette;
 
 public class GoalpaletteTest {
 

@@ -1,12 +1,14 @@
-package gseproject.passive;
+package gseproject.passive.palette.communicator;
 
 import gseproject.core.Block;
 import gseproject.core.Block.possibleBlockStatus;
 import gseproject.core.ServiceType;
 import gseproject.infrastructure.serialization.SerializationController;
-import gseproject.passive.floor.Floor;
-import gseproject.passive.palette.Goalpalette;
-import gseproject.passive.palette.Sourcepalette;
+import gseproject.passive.floor.core.Floor;
+import gseproject.passive.pallete.IStationComm;
+import gseproject.passive.pallete.IStationLanguage;
+import gseproject.passive.pallete.core.Goalpalette;
+import gseproject.passive.pallete.core.Sourcepalette;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;

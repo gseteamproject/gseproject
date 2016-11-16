@@ -4,8 +4,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import gseproject.core.Block;
-import gseproject.passive.floor.CleaningFloor;
-import gseproject.passive.floor.FloorException;
+import gseproject.passive.floor.core.CleaningFloor;
+import gseproject.passive.floor.core.FloorException;
+
 import static org.junit.Assert.*;
 
 public class CleaningFloorTest extends FloorTest {

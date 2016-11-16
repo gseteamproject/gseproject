@@ -5,8 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import gseproject.core.ServiceType;
-import gseproject.passive.StationCommunicator;
-import gseproject.passive.palette.Sourcepalette;
+import gseproject.passive.palette.communicator.StationCommunicator;
+import gseproject.passive.pallete.core.Sourcepalette;
 import jade.lang.acl.ACLMessage;
 
 public class StationCommunicatorSourcepaletteTest {

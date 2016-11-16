@@ -1,10 +1,10 @@
-package gseproject.passive.palette;
+package gseproject.passive.pallete.core;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import gseproject.core.Block;
-import gseproject.passive.IStationLanguage;
+import gseproject.passive.pallete.IStationLanguage;
 
 //info: abstract coz this a normal palette, no goal or sourcepalette
 public abstract class Palette implements IStationLanguage {
