@@ -1,19 +1,16 @@
 package gseproject.infrastructure.serialization.basic;
 
-
-import gseproject.core.ServiceType;
-import gseproject.infrastructure.contracts.ServiceTypeContract;
-import gseproject.infrastructure.serialization.IReader;
-
-import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class ServiceTypeWriter implements IReader<ServiceTypeContract> {
+import gseproject.infrastructure.contracts.ServiceTypeContract;
+import gseproject.infrastructure.serialization.IWriter;
 
-    public ServiceTypeContract read(DataInputStream stream) throws IOException {
-        ServiceTypeContract serviceType = new ServiceTypeContract();
-        serviceType.serviceType = ServiceType.valueOf(stream.readUTF());
-        return serviceType;
+public class ServiceTypeWriter implements IWriter<ServiceTypeContract> {
+
+    public void write(ServiceTypeContract object, DataOutputStream stream) throws IOException {
+
+        stream.writeUTF(object.serviceType.name());
+
     }
-
 }
