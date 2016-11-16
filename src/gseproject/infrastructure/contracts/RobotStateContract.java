@@ -1,11 +1,9 @@
 package gseproject.infrastructure.contracts;
 
-import java.awt.*;
-
 import gseproject.core.Direction;
 import gseproject.core.grid.Position;
 
-public class RobotStateContract implements IContract {
+public class RobotStateContract {
 
 	public boolean isCarryingBlock;
 	public Position position;

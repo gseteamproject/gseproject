@@ -1,5 +1,6 @@
 package gseproject.robot.communicator;
 
+import gseproject.infrastructure.contracts.ProtocolTemplates;
 import gseproject.infrastructure.contracts.RobotStateContract;
 import gseproject.infrastructure.serialization.SerializationController;
 import gseproject.infrastructure.serialization.robot.RobotStateReader;
@@ -38,7 +39,7 @@ public class DummyCommunicator implements ICommunicator {
         String content = _serializationController.Serialize(contract);
 
         ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
-        msg.setProtocol(FIPANames.InteractionProtocol.FIPA_REQUEST);
+        msg.setProtocol(ProtocolTemplates.RobotProtocolTemplates.ROBOT_STATE_PROTOCOL);
         msg.addReceiver(receiverAgent);
         msg.setContent(content);
         RobotStateInitiator robotStateInitiator = new RobotStateInitiator(_robot, msg);

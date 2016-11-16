@@ -2,7 +2,7 @@ package gseproject.infrastructure.contracts;
 
 import gseproject.core.grid.Grid;
 
-public class GridContract implements IContract {
+public class GridContract {
 	
 	private Grid grid;
 

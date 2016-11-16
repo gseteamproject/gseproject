@@ -2,9 +2,7 @@ package gseproject.core.grid;
 
 import gseproject.core.grid.communicator.GridCommunicator;
 import gseproject.core.grid.communicator.IGridCommunicator;
-import gseproject.infrastructure.contracts.RobotStateContract;
-import gseproject.infrastructure.serialization.grid.GridReader;
-import gseproject.infrastructure.serialization.grid.GridWriter;
+import gseproject.infrastructure.contracts.ProtocolTemplates;
 import jade.core.Agent;
 import jade.domain.FIPANames;
 import jade.lang.acl.MessageTemplate;
@@ -17,7 +15,7 @@ public class GridAgent extends Agent {
 	private IGridCommunicator gridCommunicator;
 
 	private static MessageTemplate getMessageTemplate() {
-		return AchieveREResponder.createMessageTemplate(FIPANames.InteractionProtocol.FIPA_REQUEST);
+		return AchieveREResponder.createMessageTemplate(ProtocolTemplates.RobotProtocolTemplates.ROBOT_STATE_PROTOCOL);
 	}
 
 	private Grid initGrid() {

@@ -2,7 +2,7 @@ package gseproject.infrastructure.contracts;
 
 import java.util.UUID;
 
-public class RobotSkillContract implements IContract, Comparable<RobotSkillContract> {
+public class RobotSkillContract implements Comparable<RobotSkillContract> {
 
     public int cost;
     public int duration;
