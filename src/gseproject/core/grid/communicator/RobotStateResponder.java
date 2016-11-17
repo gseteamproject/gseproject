@@ -25,7 +25,7 @@ public class RobotStateResponder extends SimpleAchieveREResponder {
     public RobotStateResponder(Agent a, MessageTemplate mt, DataStore store) {
 	super(a, mt, store);
     }
-
+	
     protected ACLMessage prepareResponse(ACLMessage request) {
 	this.currStateContract = communicator.parseRobotStateFromMessage(request);
 	if(currStateContract == null){
