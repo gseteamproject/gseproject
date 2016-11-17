@@ -1,4 +1,4 @@
-package gseproject.core.grid;
+package gseproject.core.grid.communicator;
 
 import gseproject.core.grid.communicator.IGridCommunicator;
 import jade.core.Agent;
@@ -7,21 +7,21 @@ import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.proto.SimpleAchieveREResponder;
 
-public class StateResponder extends SimpleAchieveREResponder {
+public class RobotStateResponder extends SimpleAchieveREResponder {
 	private static final long serialVersionUID = -6024009980616790516L;
 	private IGridCommunicator communicator;
 
-	public StateResponder(Agent a, MessageTemplate mt, IGridCommunicator communicator) {
+	public RobotStateResponder(Agent a, MessageTemplate mt, IGridCommunicator communicator) {
 		super(a, mt);
 		this.communicator = communicator;
 	}
 
-	public StateResponder(Agent a, MessageTemplate mt, DataStore store, IGridCommunicator communicator) {
+	public RobotStateResponder(Agent a, MessageTemplate mt, DataStore store, IGridCommunicator communicator) {
 		super(a, mt, store);
 		this.communicator = communicator;
 	}
 
-	public StateResponder(Agent a, MessageTemplate mt, DataStore store) {
+	public RobotStateResponder(Agent a, MessageTemplate mt, DataStore store) {
 		super(a, mt, store);
 	}
 
