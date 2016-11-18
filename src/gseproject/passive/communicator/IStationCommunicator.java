@@ -14,7 +14,8 @@ public interface IStationCommunicator {
     public ACLMessage handleServiceTypeRequest(ACLMessage serviceTypeRequest);
 
     /**
-     * This method updates the the station with the content from the given message
+     * This method updates the the station with the content from the given
+     * message
      * 
      * @param actionDone
      *            the message from the robot which informs the sation-agent that
@@ -31,4 +32,13 @@ public interface IStationCommunicator {
      * @return INFORM-Message containing the new floor object
      */
     public ACLMessage notifyGrid();
+
+    /**
+     * This creates a message which will be send to the robot, who stands on the
+     * station. The message will notify the robot, that he can start working
+     * (e.g. clean, paint)
+     * 
+     * @return INFORM-Message
+     */
+    public ACLMessage notifyRobot();
 }

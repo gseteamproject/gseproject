@@ -1,32 +1,30 @@
-package gseproject.tests;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+package gseproject.tests.unitTests;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import gseproject.core.Block;
+import gseproject.passive.floor.core.CleaningFloor;
 import gseproject.passive.floor.core.FloorException;
-import gseproject.passive.floor.core.PaintingFloor;
 
-public class PaintingFloorTest extends FloorTest {
-    @Before
-    public void initialize() {
-	this.f = new PaintingFloor();
+import static org.junit.Assert.*;
+
+public class CleaningFloorTest extends FloorTest {
+    private static Block getDirtyBlock() {
+	Block b = new Block();
+	b.Status = Block.possibleBlockStatus.DIRTY;
+	return b;
     }
 
-    private static Block getCleanedBlock() {
-	Block b = new Block();
-	b.Status = Block.possibleBlockStatus.CLEANED;
-	return b;
+    @Before
+    public void initialize() {
+	this.f = new CleaningFloor();
     }
 
     @Test
     public void giveBlockTest() {
 	try {
-	    f.giveBlock(getCleanedBlock());
+	    f.giveBlock(getDirtyBlock());
 	} catch (FloorException e) {
 	    e.printStackTrace();
 	}
@@ -38,7 +36,7 @@ public class PaintingFloorTest extends FloorTest {
     public void takeBlockTest() {
 	Block b = null;
 	try {
-	    f.giveBlock(getCleanedBlock());
+	    f.giveBlock(getDirtyBlock());
 	    assertTrue(f.hasBlock());
 	    assertFalse(f.hasFinishedBlock());
 	    f.finishBlock();
@@ -50,6 +48,6 @@ public class PaintingFloorTest extends FloorTest {
 	} catch (FloorException e) {
 	    e.printStackTrace();
 	}
-	assertEquals(b.Status, Block.possibleBlockStatus.PAINTED);
+	assertEquals(b.Status, Block.possibleBlockStatus.CLEANED);
     }
 }

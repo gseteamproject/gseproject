@@ -1,4 +1,4 @@
-package gseproject.tests;
+package gseproject.tests.unitTests;
 
 import static org.junit.Assert.*;
 
