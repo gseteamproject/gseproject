@@ -10,7 +10,7 @@ import gseproject.tests.unitTests.StationCommunicatorSourcepaletteTest;
 @RunWith(Suite.class)
 
 @Suite.SuiteClasses({
-	StationCommunicatorSourcepaletteTest.class, GoalpaletteTest.class, SourcepaletteTest.class
+	//StationCommunicatorSourcepaletteTest.class, GoalpaletteTest.class, SourcepaletteTest.class
  })
 
 public class AllTests {   
