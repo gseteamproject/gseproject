@@ -2,7 +2,7 @@ package gseproject.passive.pallete.core;
 
 import gseproject.core.Block;
 
-public class Goalpalette extends Palette {
+public class Goalpalette extends gseproject.passive.pallete.core.Pallete {
 	@Override
 	/*
 	 * @return return null coz you can't take a box from a goal palette
@@ -11,11 +11,11 @@ public class Goalpalette extends Palette {
 		return null;
 	}
 
-	@Override
-	public Boolean giveBlock(Block block) {
-		if (block.Status == Block.possibleBlockStatus.PAINTED) {
-			return true;
-		}
-		return false;
+	
+    @Override
+    public void giveBlock(Block block) throws gseproject.passive.pallete.core.PalleteException {
+	if (block.Status != block.Status.PAINTED) {
+	    throw new PalleteException("Only finished blocks please");
 	}
+    }
 }
