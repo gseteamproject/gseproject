@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import gseproject.core.Block;
+import gseproject.passive.core.StationException;
 import gseproject.passive.floor.core.FloorException;
 import gseproject.passive.floor.core.PaintingFloor;
 
@@ -27,7 +28,7 @@ public class PaintingFloorTest extends FloorTest {
     public void giveBlockTest() {
 	try {
 	    f.giveBlock(getCleanedBlock());
-	} catch (FloorException e) {
+	} catch (StationException e) {
 	    e.printStackTrace();
 	}
 	assertTrue(f.hasBlock());
@@ -48,6 +49,8 @@ public class PaintingFloorTest extends FloorTest {
 	    assertFalse(f.hasBlock());
 	    assertFalse(f.hasFinishedBlock());
 	} catch (FloorException e) {
+	    e.printStackTrace();
+	} catch (StationException e) {
 	    e.printStackTrace();
 	}
 	assertEquals(b.Status, Block.possibleBlockStatus.PAINTED);

@@ -7,6 +7,7 @@ import gseproject.infrastructure.serialization.SerializationController;
 import gseproject.infrastructure.serialization.basic.ServiceTypeReader;
 import gseproject.infrastructure.serialization.basic.ServiceTypeWriter;
 import gseproject.passive.communicator.IStationCommunicator;
+import gseproject.passive.core.StationException;
 import gseproject.passive.floor.core.Floor;
 import gseproject.passive.floor.core.FloorException;
 import jade.lang.acl.ACLMessage;
@@ -81,7 +82,7 @@ public class FloorCommunicator implements IStationCommunicator {
 	reply.setPerformative(ACLMessage.INFORM);
 	try {
 	    reply.setContent(serializationController.Serialize(floor.takeBlock()));
-	} catch (FloorException e) {
+	} catch (StationException e) {
 	    reply.setPerformative(ACLMessage.FAILURE);
 	    return reply;
 	}
@@ -93,7 +94,7 @@ public class FloorCommunicator implements IStationCommunicator {
 	reply.setPerformative(ACLMessage.INFORM);
 	try {
 	    floor.giveBlock(serializationController.Deserialize(Block.class, messageFromRobot.getContent()));
-	} catch (FloorException e) {
+	} catch (StationException e) {
 	    reply.setPerformative(ACLMessage.FAILURE);
 	    return reply;
 	}
@@ -115,14 +116,20 @@ public class FloorCommunicator implements IStationCommunicator {
     @Override
     public ACLMessage handleAction(ACLMessage action) {
 	switch (currServiceType) {
-	case TAKE_BLOCK: {
-	    return replyBlock(action);
-	}
 	case GIVE_BLOCK: {
+	    //TODO: deregister service
+	    //TODO: register "need worker service"
 	    return replyTookBlock(action);
 	}
 	case FINISH_BLOCK: {
+	    //TODO: deregister "need worker service"
+	    //TODO: register "need transporter service"
 	    return replyFinishedBlock(action);
+	}
+	case TAKE_BLOCK: {
+	    //TODO: deregister "need transporter service"
+	    //TODO: register "need block service"
+	    return replyBlock(action);
 	}
 	default:
 	    return null;

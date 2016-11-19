@@ -7,17 +7,19 @@ import gseproject.infrastructure.serialization.SerializationController;
 import gseproject.passive.floor.core.Floor;
 import gseproject.passive.pallete.IStationComm;
 import gseproject.passive.pallete.IStationLanguage;
-import gseproject.passive.pallete.core.Goalpalette;
-import gseproject.passive.pallete.core.Sourcepalette;
+import gseproject.passive.pallete.core.GoalPallete;
+import gseproject.passive.pallete.core.SourcePalette;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
+/*
 public class StationCommunicator<T extends IStationLanguage> extends Agent implements IStationComm {
-	private static final long serialVersionUID = 4965866091852183019L;
+	/*
+    private static final long serialVersionUID = 4965866091852183019L;
 	// todo: this must be generic or distinct
-	private Sourcepalette sourcepalette = new Sourcepalette();
+	private SourcePalette sourcepalette = new SourcePalette();
 	// todo: quick&dirty but i want my test, it was private
 	public ACLMessage requestFromRobot;
 	private SerializationController serializationController = SerializationController.Instance;
@@ -50,6 +52,7 @@ public class StationCommunicator<T extends IStationLanguage> extends Agent imple
 				 * println("setup: action: else; screw you guys i'm going home"
 				 * ); }
 				 */
+    /*
 			}
 		});
 	}
@@ -61,6 +64,7 @@ public class StationCommunicator<T extends IStationLanguage> extends Agent imple
 	 * @return null if a robot sends a request, else the object that was sent by
 	 *         the robot
 	 */
+    /*
 	public Object receiveMessage() {
 		return blockingReceive(requestsAndInfo());
 	}
@@ -80,8 +84,8 @@ public class StationCommunicator<T extends IStationLanguage> extends Agent imple
 		}
 
 		// todo: check the instance an then react to it in switch case
-		Boolean isSourcepalette = (t instanceof Sourcepalette);
-		Boolean isGoalpalette = (t instanceof Goalpalette);
+		Boolean isSourcepalette = (t instanceof SourcePalette);
+		Boolean isGoalpalette = (t instanceof GoalPallete);
 		Boolean isFloor = (t instanceof Floor);
 
 		Block block = new Block();
@@ -119,7 +123,7 @@ public class StationCommunicator<T extends IStationLanguage> extends Agent imple
 				send(createReplyMessage(ServiceType.NOPE.name()));
 			} else {
 				block.Status = possibleBlockStatus.PAINTED;
-				send(createReplyMessage(Boolean.toString(((Goalpalette)t).giveBlock(block))));
+				send(createReplyMessage(Boolean.toString(((GoalPallete)t).giveBlock(block))));
 			}
 			break;
 		case HAS_BLOCK:
@@ -175,4 +179,6 @@ public class StationCommunicator<T extends IStationLanguage> extends Agent imple
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
 }
+*/

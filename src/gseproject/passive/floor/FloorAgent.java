@@ -18,6 +18,5 @@ public abstract class FloorAgent extends Agent{
     protected abstract void setup();
     
     protected abstract void takeDown();
-
     
 }
