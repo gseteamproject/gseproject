@@ -1,13 +1,5 @@
 package gseproject.tests.unitTests;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
-
-import gseproject.core.ServiceType;
-import gseproject.passive.pallete.core.SourcePalette;
-import jade.lang.acl.ACLMessage;
-
 public class StationCommunicatorSourcepaletteTest {
 	/*
 	@Test
@@ -120,3 +112,4 @@ public class StationCommunicatorSourcepaletteTest {
 	*/
     
 }
+

@@ -1,9 +1,13 @@
 package gseproject.passive.communicator;
 
+import gseproject.passive.pallete.core.SourcePalette;
 import jade.lang.acl.ACLMessage;
 
-public class PalleteCommunicator implements IStationCommunicator{
-
+public class SourcePalleteCommunicator implements IStationCommunicator{
+    private SourcePalette sourcePallete;
+    public SourcePalleteCommunicator(SourcePalette sourcePallete){
+	this.sourcePallete = sourcePallete;
+    }
     @Override
     public ACLMessage handleServiceTypeRequest(ACLMessage serviceTypeRequest) {
 	// TODO Auto-generated method stub

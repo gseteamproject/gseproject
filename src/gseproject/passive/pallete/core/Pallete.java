@@ -40,7 +40,4 @@ public abstract class Pallete {
 	    return false;
 	return true;
     }
-
-   
-
 }

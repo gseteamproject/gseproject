@@ -6,10 +6,10 @@ import gseproject.core.Block;
 import gseproject.passive.core.IGive;
 import gseproject.passive.core.StationException;
 
-public class GoalPallete extends Pallete implements IGive {
+public class GoalPalette extends Pallete implements IGive {
     private int maxAmountOfBlocks;
 
-    public GoalPallete(int maxAmountOfBlocks) {
+    public GoalPalette(int maxAmountOfBlocks) {
 	this.maxAmountOfBlocks = maxAmountOfBlocks;
 	this.blocks = new ArrayList<>();
     }
@@ -45,7 +45,7 @@ public class GoalPallete extends Pallete implements IGive {
 	    return false;
 	if (getClass() != obj.getClass())
 	    return false;
-	GoalPallete other = (GoalPallete) obj;
+	GoalPalette other = (GoalPalette) obj;
 	if (maxAmountOfBlocks != other.maxAmountOfBlocks)
 	    return false;
 	return true;
