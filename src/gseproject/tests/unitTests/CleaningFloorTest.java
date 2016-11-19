@@ -1,9 +1,10 @@
-package gseproject.tests;
+package gseproject.tests.unitTests;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import gseproject.core.Block;
+import gseproject.passive.core.StationException;
 import gseproject.passive.floor.core.CleaningFloor;
 import gseproject.passive.floor.core.FloorException;
 
@@ -25,7 +26,7 @@ public class CleaningFloorTest extends FloorTest {
     public void giveBlockTest() {
 	try {
 	    f.giveBlock(getDirtyBlock());
-	} catch (FloorException e) {
+	} catch (StationException e) {
 	    e.printStackTrace();
 	}
 	assertTrue(f.hasBlock());
@@ -46,6 +47,8 @@ public class CleaningFloorTest extends FloorTest {
 	    assertFalse(f.hasBlock());
 	    assertFalse(f.hasFinishedBlock());
 	} catch (FloorException e) {
+	    e.printStackTrace();
+	} catch (StationException e) {
 	    e.printStackTrace();
 	}
 	assertEquals(b.Status, Block.possibleBlockStatus.CLEANED);

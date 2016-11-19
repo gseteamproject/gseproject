@@ -1,4 +1,4 @@
-package gseproject.serialization.robot.test;
+package gseproject.tests.serialization;
 
 import gseproject.core.Direction;
 import gseproject.core.grid.Position;

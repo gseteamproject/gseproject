@@ -1,6 +1,7 @@
 package gseproject.passive.floor;
 
-import gseproject.passive.floor.communicator.FloorBehaviour;
+import gseproject.passive.communicator.FloorCommunicator;
+import gseproject.passive.communicator.ServiceTypeResponder;
 import gseproject.passive.floor.core.CleaningFloor;
 
 public class CleaningFloorAgent extends FloorAgent {
@@ -9,7 +10,8 @@ public class CleaningFloorAgent extends FloorAgent {
     @Override
     protected void setup() {
 	this.floor = new CleaningFloor();
-	this.addBehaviour(new FloorBehaviour(this, floor));
+	this.stationCommunicator = new FloorCommunicator(this.floor);
+	this.addBehaviour(new ServiceTypeResponder(this, this.robotServiceRequestTemplate, stationCommunicator));
     }
 
     @Override

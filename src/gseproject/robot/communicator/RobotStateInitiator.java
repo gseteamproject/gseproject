@@ -10,16 +10,19 @@ public class RobotStateInitiator extends SimpleAchieveREInitiator {
 
     // <editor-fold desc="Private constructors">
     private RobotStateInitiator(Agent a, ACLMessage msg) {
-        super(a, msg);
+	super(a, msg);
     }
 
-    private RobotStateInitiator(Agent a, ACLMessage msg, DataStore store){super(a, msg, store);}
+    private RobotStateInitiator(Agent a, ACLMessage msg, DataStore store) {
+	super(a, msg, store);
+    }
     // </editor-fold>
 
     private ACLMessage _templateMessage;
 
     public RobotStateInitiator(RobotAgent a, ACLMessage msg) {
-        super(a, msg);
-        _templateMessage = msg;
+	super(a, msg);
+	_templateMessage = msg;
     }
+
 }

@@ -1,4 +1,4 @@
-package gseproject.serialization.robot.test;
+package gseproject.tests.serialization;
 
 public class Test {
 

@@ -1,5 +1,7 @@
 package gseproject.robot.communicator;
 
+import gseproject.core.Direction;
+import gseproject.core.grid.Position;
 import gseproject.infrastructure.contracts.ProtocolTemplates;
 import gseproject.infrastructure.contracts.RobotStateContract;
 import gseproject.infrastructure.serialization.SerializationController;
@@ -36,10 +38,14 @@ public class DummyCommunicator implements ICommunicator {
     public void notifyGridAgent(RobotState state) {
         AID receiverAgent = new AID("GridAgent", AID.ISLOCALNAME);
         RobotStateContract contract = _robotStateConverter(state);
+        contract.direction = Direction.EAST;
+        contract.goal = new Position(1,1);
+        contract.position = new Position(2,2);
         String content = _serializationController.Serialize(contract);
 
         ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
         msg.setProtocol(ProtocolTemplates.RobotProtocolTemplates.ROBOT_STATE_PROTOCOL);
+        //msg.setProtocol(FIPANames.InteractionProtocol.FIPA_REQUEST);
         msg.addReceiver(receiverAgent);
         msg.setContent(content);
         RobotStateInitiator robotStateInitiator = new RobotStateInitiator(_robot, msg);

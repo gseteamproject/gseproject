@@ -12,6 +12,7 @@ import gseproject.robot.skills.TransportSkill;
 import jade.core.Agent;
 import jade.core.behaviours.TickerBehaviour;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RobotAgent extends Agent {
@@ -29,11 +30,14 @@ public class RobotAgent extends Agent {
         _state = new RobotState();
         _state.isCarryingBlock = true;
         _state.position = new Position(5, 1);
+        
+        _skills = new ArrayList<>();
     }
 
     public void setup(){
         TransportSkill transportSkill = new TransportSkill(_actuator);
         transportSkill.registerService(this);
+        
         _skills.add(transportSkill);
 
         addBehaviour(new TickerBehaviour(this, 1000) {
