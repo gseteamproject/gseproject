@@ -31,7 +31,7 @@ public class Position {
 		return pos.getX() == this.getX() 
 			&& pos.getY() == this.getY();
 	}
-	
+
 	public String toString() {
 		return String.format("[x=%d; y=%d]", x, y);
 	}

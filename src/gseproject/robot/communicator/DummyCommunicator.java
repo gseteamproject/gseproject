@@ -1,17 +1,20 @@
 package gseproject.robot.communicator;
 
-import gseproject.core.Direction;
+import gseproject.core.ICallbackArgumented;
 import gseproject.core.grid.Position;
 import gseproject.infrastructure.contracts.ProtocolTemplates;
+import gseproject.infrastructure.contracts.RobotGoalContract;
 import gseproject.infrastructure.contracts.RobotStateContract;
 import gseproject.infrastructure.serialization.SerializationController;
+import gseproject.infrastructure.serialization.robot.RobotGoalReader;
+import gseproject.infrastructure.serialization.robot.RobotGoalWriter;
 import gseproject.infrastructure.serialization.robot.RobotStateReader;
 import gseproject.infrastructure.serialization.robot.RobotStateWriter;
 import gseproject.robot.RobotAgent;
 import gseproject.robot.domain.RobotState;
 import jade.core.AID;
-import jade.domain.FIPANames;
 import jade.lang.acl.ACLMessage;
+import jade.proto.SimpleAchieveREInitiator;
 
 public class DummyCommunicator implements ICommunicator {
 
@@ -28,37 +31,48 @@ public class DummyCommunicator implements ICommunicator {
     }
 
     private void initiateSerialization() {
-        RobotStateWriter writer = new RobotStateWriter();
-        RobotStateReader reader = new RobotStateReader();
+        RobotStateWriter stateWriter = new RobotStateWriter();
+        RobotStateReader stateReader = new RobotStateReader();
+        _serializationController.RegisterSerializator(RobotStateContract.class, stateWriter, stateReader);
 
-        _serializationController.RegisterSerializator(RobotStateContract.class, writer, reader);
+        RobotGoalWriter goalWriter = new RobotGoalWriter();
+        RobotGoalReader goalReader = new RobotGoalReader();
+        _serializationController.RegisterSerializator(RobotGoalContract.class, goalWriter, goalReader);
     }
 
 
     public void notifyGridAgent(RobotState state) {
         AID receiverAgent = new AID("GridAgent", AID.ISLOCALNAME);
         RobotStateContract contract = _robotStateConverter(state);
-        contract.direction = Direction.EAST;
-        contract.goal = new Position(1,1);
-        contract.position = new Position(2,2);
         String content = _serializationController.Serialize(contract);
 
         ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
         msg.setProtocol(ProtocolTemplates.RobotProtocolTemplates.ROBOT_STATE_PROTOCOL);
-        //msg.setProtocol(FIPANames.InteractionProtocol.FIPA_REQUEST);
         msg.addReceiver(receiverAgent);
         msg.setContent(content);
-        RobotStateInitiator robotStateInitiator = new RobotStateInitiator(_robot, msg);
+        SimpleAchieveREInitiator robotStateInitiator = new SimpleAchieveREInitiator(_robot, msg);
 
         _robot.addBehaviour(robotStateInitiator);
+    }
+
+    public void getRoute(AID aid, ICallbackArgumented<Position> callback){
+        RobotGoalContract contract = new RobotGoalContract(aid, null);
+        String content = _serializationController.Serialize(contract);
+
+        AID receiverAgent = new AID("GridAgent", AID.ISLOCALNAME);
+        ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
+        msg.setProtocol(ProtocolTemplates.RobotProtocolTemplates.ROBOT_ROUTE_PROTOCOL);
+        msg.addReceiver(receiverAgent);
+        msg.setContent(content);
+        RobotRouteInitiator initiator = new RobotRouteInitiator(_robot, msg, callback);
+
+        _robot.addBehaviour(initiator);
     }
 
     private RobotStateContract _robotStateConverter(RobotState state){
         RobotStateContract contract = new RobotStateContract();
         contract.isCarryingBlock = state.isCarryingBlock;
         contract.position = state.position;
-        contract.goal = state.goal;
-        contract.direction = state.direction;
         return contract;
     }
 }

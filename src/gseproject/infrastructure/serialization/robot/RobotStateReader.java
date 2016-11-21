@@ -14,8 +14,6 @@ public class RobotStateReader implements IReader<RobotStateContract> {
 		RobotStateContract stateDto = new RobotStateContract();
 		stateDto.isCarryingBlock = stream.readBoolean();
 		stateDto.position = new Position(stream.readInt(), stream.readInt());
-		stateDto.goal = new Position(stream.readInt(), stream.readInt());
-		stateDto.direction = Direction.valueOf(stream.readUTF());
 		return stateDto;
 	}
 }
