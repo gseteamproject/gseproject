@@ -7,7 +7,7 @@ import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
-
+/*
 public class RobotPositionResponder extends CyclicBehaviour {
 
 	private static final long serialVersionUID = -639699365150760529L;
@@ -90,3 +90,4 @@ public class RobotPositionResponder extends CyclicBehaviour {
 	}
 
 }
+*/

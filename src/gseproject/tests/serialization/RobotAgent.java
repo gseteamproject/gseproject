@@ -1,6 +1,5 @@
 package gseproject.tests.serialization;
 
-import gseproject.core.Direction;
 import gseproject.core.grid.Position;
 import gseproject.infrastructure.contracts.RobotStateContract;
 import gseproject.infrastructure.serialization.SerializationController;
@@ -11,41 +10,40 @@ import jade.core.Agent;
 
 public class RobotAgent extends Agent {
 
-    private IRobotActuator _actuator;
-    private final SerializationController serializationController;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4765529907681140004L;
+	private IRobotActuator _actuator;
+	private final SerializationController serializationController;
 
-    public RobotAgent() {
-	serializationController = SerializationController.Instance;
-	SerializatorsInitialization();
-	robotStateContract_Serialization_Test();
-    }
+	public RobotAgent() {
+		serializationController = SerializationController.Instance;
+		SerializatorsInitialization();
+		robotStateContract_Serialization_Test();
+	}
 
-    private void robotStateContract_Serialization_Test() {
-	RobotStateContract rtcA = new RobotStateContract();
-	rtcA.isCarryingBlock = true;
-	rtcA.direction = Direction.EAST;
-	rtcA.position = new Position(1, 5);
-	rtcA.goal = new Position(5, 5);
-	String str = serializationController.Serialize(rtcA);
-	RobotStateContract rtcB = serializationController.Deserialize(RobotStateContract.class, str);
-	System.out.println("_____________________________");
-	System.out.println(rtcB.isCarryingBlock);
-	System.out.println(rtcB.position);
-	System.out.println(rtcB.goal);
-	System.out.println(rtcB.direction);
-    }
-	
+	private void robotStateContract_Serialization_Test() {
+		RobotStateContract rtcA = new RobotStateContract();
+		rtcA.isCarryingBlock = true;
+		rtcA.position = new Position(1, 5);
+		String str = serializationController.Serialize(rtcA);
+		RobotStateContract rtcB = serializationController.Deserialize(RobotStateContract.class, str);
+		System.out.println("_____________________________");
+		System.out.println(rtcB.isCarryingBlock);
+		System.out.println(rtcB.position);
+	}
 
-    private void SerializatorsInitialization() {
+	private void SerializatorsInitialization() {
 
-	// RobotStateWriter
-	RobotStateWriter writer = new RobotStateWriter();
-	RobotStateReader reader = new RobotStateReader();
-	serializationController.RegisterSerializator(RobotStateContract.class, writer, reader);
+		// RobotStateWriter
+		RobotStateWriter writer = new RobotStateWriter();
+		RobotStateReader reader = new RobotStateReader();
+		serializationController.RegisterSerializator(RobotStateContract.class, writer, reader);
 
-    }
+	}
 
-    public void setup() {
+	public void setup() {
 
-    }
+	}
 }

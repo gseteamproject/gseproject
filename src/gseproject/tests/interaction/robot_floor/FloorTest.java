@@ -7,7 +7,7 @@ public class FloorTest {
 		String[] parameters = new String[2];
 		parameters[0] = "-gui";
 		parameters[1] = "CleaningFloor:gseproject.passive.floor.CleaningFloorAgent;";
-		parameters[1] += "TestAgentClean:gseproject.tests.interaction.TestAgentClean;";
+		parameters[1] += "TestAgentClean:gseproject.tests.interaction.robot_floor.TestAgentClean;";
 		Boot.main(parameters);
 	}
 }
