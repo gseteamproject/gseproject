@@ -1,35 +1,53 @@
 package gseproject.passive.communicator;
 
+import java.io.IOException;
+
+import gseproject.core.Block;
+import gseproject.core.ServiceType;
 import gseproject.passive.pallete.core.SourcePalette;
 import jade.lang.acl.ACLMessage;
 
-public class SourcePalleteCommunicator implements IStationCommunicator{
-    private SourcePalette sourcePallete;
-    public SourcePalleteCommunicator(SourcePalette sourcePallete){
-	this.sourcePallete = sourcePallete;
-    }
-    @Override
-    public ACLMessage handleServiceTypeRequest(ACLMessage serviceTypeRequest) {
-	// TODO Auto-generated method stub
-	return null;
-    }
+public class SourcePalleteCommunicator extends StationCommunicator {
+	private SourcePalette sourcePalette;
 
-    @Override
-    public ACLMessage handleAction(ACLMessage actionDone) {
-	// TODO Auto-generated method stub
-	return null;
-    }
+	public SourcePalleteCommunicator(SourcePalette sourcePallete) {
+		this.sourcePalette = sourcePallete;
+	}
 
-    @Override
-    public ACLMessage notifyGrid() {
-	// TODO Auto-generated method stub
-	return null;
-    }
+	private static ACLMessage addBlockToMessage(ACLMessage message, Block block) {
+		if (block == null) {
+			message.setPerformative(ACLMessage.FAILURE);
+			return message;
+		}
+		try {
+			message.setContentObject(block);
+		} catch (IOException e) {
+			e.printStackTrace();
+			message.setPerformative(ACLMessage.FAILURE);
+			return message;
+		}
+		return message;
+	}
 
-    @Override
-    public ACLMessage notifyRobot() {
-	// TODO Auto-generated method stub
-	return null;
-    }
+	@Override
+	public ACLMessage handleServiceTypeRequest(ACLMessage serviceTypeRequest) {
+		if (serviceTypeRequest == null || serviceTypeRequest.getContent() == null) {
+			return failureMessage(serviceTypeRequest);
+		}
+		String serviceType = serviceTypeRequest.getContent();
+		if (!serviceType.equals(ServiceType.TAKE_BLOCK)) {
+			return failureMessage(serviceTypeRequest);
+		}
+		Block block = sourcePalette.takeBlock();
+		return addBlockToMessage(agreeMessage(serviceTypeRequest), block);
+	}
+
+	@Override
+	public ACLMessage notifyGrid() {
+		ACLMessage message = new ACLMessage(ACLMessage.INFORM);
+		message.addReceiver(super.GridAgent);
+		//TODO: message.setContentObject(this.sourcePalette);
+		return message;
+	}
 
 }

@@ -1,150 +1,78 @@
 package gseproject.passive.communicator;
 
+import java.io.IOException;
+
 import gseproject.core.Block;
 import gseproject.core.ServiceType;
-import gseproject.infrastructure.contracts.ServiceTypeContract;
-import gseproject.infrastructure.serialization.SerializationController;
-import gseproject.infrastructure.serialization.basic.ServiceTypeReader;
-import gseproject.infrastructure.serialization.basic.ServiceTypeWriter;
-import gseproject.passive.communicator.IStationCommunicator;
 import gseproject.passive.core.StationException;
 import gseproject.passive.floor.core.Floor;
-import gseproject.passive.floor.core.FloorException;
 import jade.lang.acl.ACLMessage;
 
-public class FloorCommunicator implements IStationCommunicator {
-    private Floor floor;
-    private ServiceType currServiceType;
-    private SerializationController serializationController;
-
-    public FloorCommunicator(Floor floor) {
-	this.floor = floor;
-	initSerialization();
-    }
-
-    private void initSerialization() {
-	ServiceTypeReader serviceTypeReader = new ServiceTypeReader();
-	ServiceTypeWriter serviceTypeWriter = new ServiceTypeWriter();
-	serializationController.RegisterSerializator(ServiceTypeContract.class, serviceTypeWriter, serviceTypeReader);
-    }
-
-    private static ACLMessage replyAgreeMessage(ACLMessage message) {
-	ACLMessage reply = message.createReply();
-	reply.setPerformative(ACLMessage.AGREE);
-	return reply;
-    }
-
-    private static ACLMessage replyRefuseMessage(ACLMessage message) {
-	ACLMessage reply = message.createReply();
-	reply.setPerformative(ACLMessage.REFUSE);
-	return reply;
-    }
-
-    @Override
-    public ACLMessage handleServiceTypeRequest(ACLMessage serviceTypeRequest) {
-	ServiceTypeContract serviceTypeContract = serializationController.Deserialize(ServiceTypeContract.class,
-		serviceTypeRequest.getContent());
-	ServiceType serviceType = serviceTypeContract.serviceType;
-	if (serviceNeeded(serviceType)) {
-	    this.currServiceType = serviceType;
-	    return replyAgreeMessage(serviceTypeRequest);
+public class FloorCommunicator extends StationCommunicator {
+	private Floor floor;
+	
+	public FloorCommunicator(Floor floor) {
+		this.floor = floor;
 	}
-	return replyRefuseMessage(serviceTypeRequest);
-    }
 
-    private boolean serviceNeeded(ServiceType serviceType) {
-	switch (serviceType) {
-	case GIVE_BLOCK: {
-	    if (!floor.hasBlock()) {
-		return true;
-	    }
-	    return false;
+	private static ACLMessage addBlockToMessage(ACLMessage message, Block block) {
+		if (block == null) {
+			message.setPerformative(ACLMessage.FAILURE);
+			return message;
+		}
+		try {
+			message.setContentObject(block);
+		} catch (IOException e) {
+			e.printStackTrace();
+			message.setPerformative(ACLMessage.FAILURE);
+			return message;
+		}
+		return message;
 	}
-	case TAKE_BLOCK: {
-	    if (floor.hasFinishedBlock()) {
-		return true;
-	    }
-	    return false;
-	}
-	case FINISH_BLOCK: {
-	    if (floor.hasBlock()) {
-		return true;
-	    }
-	    return false;
-	}
-	default:
-	    return false;
-	}
-    }
 
-    private ACLMessage replyBlock(ACLMessage messageFromRobot) {
-	ACLMessage reply = messageFromRobot.createReply();
-	reply.setPerformative(ACLMessage.INFORM);
-	try {
-	    reply.setContent(serializationController.Serialize(floor.takeBlock()));
-	} catch (StationException e) {
-	    reply.setPerformative(ACLMessage.FAILURE);
-	    return reply;
+	private ACLMessage replyBlock(ACLMessage message) {
+		Block block = null;
+		try {
+			block = floor.takeBlock();
+		} catch (StationException e) {
+			e.printStackTrace();
+			return failureMessage(message);
+		}
+		return addBlockToMessage(agreeMessage(message), block);
 	}
-	return reply;
-    }
 
-    private ACLMessage replyTookBlock(ACLMessage messageFromRobot) {
-	ACLMessage reply = messageFromRobot.createReply();
-	reply.setPerformative(ACLMessage.INFORM);
-	try {
-	    floor.giveBlock(serializationController.Deserialize(Block.class, messageFromRobot.getContent()));
-	} catch (StationException e) {
-	    reply.setPerformative(ACLMessage.FAILURE);
-	    return reply;
+	@Override
+	public ACLMessage handleServiceTypeRequest(ACLMessage serviceTypeRequest) {
+		if (serviceTypeRequest == null || serviceTypeRequest.getContent() == null) {
+			return failureMessage(serviceTypeRequest);
+		}
+		String serviceType = serviceTypeRequest.getContent();
+		if (serviceType.equals(ServiceType.TAKE_BLOCK)) {
+			if (!floor.hasFinishedBlock()) {
+				return failureMessage(serviceTypeRequest);
+			}
+			return replyBlock(serviceTypeRequest);
+		} else if (serviceType.equals(ServiceType.GIVE_BLOCK)) {
+			if (floor.hasBlock()) {
+				return failureMessage(serviceTypeRequest);
+			}
+			return agreeMessage(serviceTypeRequest);
+		} else if (serviceType.equals(ServiceType.I_OCCUPY)) {
+			if (floor.isOccupied()) {
+				return failureMessage(serviceTypeRequest);
+			} else {
+				return agreeMessage(serviceTypeRequest);
+			}
+		}
+		return failureMessage(serviceTypeRequest);
 	}
-	return reply;
-    }
 
-    private ACLMessage replyFinishedBlock(ACLMessage messageFromRobot) {
-	ACLMessage reply = messageFromRobot.createReply();
-	reply.setPerformative(ACLMessage.INFORM);
-	try {
-	    floor.finishBlock();
-	} catch (FloorException e) {
-	    reply.setPerformative(ACLMessage.FAILURE);
-	    return reply;
+	@Override
+	public ACLMessage notifyGrid() {
+		ACLMessage message = new ACLMessage(ACLMessage.INFORM);
+		message.addReceiver(GridAgent);
+		//TODO: message.setContentObject(this.floor);
+		return message;
 	}
-	return reply;
-    }
-
-    @Override
-    public ACLMessage handleAction(ACLMessage action) {
-	switch (currServiceType) {
-	case GIVE_BLOCK: {
-	    //TODO: deregister service
-	    //TODO: register "need worker service"
-	    return replyTookBlock(action);
-	}
-	case FINISH_BLOCK: {
-	    //TODO: deregister "need worker service"
-	    //TODO: register "need transporter service"
-	    return replyFinishedBlock(action);
-	}
-	case TAKE_BLOCK: {
-	    //TODO: deregister "need transporter service"
-	    //TODO: register "need block service"
-	    return replyBlock(action);
-	}
-	default:
-	    return null;
-	}
-    }
-
-    @Override
-    public ACLMessage notifyGrid() {
-	return null;
-    }
-
-    @Override
-    public ACLMessage notifyRobot() {
-	// TODO Auto-generated method stub
-	return null;
-    }
 
 }
