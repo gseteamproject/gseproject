@@ -14,7 +14,8 @@ public class RobotGoalReader implements IReader<RobotGoalContract> {
     public RobotGoalContract read(DataInputStream stream) throws IOException {
         RobotGoalContract contract = new RobotGoalContract();
         contract.aid = new AID(stream.readUTF());
-        contract.position = new Position(stream.readInt(), stream.readInt());
+        contract.currentPosition = new Position(stream.readInt(), stream.readInt());
+        contract.goal = new Position(stream.readInt(), stream.readInt());
         return contract;
     }
 }
