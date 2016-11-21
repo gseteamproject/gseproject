@@ -10,13 +10,9 @@ public class SourcepaletteTest {
     @Test
     public void testTakeBlock() {
 	SourcePalette source = new SourcePalette(5, 5);
-	try {
-	    Block b = source.takeBlock();
-	    assertNotNull("Source should always return a block", b);
-	    assertEquals(Block.possibleBlockStatus.DIRTY, b.Status);
-	} catch (StationException e) {
-	    e.printStackTrace();
-	}
+	Block b = source.takeBlock();
+	assertNotNull("Source should always return a block", b);
+	assertEquals(Block.possibleBlockStatus.DIRTY, b.Status);
     }
 
 }
