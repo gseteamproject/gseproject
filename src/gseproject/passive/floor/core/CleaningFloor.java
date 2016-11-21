@@ -1,14 +1,15 @@
 package gseproject.passive.floor.core;
 
 import gseproject.core.Block;
-import gseproject.passive.core.IGive;
-import gseproject.passive.core.ITake;
 import gseproject.passive.core.StationException;
 
 public class CleaningFloor extends Floor {
 
     @Override
     public void giveBlock(Block block) throws StationException {
+	if(block == null){
+	    throw new IllegalArgumentException("block is null");
+	}
 	if (this.block != null || this.hasBlock) {
 	    throw new StationException("Already have a block");
 	}

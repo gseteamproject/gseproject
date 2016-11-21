@@ -3,9 +3,8 @@ package gseproject.passive.floor.core;
 import gseproject.core.Block;
 import gseproject.passive.core.IGive;
 import gseproject.passive.core.ITake;
-import gseproject.passive.floor.IFloorLanguage;
 
-public abstract class Floor implements IFloorLanguage, IGive, ITake{
+public abstract class Floor implements IFloorLanguage, IGive, ITake {
     protected boolean hasBlock;
     protected boolean occupied;
     protected boolean hasFinishedBlock;

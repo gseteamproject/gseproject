@@ -4,7 +4,7 @@ import java.util.List;
 
 import gseproject.core.Block;
 
-public abstract class Pallete {
+public abstract class Palette {
     protected List<Block> blocks;
 
     public List<Block> getBlocks() {
@@ -32,7 +32,7 @@ public abstract class Pallete {
 	    return false;
 	if (getClass() != obj.getClass())
 	    return false;
-	Pallete other = (Pallete) obj;
+	Palette other = (Palette) obj;
 	if (blocks == null) {
 	    if (other.blocks != null)
 		return false;

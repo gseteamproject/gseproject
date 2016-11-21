@@ -6,7 +6,7 @@ import gseproject.core.Block;
 import gseproject.passive.core.IGive;
 import gseproject.passive.core.StationException;
 
-public class GoalPalette extends Pallete implements IGive {
+public class GoalPalette extends Palette implements IGive {
     private int maxAmountOfBlocks;
 
     public GoalPalette(int maxAmountOfBlocks) {
