@@ -5,11 +5,31 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import gseproject.experiments.gui.views.trackmanager.TrackManagerView;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 
 
 public class Main extends Application {
-	
+
+	static SystemSettings _settings;
 	public static void main(String[] args) {
+		String executionPath = System.getProperty("user.dir");
+
+		_settings = new SystemSettings();
+
+		executionPath += "/SmartMASON_Settings/System.xml";
+		try {
+			_settings.xmlDocumentDecode(executionPath);
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		}
+		_settings.print();
 		launch(Main.class, args);
 	}
 
@@ -22,20 +42,21 @@ public class Main extends Application {
 	}
 	
 	private void startTestAgents() {
-	    String[] parameters = new String[2];
-		parameters[0] = "-gui";
-		parameters[1] = "GUIAgent:gseproject.experiments.gui.testagents.GUIAgent;";
-		// parameters[1] += "testAgent:gseproject.experiments.gui.testagents.TestAgent;";
-		Boot.main(parameters);
+
+		Boot.main(_settings.args);
 	}
 	
 	
 	private void initGUI(Stage primaryStage) throws Exception {
-		TrackManagerView trackManagerView = new TrackManagerView();
-		Scene scene = new Scene(trackManagerView.getView());
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("GSE Project - Manage Robots");
-		primaryStage.setMinWidth(800);
-		primaryStage.setMinHeight(600);
+		if(_settings.trackManager) {
+			TrackManagerView trackManagerView = new TrackManagerView();
+			Scene scene = new Scene(trackManagerView.getView());
+			primaryStage.setScene(scene);
+			primaryStage.setTitle(_settings.strTitle);
+			primaryStage.setMinHeight(_settings.minHeight);
+			primaryStage.setMinWidth(_settings.minWidth);
+			primaryStage.setMinWidth(_settings.minWidth);
+		}
+
 	}
 }

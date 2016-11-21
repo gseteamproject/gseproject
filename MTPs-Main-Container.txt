@@ -1,1 +1,1 @@
-http://DESKTOP-GFDLUEQ:7778/acc
+http://172.20.10.2:7778/acc
