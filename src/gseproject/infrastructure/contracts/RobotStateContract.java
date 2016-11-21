@@ -2,7 +2,9 @@ package gseproject.infrastructure.contracts;
 
 import gseproject.core.grid.Position;
 
-public class RobotStateContract {
+import java.io.Serializable;
+
+public class RobotStateContract implements Serializable {
 
     public boolean isCarryingBlock;
     public Position position;

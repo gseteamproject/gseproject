@@ -16,6 +16,8 @@ import jade.core.AID;
 import jade.lang.acl.ACLMessage;
 import jade.proto.SimpleAchieveREInitiator;
 
+import java.io.IOException;
+
 public class DummyCommunicator implements ICommunicator {
 
     private RobotAgent _robot;
@@ -27,10 +29,10 @@ public class DummyCommunicator implements ICommunicator {
 
         _serializationController = SerializationController.Instance;
 
-        initiateSerialization();
+        //initiateSerialization();
     }
 
-    private void initiateSerialization() {
+/*    private void initiateSerialization() {
         RobotStateWriter stateWriter = new RobotStateWriter();
         RobotStateReader stateReader = new RobotStateReader();
         _serializationController.RegisterSerializator(RobotStateContract.class, stateWriter, stateReader);
@@ -38,32 +40,41 @@ public class DummyCommunicator implements ICommunicator {
         RobotGoalWriter goalWriter = new RobotGoalWriter();
         RobotGoalReader goalReader = new RobotGoalReader();
         _serializationController.RegisterSerializator(RobotGoalContract.class, goalWriter, goalReader);
-    }
+    }*/
 
 
     public void notifyGridAgent(RobotState state) {
         AID receiverAgent = new AID("GridAgent", AID.ISLOCALNAME);
         RobotStateContract contract = _robotStateConverter(state);
-        String content = _serializationController.Serialize(contract);
 
         ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
         msg.setProtocol(ProtocolTemplates.RobotProtocolTemplates.ROBOT_STATE_PROTOCOL);
         msg.addReceiver(receiverAgent);
-        msg.setContent(content);
+        try{
+            msg.setContentObject(contract);
+        }
+        catch (IOException e){
+
+        }
         SimpleAchieveREInitiator robotStateInitiator = new SimpleAchieveREInitiator(_robot, msg);
 
         _robot.addBehaviour(robotStateInitiator);
     }
 
-    public void getRoute(AID aid, ICallbackArgumented<Position> callback){
-        RobotGoalContract contract = new RobotGoalContract(aid, null);
-        String content = _serializationController.Serialize(contract);
+    public void getRoute(AID aid, RobotState state, ICallbackArgumented<Position> callback){
+        RobotGoalContract contract = new RobotGoalContract(aid, state.position, null);
 
         AID receiverAgent = new AID("GridAgent", AID.ISLOCALNAME);
         ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
         msg.setProtocol(ProtocolTemplates.RobotProtocolTemplates.ROBOT_ROUTE_PROTOCOL);
         msg.addReceiver(receiverAgent);
-        msg.setContent(content);
+        try{
+            msg.setContentObject(contract);
+        }
+        catch (IOException e){
+
+        }
+
         RobotRouteInitiator initiator = new RobotRouteInitiator(_robot, msg, callback);
 
         _robot.addBehaviour(initiator);

@@ -3,16 +3,21 @@ package gseproject.infrastructure.contracts;
 import gseproject.core.grid.Position;
 import jade.core.AID;
 
-public class RobotGoalContract {
+import java.io.Serializable;
+
+public class RobotGoalContract implements Serializable{
 
     public AID aid;
 
-    public Position position;
+    public Position goal;
+
+    public Position currentPosition;
 
     public RobotGoalContract(){}
 
-    public RobotGoalContract(AID aid, Position position){
+    public RobotGoalContract(AID aid, Position currentPosition, Position goal){
         this.aid = aid;
-        this.position = position;
+        this.goal = goal;
+        this.currentPosition = currentPosition;
     }
 }

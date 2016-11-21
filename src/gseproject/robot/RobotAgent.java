@@ -1,5 +1,6 @@
 package gseproject.robot;
 
+import gseproject.core.ICallbackArgumented;
 import gseproject.core.grid.Position;
 import gseproject.core.interaction.IActuator;
 import gseproject.robot.communicator.DummyCommunicator;
@@ -9,6 +10,7 @@ import gseproject.robot.controller.IController;
 import gseproject.robot.domain.RobotState;
 import gseproject.robot.skills.ISkill;
 import gseproject.robot.skills.TransportSkill;
+import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.TickerBehaviour;
 
@@ -46,5 +48,16 @@ public class RobotAgent extends Agent {
                 _communicator.notifyGridAgent(_state);
             }
         });
+
+        _communicator.getRoute(new AID("PaintingFloor", true), _state, new ICallbackArgumented<Position>() {
+            @Override
+            public void invoke(Position arg) {
+                doSomethingWithGoal(arg);
+            }
+        });
+    }
+
+    private void doSomethingWithGoal(Position position){
+
     }
 }
