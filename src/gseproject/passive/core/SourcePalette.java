@@ -8,25 +8,26 @@ public class SourcePalette extends Palette implements ITake {
 	private int amountOfBlocks;
 	private int maxAmountOfBlocks;
 
-	private void refill() {
-		for (int i = 0; i < this.maxAmountOfBlocks; i++) {
+	private void refill(int amount) {
+		for (int i = 0; i < amount; i++) {
 			Block b = new Block();
 			b.Status = Block.possibleBlockStatus.DIRTY;
 			blocks.add(b);
 		}
+		this.amountOfBlocks = this.maxAmountOfBlocks+1;
 	}
 
 	public SourcePalette(int amountOfBlocks, int maxAmountOfBlocks) {
 		this.amountOfBlocks = amountOfBlocks;
 		this.maxAmountOfBlocks = maxAmountOfBlocks;
 		this.blocks = new ArrayList<>();
-		refill();
+		refill(amountOfBlocks);
 	}
 
 	@Override
 	public Block takeBlock() {
-		if (amountOfBlocks == 0) {
-			refill();
+		if (--amountOfBlocks == 0) {
+			refill(maxAmountOfBlocks);
 		}
 		return this.blocks.remove(0);
 	}

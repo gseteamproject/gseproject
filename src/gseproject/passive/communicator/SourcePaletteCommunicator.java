@@ -7,10 +7,10 @@ import gseproject.core.ServiceType;
 import gseproject.passive.core.SourcePalette;
 import jade.lang.acl.ACLMessage;
 
-public class SourcePalleteCommunicator extends StationCommunicator {
+public class SourcePaletteCommunicator extends StationCommunicator {
 	private SourcePalette sourcePalette;
 
-	public SourcePalleteCommunicator(SourcePalette sourcePallete) {
+	public SourcePaletteCommunicator(SourcePalette sourcePallete) {
 		this.sourcePalette = sourcePallete;
 	}
 
@@ -35,7 +35,7 @@ public class SourcePalleteCommunicator extends StationCommunicator {
 			return failureMessage(serviceTypeRequest);
 		}
 		String serviceType = serviceTypeRequest.getContent();
-		if (!serviceType.equals(ServiceType.TAKE_BLOCK)) {
+		if (!serviceType.equals(ServiceType.TAKE_BLOCK.name())) {
 			return failureMessage(serviceTypeRequest);
 		}
 		Block block = sourcePalette.takeBlock();

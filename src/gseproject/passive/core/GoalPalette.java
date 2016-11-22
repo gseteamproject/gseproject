@@ -17,10 +17,10 @@ public class GoalPalette extends Palette implements IGive {
 		if (!block.Status.equals(Block.possibleBlockStatus.PAINTED)) {
 			throw new StationException("block needs to be painted if you want to add him to goal pallete");
 		}
+		this.blocks.add(block);
 		if (this.blocks.size() == this.maxAmountOfBlocks) {
 			this.blocks = new ArrayList<Block>();
 		}
-		this.blocks.add(block);
 	}
 
 	public int getMaxAmountOfBlock() {
@@ -43,7 +43,7 @@ public class GoalPalette extends Palette implements IGive {
 
 	@Override
 	public String toString() {
-		return "GoalPallete [maxAmountOfBlocks=" + maxAmountOfBlocks + "]";
+		return "GoalPalette [maxAmountOfBlocks=" + maxAmountOfBlocks + ", blocks=" + blocks + "]";
 	}
 
 }

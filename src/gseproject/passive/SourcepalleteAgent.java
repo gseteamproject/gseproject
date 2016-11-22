@@ -2,7 +2,7 @@ package gseproject.passive;
 
 import gseproject.passive.communicator.IStationCommunicator;
 import gseproject.passive.communicator.ServiceTypeResponder;
-import gseproject.passive.communicator.SourcePalleteCommunicator;
+import gseproject.passive.communicator.SourcePaletteCommunicator;
 import gseproject.passive.core.GoalPalette;
 import gseproject.passive.core.SourcePalette;
 import jade.core.Agent;
@@ -17,7 +17,7 @@ public class SourcepalleteAgent extends Agent {
     @Override
     protected void setup() {
 	this.sourcePalette = new SourcePalette(5, 5);
-	this.stationCommunicator = new SourcePalleteCommunicator(this.sourcePalette);
+	this.stationCommunicator = new SourcePaletteCommunicator(this.sourcePalette);
 	this.addBehaviour(new ServiceTypeResponder(this, this.robotServiceRequestTemplate, stationCommunicator));
     }
 

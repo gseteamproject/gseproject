@@ -1,6 +1,6 @@
 package gseproject.passive;
 
-import gseproject.passive.communicator.GoalPalleteCommunicator;
+import gseproject.passive.communicator.GoalPaletteCommunicator;
 import gseproject.passive.communicator.IStationCommunicator;
 import gseproject.passive.communicator.ServiceTypeResponder;
 import gseproject.passive.core.GoalPalette;
@@ -16,7 +16,7 @@ public class GoalpaletteAgent extends Agent {
     @Override
     protected void setup() {
 	this.goalPalette = new GoalPalette(10);
-	this.stationCommunicator = new GoalPalleteCommunicator(this.goalPalette);
+	this.stationCommunicator = new GoalPaletteCommunicator(this.goalPalette);
 	this.addBehaviour(new ServiceTypeResponder(this, this.robotServiceRequestTemplate, this.stationCommunicator));
     }
 
