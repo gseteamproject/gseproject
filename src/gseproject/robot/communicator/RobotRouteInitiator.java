@@ -34,6 +34,6 @@ public class RobotRouteInitiator extends SimpleAchieveREInitiator{
 
         System.out.print(contract.goal.toString());
 
-        _callback.invoke(contract.goal);
+        //_callback.invoke(contract.goal);
     }
 }

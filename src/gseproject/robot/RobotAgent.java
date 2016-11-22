@@ -48,13 +48,16 @@ public class RobotAgent extends Agent {
                 _communicator.notifyGridAgent(_state);
             }
         });
-
+        /*
         _communicator.getRoute(new AID("PaintingFloor", true), _state, new ICallbackArgumented<Position>() {
             @Override
+            
             public void invoke(Position arg) {
                 doSomethingWithGoal(arg);
             }
+            
         });
+        */
     }
 
     private void doSomethingWithGoal(Position position){
