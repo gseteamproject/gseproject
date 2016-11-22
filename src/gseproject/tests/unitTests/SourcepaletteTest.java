@@ -3,8 +3,8 @@ package gseproject.tests.unitTests;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import gseproject.core.Block;
+import gseproject.passive.core.SourcePalette;
 import gseproject.passive.core.StationException;
-import gseproject.passive.pallete.core.SourcePalette;
 
 public class SourcepaletteTest {
     @Test

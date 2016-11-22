@@ -1,4 +1,4 @@
-package gseproject.passive.floor.core;
+package gseproject.passive.core;
 
 public class FloorException extends Exception{
 

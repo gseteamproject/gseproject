@@ -6,8 +6,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import gseproject.core.Block;
+import gseproject.passive.core.GoalPalette;
 import gseproject.passive.core.StationException;
-import gseproject.passive.pallete.core.GoalPalette;
 
 public class GoalpaletteTest {
 	@Test

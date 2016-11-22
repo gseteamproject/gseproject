@@ -1,0 +1,49 @@
+package gseproject.passive.core;
+
+import java.util.ArrayList;
+
+import gseproject.core.Block;
+
+public class GoalPalette extends Palette implements IGive {
+	private int maxAmountOfBlocks;
+
+	public GoalPalette(int maxAmountOfBlocks) {
+		this.maxAmountOfBlocks = maxAmountOfBlocks;
+		this.blocks = new ArrayList<>();
+	}
+
+	@Override
+	public void giveBlock(Block block) throws StationException {
+		if (!block.Status.equals(Block.possibleBlockStatus.PAINTED)) {
+			throw new StationException("block needs to be painted if you want to add him to goal pallete");
+		}
+		if (this.blocks.size() == this.maxAmountOfBlocks) {
+			this.blocks = new ArrayList<Block>();
+		}
+		this.blocks.add(block);
+	}
+
+	public int getMaxAmountOfBlock() {
+		return this.getMaxAmountOfBlock();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		GoalPalette other = (GoalPalette) obj;
+		if (maxAmountOfBlocks != other.maxAmountOfBlocks)
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "GoalPallete [maxAmountOfBlocks=" + maxAmountOfBlocks + "]";
+	}
+
+}

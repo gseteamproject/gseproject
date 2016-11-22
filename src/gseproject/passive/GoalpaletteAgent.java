@@ -1,9 +1,9 @@
-package gseproject.passive.pallete;
+package gseproject.passive;
 
 import gseproject.passive.communicator.GoalPalleteCommunicator;
 import gseproject.passive.communicator.IStationCommunicator;
 import gseproject.passive.communicator.ServiceTypeResponder;
-import gseproject.passive.pallete.core.GoalPalette;
+import gseproject.passive.core.GoalPalette;
 import jade.core.Agent;
 import jade.lang.acl.MessageTemplate;
 

@@ -1,10 +1,8 @@
-package gseproject.passive.pallete.core;
+package gseproject.passive.core;
 
 import java.util.ArrayList;
 
 import gseproject.core.Block;
-import gseproject.passive.core.ITake;
-import gseproject.passive.core.StationException;
 
 public class SourcePalette extends Palette implements ITake {
 	private int amountOfBlocks;
@@ -44,15 +42,6 @@ public class SourcePalette extends Palette implements ITake {
 	@Override
 	public String toString() {
 		return "SourcePalette [amountOfBlocks=" + amountOfBlocks + ", maxAmountOfBlocks=" + maxAmountOfBlocks + "]";
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + amountOfBlocks;
-		result = prime * result + maxAmountOfBlocks;
-		return result;
 	}
 
 	@Override

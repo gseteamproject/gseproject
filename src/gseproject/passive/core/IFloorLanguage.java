@@ -1,6 +1,6 @@
-package gseproject.passive.floor.core;
+package gseproject.passive.core;
 
-import gseproject.passive.floor.core.FloorException;
+import gseproject.passive.core.FloorException;
 
 public interface IFloorLanguage {
 

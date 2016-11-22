@@ -1,7 +1,7 @@
-package gseproject.passive.floor;
+package gseproject.passive;
 
 import gseproject.passive.communicator.IStationCommunicator;
-import gseproject.passive.floor.core.Floor;
+import gseproject.passive.core.Floor;
 import jade.core.Agent;
 import jade.domain.FIPANames;
 import jade.lang.acl.MessageTemplate;

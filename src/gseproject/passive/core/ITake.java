@@ -1,7 +1,6 @@
 package gseproject.passive.core;
 
 import gseproject.core.Block;
-import gseproject.passive.floor.core.FloorException;
 
 public interface ITake {
     /**

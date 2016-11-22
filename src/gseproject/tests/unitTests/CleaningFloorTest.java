@@ -4,9 +4,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import gseproject.core.Block;
+import gseproject.passive.core.CleaningFloor;
+import gseproject.passive.core.FloorException;
 import gseproject.passive.core.StationException;
-import gseproject.passive.floor.core.CleaningFloor;
-import gseproject.passive.floor.core.FloorException;
 
 import static org.junit.Assert.*;
 

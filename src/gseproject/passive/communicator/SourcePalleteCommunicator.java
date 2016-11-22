@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import gseproject.core.Block;
 import gseproject.core.ServiceType;
-import gseproject.passive.pallete.core.SourcePalette;
+import gseproject.passive.core.SourcePalette;
 import jade.lang.acl.ACLMessage;
 
 public class SourcePalleteCommunicator extends StationCommunicator {

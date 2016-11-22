@@ -1,9 +1,11 @@
 package gseproject.infrastructure.contracts;
 
+import java.io.Serializable;
+
 import gseproject.core.grid.Grid;
 
-public class GridContract {
-
+public class GridContract implements Serializable {
+	private static final long serialVersionUID = 5044875157820601627L;
 	private Grid grid;
 
 	public GridContract(Grid grid) {

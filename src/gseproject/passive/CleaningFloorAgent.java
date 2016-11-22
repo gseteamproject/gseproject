@@ -1,8 +1,8 @@
-package gseproject.passive.floor;
+package gseproject.passive;
 
 import gseproject.passive.communicator.FloorCommunicator;
 import gseproject.passive.communicator.ServiceTypeResponder;
-import gseproject.passive.floor.core.CleaningFloor;
+import gseproject.passive.core.CleaningFloor;
 
 public class CleaningFloorAgent extends FloorAgent {
     private static final long serialVersionUID = -7283341637605998716L;

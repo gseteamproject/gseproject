@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import gseproject.core.Block;
 import gseproject.core.ServiceType;
+import gseproject.passive.core.Floor;
 import gseproject.passive.core.StationException;
-import gseproject.passive.floor.core.Floor;
 import jade.lang.acl.ACLMessage;
 
 public class FloorCommunicator extends StationCommunicator {

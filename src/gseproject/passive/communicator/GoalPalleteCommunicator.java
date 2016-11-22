@@ -2,8 +2,8 @@ package gseproject.passive.communicator;
 
 import gseproject.core.Block;
 import gseproject.core.ServiceType;
+import gseproject.passive.core.GoalPalette;
 import gseproject.passive.core.StationException;
-import gseproject.passive.pallete.core.GoalPalette;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.UnreadableException;
 

@@ -1,4 +1,4 @@
-package gseproject.passive.pallete.core;
+package gseproject.passive.core;
 
 public class PalleteException extends Exception{
 

@@ -9,7 +9,7 @@ public class RobotState implements IState {
     public Position position;
 
     @Override
-    public Object Clone() {
+    public IState Clone() {
 
 	RobotState state = new RobotState();
 

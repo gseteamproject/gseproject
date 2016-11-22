@@ -1,34 +1,34 @@
 package gseproject.tests.unitTests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import gseproject.core.Block;
-import gseproject.passive.floor.core.Floor;
-import gseproject.passive.floor.core.FloorException;
+import gseproject.passive.core.Floor;
+import gseproject.passive.core.FloorException;
 
 public abstract class FloorTest {
-    protected Floor f;
+	protected Floor f;
 
-    @Test
-    public void iOccupyTest() {
-	try {
-	    f.iOccupy();
-	} catch (FloorException e) {
-	    e.printStackTrace();
+	@Test
+	public void iOccupyTest() {
+		try {
+			f.iOccupy();
+		} catch (FloorException e) {
+			e.printStackTrace();
+		}
+		assertTrue(f.isOccupied());
 	}
-	assertTrue(f.isOccupied());
-    }
 
-    @Test
-    public void iLeaveTest() {
-	try {
-	    f.iOccupy();
-	    f.iLeave();
-	} catch (FloorException e) {
-	    e.printStackTrace();
+	@Test
+	public void iLeaveTest() {
+		try {
+			f.iOccupy();
+			f.iLeave();
+		} catch (FloorException e) {
+			e.printStackTrace();
+		}
+		assertFalse(f.isOccupied());
 	}
-	assertFalse(f.isOccupied());
-    }
 }
