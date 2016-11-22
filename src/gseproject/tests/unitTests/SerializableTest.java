@@ -12,6 +12,7 @@ import gseproject.core.grid.Position;
 import gseproject.core.grid.SpaceType;
 import gseproject.core.grid.Grid.GridBuilder;
 import gseproject.infrastructure.contracts.FloorContract;
+import gseproject.infrastructure.contracts.GridContract;
 import gseproject.infrastructure.contracts.PaletteContract;
 import gseproject.passive.core.CleaningFloor;
 import gseproject.passive.core.Floor;
@@ -107,5 +108,31 @@ public class SerializableTest {
 
 	@Test
 	public void GridContractTest() {
+		Grid grid = new GridBuilder(50, 50)
+				.addGridObject(new AID("sourcePaletteOne", true), new PaletteContract(new Position(0, 0), 2, 3, SpaceType.SOURCE_PALETTE, new SourcePalette(1,1)))
+				.addGridObject(new AID("sourcePaletteTwo", true), new PaletteContract(new Position(0, 4), 2, 3, SpaceType.SOURCE_PALETTE, new SourcePalette(1,1)))
+				.addGridObject(new AID("sourcePaletteThree", true), new PaletteContract(new Position(0, 8), 2, 3, SpaceType.SOURCE_PALETTE, new SourcePalette(1,1)))
+				.addGridObject(new AID("goalPaletteOne", true), new PaletteContract(new Position(18, 0), 2, 3, SpaceType.GOAL_PALETTE, new GoalPalette(10)))
+				.addGridObject(new AID("goalPaletteTwo", true), new PaletteContract(new Position(18, 4), 2, 3, SpaceType.GOAL_PALETTE, new GoalPalette(10)))
+				.addGridObject(new AID("goalPaletteThree", true), new PaletteContract(new Position(18, 8), 2, 3, SpaceType.GOAL_PALETTE, new GoalPalette(10)))
+				.addTrack(new Position(3, 0), Direction.EAST, 12)
+				.addTrack(new Position(16, 0), Direction.SOUTH, 11)
+				.addTrack(new Position(16, 10), Direction.WEST, 12)
+				.addTrack(new Position(3, 10), Direction.NORTH, 11)
+				.build();
+		GridContract expected = new GridContract(grid);
+		ACLMessage message = getDummyMessage();
+		try {
+			message.setContentObject(expected);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		GridContract actual = null;
+		try {
+			actual = (GridContract) message.getContentObject();
+		} catch (UnreadableException e) {
+			e.printStackTrace();
+		}
+		assertEquals(expected, actual);
 	}
 }
