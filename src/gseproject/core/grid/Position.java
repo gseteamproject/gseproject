@@ -10,6 +10,10 @@ public class Position {
 		this.y = y;
 	}
 	
+	public Position(Position position) {
+		this(position.getX(), position.getY());
+	}
+
 	public int getX() {
 		return x;
 	}
@@ -31,7 +35,7 @@ public class Position {
 		return pos.getX() == this.getX() 
 			&& pos.getY() == this.getY();
 	}
-
+	
 	public String toString() {
 		return String.format("[x=%d; y=%d]", x, y);
 	}

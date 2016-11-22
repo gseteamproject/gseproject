@@ -7,7 +7,7 @@ import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
-/*
+
 public class RobotPositionResponder extends CyclicBehaviour {
 
 	private static final long serialVersionUID = -639699365150760529L;
@@ -40,18 +40,18 @@ public class RobotPositionResponder extends CyclicBehaviour {
 
 	private RobotStateContract updateRobotState(RobotStateContract state) {
 		RobotStateContract newState = new RobotStateContract();
-
+		/*
 		newState.isCarryingBlock = state.isCarryingBlock;
 		newState.direction = state.direction;
 		newState.goal = state.goal;
 		if (!canStickDirection(state.position, state.direction)) {
 			newState.direction = changeDirection(state.direction);
-		}
-		newState.position = getNextPosition(state.position, state.direction);
+		} 
+		newState.position = getNextPosition(state.position, state.direction); sorry*/
 		return newState;
 	}
 
-	private Position getNextPosition(Position start, Direction direction) {
+	public static Position getNextPosition(Position start, Direction direction) {
 		switch (direction) {
 		case NORTH:
 			return new Position(start.getX(), start.getY() - 1);
@@ -68,7 +68,7 @@ public class RobotPositionResponder extends CyclicBehaviour {
 
 	private boolean canStickDirection(Position start, Direction direction) {
 		Position newPosition = getNextPosition(start, direction);
-		if (!grid.get(newPosition.getX(), newPosition.getY()).equals(SpaceType.NO_TRACK)) {
+		if (grid.getSpaceType(newPosition.getX(), newPosition.getY()) != SpaceType.NO_TRACK) {
 			return true;
 		} else {
 			return false;
@@ -90,4 +90,3 @@ public class RobotPositionResponder extends CyclicBehaviour {
 	}
 
 }
-*/
