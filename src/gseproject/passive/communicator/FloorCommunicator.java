@@ -5,12 +5,14 @@ import java.io.IOException;
 import gseproject.core.Block;
 import gseproject.core.ServiceType;
 import gseproject.passive.core.Floor;
+import gseproject.passive.core.FloorException;
 import gseproject.passive.core.StationException;
 import jade.lang.acl.ACLMessage;
+import jade.lang.acl.UnreadableException;
 
 public class FloorCommunicator extends StationCommunicator {
 	private Floor floor;
-	
+
 	public FloorCommunicator(Floor floor) {
 		this.floor = floor;
 	}
@@ -38,7 +40,67 @@ public class FloorCommunicator extends StationCommunicator {
 			e.printStackTrace();
 			return failureMessage(message);
 		}
-		return addBlockToMessage(agreeMessage(message), block);
+		return addBlockToMessage(informMessage(message), block);
+	}
+
+	private ACLMessage handleTakeBlockRequest(ACLMessage serviceTypeRequest) {
+		if (!floor.hasFinishedBlock()) {
+			try {
+				floor.takeBlock();
+			} catch (StationException e) {
+				e.printStackTrace();
+			}
+			return failureMessage(serviceTypeRequest);
+		}
+		return replyBlock(serviceTypeRequest);
+	}
+
+	private ACLMessage handleOccupyRequest(ACLMessage serviceTypeRequest) {
+		if (floor.isOccupied()) {
+			return failureMessage(serviceTypeRequest);
+		} else {
+			try {
+				floor.iOccupy();
+			} catch (FloorException e) {
+				e.printStackTrace();
+				return failureMessage(serviceTypeRequest);
+			}
+			return informMessage(serviceTypeRequest);
+		}
+	}
+
+	private ACLMessage handleGiveBlockRequest(ACLMessage serviceTypeRequest) {
+		Block block = null;
+		try {
+			block = (Block) serviceTypeRequest.getContentObject();
+		} catch (UnreadableException e) {
+			e.printStackTrace();
+		}
+		if (block != null && !floor.hasBlock()) {
+			try {
+				floor.giveBlock(block);
+			} catch (StationException e) {
+				e.printStackTrace();
+				return failureMessage(serviceTypeRequest);
+			}
+		} else {
+			return failureMessage(serviceTypeRequest);
+		}
+		return informMessage(serviceTypeRequest);
+	}
+	
+	private ACLMessage handleFinishBlockRequest(ACLMessage serviceTypeRequest) {
+		if (!floor.isOccupied() || !floor.hasBlock()) {
+			return failureMessage(serviceTypeRequest);
+		} else {
+			try {
+				floor.finishBlock();
+			} catch (FloorException e) {
+				e.printStackTrace();
+				return failureMessage(serviceTypeRequest);
+			}
+			return informMessage(serviceTypeRequest);
+		}
 	}
 
 	@Override
@@ -47,31 +109,22 @@ public class FloorCommunicator extends StationCommunicator {
 			return failureMessage(serviceTypeRequest);
 		}
 		String serviceType = serviceTypeRequest.getContent();
-		if (serviceType.equals(ServiceType.TAKE_BLOCK)) {
-			if (!floor.hasFinishedBlock()) {
-				return failureMessage(serviceTypeRequest);
-			}
-			return replyBlock(serviceTypeRequest);
-		} else if (serviceType.equals(ServiceType.GIVE_BLOCK)) {
-			if (floor.hasBlock()) {
-				return failureMessage(serviceTypeRequest);
-			}
-			return agreeMessage(serviceTypeRequest);
-		} else if (serviceType.equals(ServiceType.I_OCCUPY)) {
-			if (floor.isOccupied()) {
-				return failureMessage(serviceTypeRequest);
-			} else {
-				return agreeMessage(serviceTypeRequest);
-			}
+		if (serviceType.equals(ServiceType.TAKE_BLOCK.name())) {
+			return handleTakeBlockRequest(serviceTypeRequest);
+		} else if (serviceType.equals(ServiceType.I_OCCUPY.name())) {
+			return handleOccupyRequest(serviceTypeRequest);
+		} else if (serviceType.equals(ServiceType.FINISH_BLOCK.name())){
+			return handleFinishBlockRequest(serviceTypeRequest);
+		} else {
+			return handleGiveBlockRequest(serviceTypeRequest);
 		}
-		return failureMessage(serviceTypeRequest);
 	}
 
 	@Override
 	public ACLMessage notifyGrid() {
 		ACLMessage message = new ACLMessage(ACLMessage.INFORM);
-		message.addReceiver(GridAgent);
-		//TODO: message.setContentObject(this.floor);
+		// message.addReceiver(GridAgent);
+		// TODO: message.setContentObject(this.floor);
 		return message;
 	}
 

@@ -4,7 +4,7 @@ import jade.core.AID;
 import jade.lang.acl.ACLMessage;
 
 public abstract class StationCommunicator implements IStationCommunicator {
-	protected static final AID GridAgent = new AID("GridAgent", AID.ISLOCALNAME);
+	protected static final AID GridAgent = new AID("GridAgent", true);
 
 	protected static ACLMessage failureMessage(ACLMessage request) {
 		ACLMessage reply = request.createReply();
@@ -12,9 +12,9 @@ public abstract class StationCommunicator implements IStationCommunicator {
 		return reply;
 	}
 
-	protected static ACLMessage agreeMessage(ACLMessage request) {
+	protected static ACLMessage informMessage(ACLMessage request) {
 		ACLMessage reply = request.createReply();
-		reply.setPerformative(ACLMessage.AGREE);
+		reply.setPerformative(ACLMessage.INFORM);
 		return reply;
 	}
 

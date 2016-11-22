@@ -30,7 +30,7 @@ public class GoalPalleteCommunicator extends StationCommunicator {
 				return failureMessage(serviceTypeRequest);
 			}
 		}
-		return agreeMessage(serviceTypeRequest);
+		return informMessage(serviceTypeRequest);
 	}
 
 	@Override

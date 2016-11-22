@@ -39,7 +39,7 @@ public class SourcePalleteCommunicator extends StationCommunicator {
 			return failureMessage(serviceTypeRequest);
 		}
 		Block block = sourcePalette.takeBlock();
-		return addBlockToMessage(agreeMessage(serviceTypeRequest), block);
+		return addBlockToMessage(informMessage(serviceTypeRequest), block);
 	}
 
 	@Override
