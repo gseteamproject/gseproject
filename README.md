@@ -1,6 +1,6 @@
 # gseproject SmartMASON
 
-![Build Status](https://travis-ci.org/gseteamproject/gseproject.svg?branch=master)
+[![Build Status](https://travis-ci.org/gseteamproject/gseproject.svg?branch=master)](https://travis-ci.org/gseteamproject/gseproject)
 
 ## What is SmartMASON?
 The SmartMASON is Multi-Agent System that includes virtual robots which transport building blocks from one palette (source) onto another palette (goal). Two intermediate operations are performed with the building blocks on the way from the source to the goal: cleaning and painting. For these activities a cleaning and a painter’s shop-floors are organized. The robots, palettes and shop-floors are represented by software agents.
