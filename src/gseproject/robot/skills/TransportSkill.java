@@ -15,16 +15,13 @@ public class TransportSkill implements ISkill {
 
     //todo: remove when became unnecessary
     public TransportSkill(IActuator actuator) {
-        Random random = new Random();
-        _cost = random.nextInt(1000 - 1 + 1) + 1;
-        _duration = random.nextInt(1000 - 1 + 1) + 1;
         _actuator = actuator;
     }
 
-    public TransportSkill(IActuator actuator, int duration, int cost) {
+    public void setCost(Integer cost) { _cost = cost;}
+
+    public void setDuration(Integer duration) {
         _duration = duration;
-        _cost = cost;
-        _actuator = actuator;
     }
 
     public UUID getId() {

@@ -6,15 +6,11 @@ import java.util.UUID;
 
 public interface ISkill {
 
-    UUID getId();
-
-    int getCost();
-
     int getDuration();
 
-    void registerService(Agent agent);
+    void setCost(Integer cost) ;
 
-    void deregisterService(Agent agent);
+    void setDuration(Integer duration);
 
     //todo: Here should be instructions how to do current skill. Probably later we have to pass Callback into this method
     void doWork();

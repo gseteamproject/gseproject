@@ -5,7 +5,6 @@ import gseproject.infrastructure.contracts.RobotStateContract;
 import gseproject.infrastructure.serialization.SerializationController;
 import gseproject.infrastructure.serialization.robot.RobotStateReader;
 import gseproject.infrastructure.serialization.robot.RobotStateWriter;
-import gseproject.robot.interaction.IRobotActuator;
 import jade.core.Agent;
 
 public class RobotAgent extends Agent {

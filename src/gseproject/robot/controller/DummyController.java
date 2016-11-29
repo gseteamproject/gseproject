@@ -2,7 +2,7 @@ package gseproject.robot.controller;
 
 import gseproject.core.Block;
 import gseproject.core.grid.GridSpace;
-import gseproject.robot.interaction.IRobotActuator;
+import gseproject.robot.interaction.RealActuator;
 import gseproject.robot.interaction.VirtualActuator;
 import gseproject.robot.processing.IProcessor;
 
@@ -13,7 +13,8 @@ public class DummyController implements IController {
     private GridSpace CurrentPosition;
 
     /** Actuators */
-    private IRobotActuator _virtActuator;
+    private VirtualActuator _virtActuator;
+    private RealActuator _realActuator;
 
     /** Sensors */
 

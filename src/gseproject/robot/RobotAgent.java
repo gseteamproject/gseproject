@@ -14,6 +14,7 @@ import gseproject.robot.controller.DummyController;
 import gseproject.robot.controller.IController;
 import gseproject.robot.domain.RobotState;
 import gseproject.robot.skills.ISkill;
+import gseproject.robot.skills.SkillsSettings;
 import gseproject.robot.skills.TransportSkill;
 import jade.core.AID;
 import jade.core.Agent;
@@ -36,8 +37,7 @@ public class RobotAgent extends Agent {
 
 	private IController _controller;
 	private ICommunicator _communicator;
-	private List<ISkill> _skills;
-	private IActuator _actuator;
+	private SkillsSettings _settings;
 	private RobotState _state;
 
 	public RobotAgent() {
@@ -48,7 +48,7 @@ public class RobotAgent extends Agent {
 		_state.isCarryingBlock = false;
 		_state.position = new Position(5, 1);
 
-		_skills = new ArrayList<>();
+
 	}
 
 	public void setup() {
