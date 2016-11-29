@@ -8,8 +8,10 @@ import gseproject.core.interaction.IActuator;
 import gseproject.infrastructure.contracts.ProtocolTemplates;
 import gseproject.robot.communicator.DummyCommunicator;
 import gseproject.robot.communicator.ICommunicator;
+import gseproject.robot.communicator.IRobotToStationComm;
 import gseproject.robot.communicator.RobotFloorInitiator;
 import gseproject.robot.communicator.RobotSourcePaletteInitiator;
+import gseproject.robot.communicator.RobotToStationCommunicator;
 import gseproject.robot.controller.DummyController;
 import gseproject.robot.controller.IController;
 import gseproject.robot.domain.RobotState;
@@ -36,137 +38,82 @@ public class RobotAgent extends Agent {
 
 	private IController _controller;
 	private ICommunicator _communicator;
+	private IRobotToStationComm robotToStationCommunicator;
 	private List<ISkill> _skills;
 	private IActuator _actuator;
 	private RobotState _state;
 
-	public RobotAgent() {
-		_communicator = new DummyCommunicator(this);
-		_controller = new DummyController();
-
-		_state = new RobotState();
+	private void initState() {
+		this._state = new RobotState();
+		_state.block = new Block();
 		_state.isCarryingBlock = false;
-		_state.position = new Position(5, 1);
+		_state.position = new Position(1, 1);
+	}
 
-		_skills = new ArrayList<>();
+	private void initCommunicators() {
+		this.robotToStationCommunicator = new RobotToStationCommunicator(new AID("SourcePalette", AID.ISLOCALNAME),
+				new AID("CleaningFloor", AID.ISLOCALNAME), new AID("PaintingFloor", true), new AID("GoalPalette", true),
+				this);
+	}
+
+	private void move(String destination) {
+		System.out.println("moving to " + destination + " ...");
+		this.doWait(1000);
+		System.out.println("arrived");
+	}
+
+	private void pick() {
+		System.out.println("picking block");
+		this.doWait(1000);
+	}
+
+	private void give() {
+		System.out.println("giving block");
+		this.doWait(1000);
 	}
 
 	public void setup() {
-		/*
-		 * TransportSkill transportSkill = new TransportSkill(_actuator);
-		 * transportSkill.registerService(this);
-		 * 
-		 * _skills.add(transportSkill);
-		 */
-		_state = new RobotState();
-		_state.isCarryingBlock = false;
-		_state.position = new Position(5, 1);
-		_state.block = null;
-		
-		
-
-		Behaviour getDirtyBlock = new OneShotBehaviour(this) {
-
-			@Override
-			public void action() {
-				requestDirtyBlock();
-				ACLMessage reply = myAgent.blockingReceive(MessageTemplate
-						.MatchProtocol(ProtocolTemplates.ServiceTypeProtocolTemplate.ROBOT_SOURCE_PALETTE_PROTOCOL));
-				getDirtyBlock(reply);
-			}
-
-			private void getDirtyBlock(ACLMessage reply) {
-				if (reply.getPerformative() == ACLMessage.INFORM) {
-					Block block = null;
-					try {
-						block = (Block) reply.getContentObject();
-					} catch (UnreadableException e) {
-						e.printStackTrace();
-					}
-					_state.block = block;
-					_state.isCarryingBlock = true;
-					System.out.println(_state);
-				} else {
-
-				}
-			}
-
-			private void requestDirtyBlock() {
-				ACLMessage messageToSourcePalette = new ACLMessage(ACLMessage.REQUEST);
-				messageToSourcePalette.addReceiver(new AID("SourcePalette", AID.ISLOCALNAME));
-				messageToSourcePalette
-						.setProtocol(ProtocolTemplates.ServiceTypeProtocolTemplate.ROBOT_SOURCE_PALETTE_PROTOCOL);
-				messageToSourcePalette.setContent(ServiceType.TAKE_BLOCK.name());
-				send(messageToSourcePalette);
-			}
-
-		};
-
-		Behaviour giveBlockToCleanStation = new OneShotBehaviour(this) {
-
-			@Override
-			public void action() {
-				requestGiveBlock();
-				ACLMessage reply = myAgent.blockingReceive(MessageTemplate
-						.MatchProtocol(ProtocolTemplates.ServiceTypeProtocolTemplate.ROBOT_CLEANING_FLOOR_PROTOCOL));
-				if (reply.getPerformative() == ACLMessage.INFORM) {
-					_state.block = null;
-					_state.isCarryingBlock = false;
-					System.out.println(_state);
-				} else {
-					System.out.println("Something went wrong");
-				}
-			}
-
-			private void requestGiveBlock() {
-				ACLMessage messageToSourcePalette = new ACLMessage(ACLMessage.REQUEST);
-				messageToSourcePalette.addReceiver(new AID("CleaningFloor", AID.ISLOCALNAME));
-				messageToSourcePalette
-						.setProtocol(ProtocolTemplates.ServiceTypeProtocolTemplate.ROBOT_CLEANING_FLOOR_PROTOCOL);
-				try {
-					messageToSourcePalette.setContentObject(_state.block);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				send(messageToSourcePalette);
-			}
-
-		};
-		
-		Behaviour getCleanedBlockFromCleanStation = new OneShotBehaviour(this){
-
-			@Override
-			public void action() {
-				
-			}
-			
-		};
-		
-		SequentialBehaviour sq = new SequentialBehaviour(this) {
-
-		};
-
-		sq.addSubBehaviour(getDirtyBlock);
-		sq.addSubBehaviour(giveBlockToCleanStation);
-		addBehaviour(sq);
-
-		/*
-		 * addBehaviour(new TickerBehaviour(this, 1000) {
-		 * 
-		 * @Override protected void onTick() {
-		 * _communicator.notifyGridAgent(_state); } }); /*
-		 * _communicator.getRoute(new AID("PaintingFloor", true), _state, new
-		 * ICallbackArgumented<Position>() {
-		 * 
-		 * @Override
-		 * 
-		 * public void invoke(Position arg) { doSomethingWithGoal(arg); }
-		 * 
-		 * });
-		 */
+		initState();
+		initCommunicators();
+		move("SourcePalette");
+		getDirtyBlock();
+		move("CleaningFloor");
+		giveDirtyBlock();
 	}
 
-	private void doSomethingWithGoal(Position position) {
-
+	private void getDirtyBlock() {
+		robotToStationCommunicator.requestDirtyBlock();
+		ACLMessage reply = robotToStationCommunicator.receiveReply();
+		if (reply.getPerformative() == ACLMessage.INFORM) {
+			try {
+				pick();
+				this._state.block = ((Block) reply.getContentObject());
+				this._state.isCarryingBlock = true;
+				System.out.println("finished picking. New state=" + _state);
+			} catch (UnreadableException e) {
+				e.printStackTrace();
+				takeDown("1");
+			}
+		} else {
+			takeDown("1");
+		}
 	}
+
+	private void giveDirtyBlock() {
+		robotToStationCommunicator.giveDirtyBlock(_state.block);
+		ACLMessage reply = robotToStationCommunicator.receiveReply();
+		if (reply.getPerformative() == ACLMessage.INFORM) {
+			give();
+			_state.block = new Block();
+			_state.isCarryingBlock = false;
+			System.out.println("finished giving. New state=" + _state);
+		} else {
+			takeDown("1");
+		}
+	}
+
+	public void takeDown(String errorCode) {
+		System.out.println("Robot Agent shut down with errorcode=" + errorCode);
+	}
+
 }
