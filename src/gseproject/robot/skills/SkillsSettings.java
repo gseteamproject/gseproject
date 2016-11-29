@@ -1,7 +1,5 @@
 package gseproject.robot.skills;
 
-
-import gseproject.core.interaction.IActuator;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,19 +27,12 @@ public class SkillsSettings implements IXMLParser {
     private List<SkillsSettings> _tempSkills;
 
     public SkillsSettings() {
-        _paint = new PaintSkill(_actuator);
-        _clean = new CleanSkill(_actuator);
-        _transport = new TransportSkill(_actuator);
+        _paint = new PaintSkill();
+        _clean = new CleanSkill();
+        _transport = new TransportSkill();
         _tempSkills = new ArrayList<SkillsSettings>();
     }
 
-    public SkillsSettings(IActuator actuator) {
-        _actuator = actuator;
-        _paint = new PaintSkill(_actuator);
-        _clean = new CleanSkill(_actuator);
-        _transport = new TransportSkill(_actuator);
-        _tempSkills = new ArrayList<SkillsSettings>();
-    }
 
 
     public void xmlDocumentDecode(String strPath) throws ParserConfigurationException, IOException, SAXException {
@@ -49,6 +40,17 @@ public class SkillsSettings implements IXMLParser {
         DocumentBuilder db = dbf.newDocumentBuilder();
         Document doc = db.parse(new File(strPath));
         visit(doc, 0);
+        for(int i = 0; i < _tempSkills.size(); ++i)
+        {
+            if(_tempSkills.get(i) != null)
+            {
+                if(_tempSkills.get(i)._robotID == _robotID) {
+                    _paint = _tempSkills.get(i)._paint;
+                    _clean = _tempSkills.get(i)._clean;
+                    _transport = _tempSkills.get(i)._transport;
+                }
+            }
+        }
     }
 
     private void visit(Node node, int level) {
@@ -83,7 +85,7 @@ public class SkillsSettings implements IXMLParser {
         if (node.getNodeName() == "RobotID") {
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element eElement = (Element) node;
-                _tempSkills.add(_tempSkills.size(), new SkillsSettings(_actuator));
+                _tempSkills.add(_tempSkills.size(), new SkillsSettings());
                 _tempSkills.get(_tempSkills.size() - 1)._tempRobotID = Integer.parseInt(eElement.getTextContent());
             }
         }
@@ -132,8 +134,7 @@ public class SkillsSettings implements IXMLParser {
         if (node.getNodeName() == "Duration") {
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element eElement = (Element) node;
-                //_tempSkills.get(_tempSkills.size() - 1)._transport.setDuration(Integer.parseInt(eElement.getTextContent()));
-                _tempSkills.get(_tempSkills.size() - 1)._transport.getDuration();
+                _tempSkills.get(_tempSkills.size() - 1)._transport.setDuration(Integer.parseInt(eElement.getTextContent()));
             }
         }
         if (node.getNodeName() == "Cost") {

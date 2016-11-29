@@ -10,12 +10,9 @@ public class CleanSkill implements ISkill {
 
     private int _cost;
     private int _duration;
-    private IActuator _actuator;
 
     //todo: remove when became unnecessarys
-    public CleanSkill(IActuator actuator) {
-        _actuator = actuator;
-    }
+    public CleanSkill() {}
 
     public int getCost() {
         return _cost;

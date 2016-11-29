@@ -10,12 +10,9 @@ public class PaintSkill implements ISkill {
 
     private int _cost;
     private int _duration;
-    private IActuator _actuator;
 
     //todo: remove when became unnecessarys
-    public PaintSkill(IActuator actuator) {
-        _actuator = actuator;
-    }
+    public PaintSkill() {}
 
 
     public int getCost() {

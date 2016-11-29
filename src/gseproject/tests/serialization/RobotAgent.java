@@ -13,7 +13,6 @@ public class RobotAgent extends Agent {
 	 * 
 	 */
 	private static final long serialVersionUID = 4765529907681140004L;
-	private IRobotActuator _actuator;
 	private final SerializationController serializationController;
 
 	public RobotAgent() {

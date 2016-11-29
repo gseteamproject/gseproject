@@ -35,8 +35,7 @@ public class Main extends Application {
 		}
 		_settings.print();
 
-		RealActuatorActuator actuator = new VirtualActuator();
-		SkillsSettings skillsSettings = new SkillsSettings(actuator);
+		SkillsSettings skillsSettings = new SkillsSettings();
 
 		executionPath = System.getProperty("user.dir") + "/SmartMASON_Settings/SkillsSettings.xml";
 		try {
