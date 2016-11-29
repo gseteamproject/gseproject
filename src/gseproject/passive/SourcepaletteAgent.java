@@ -18,8 +18,6 @@ public class SourcepaletteAgent extends Agent {
 
 	@Override
 	protected void setup() {
-		this.robotServiceRequestTemplate = AchieveREResponder
-				.createMessageTemplate(ProtocolTemplates.ServiceTypeProtocolTemplate.ROBOT_SOURCE_PALETTE_PROTOCOL);
 		this.sourcePalette = new SourcePalette(5, 5);
 		this.stationCommunicator = new SourcePaletteCommunicator(this.sourcePalette);
 		this.addBehaviour(new ServiceTypeResponder(robotServiceRequestTemplate, stationCommunicator));

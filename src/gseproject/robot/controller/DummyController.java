@@ -2,12 +2,13 @@ package gseproject.robot.controller;
 
 import gseproject.core.Block;
 import gseproject.core.grid.GridSpace;
+import gseproject.core.grid.Position;
 import gseproject.robot.interaction.RealActuator;
 import gseproject.robot.interaction.VirtualActuator;
 
 public class DummyController implements IController {
 
-    private GridSpace CurrentPosition;
+    private Position _currentPosition;
 
     /** Actuators */
     private VirtualActuator _virtActuator;
@@ -21,35 +22,35 @@ public class DummyController implements IController {
         _realActuator = new RealActuator();
     }
     /* Move Forward */
-    public void move(GridSpace position) {
+    public void move(Position position) {
         _virtActuator.move(position);
-        CurrentPosition = position;
+        _currentPosition = position;
         return;
     }
 
     /* Pick Block */
-    public Block pick(GridSpace position) {
+    public Block pick(Position position) {
         _virtActuator.pick(position);
-        CurrentPosition = position;
+        _currentPosition = position;
         return null;
     }
 
     /* Put block on Floor/Pallete */
-    public void drop(GridSpace dropPosition) {
+    public void drop(Position dropPosition) {
         _virtActuator.drop(dropPosition);
-        CurrentPosition = dropPosition;
+        _currentPosition = dropPosition;
         return;
     }
 
     /* Do Clean or Paint Work */
-    public void doWork(GridSpace workPosition) {
+    public void doWork(Position workPosition) {
         _virtActuator.doWork(workPosition);
-        CurrentPosition = workPosition;
+        _currentPosition = workPosition;
         return;
     }
 
     /* Return Current Position of Robot */
-    public GridSpace getCurrentPosition(){
-        return CurrentPosition;
+    public Position getCurrentPosition(){
+        return _currentPosition;
     }
 }

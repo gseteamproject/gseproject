@@ -1,7 +1,7 @@
 package gseproject.robot.interaction;
 
 import gseproject.core.Block;
-import gseproject.core.grid.GridSpace;
+import gseproject.core.grid.Position;
 
 public class RealActuator {
 
@@ -10,22 +10,22 @@ public class RealActuator {
     }
 
     /* Return TRUE if Ok, and FALSE if fails */
-    public boolean move(GridSpace gridSpace) {
+    public boolean move(Position gridSpace) {
         return true;
     }
 
     /* Return BLOCK if Ok, and null if fails */
-    public Block pick(GridSpace blockPosition) {
+    public Block pick(Position blockPosition) {
         return null;
     }
 
     /* Return TRUE if Ok, and FALSE if fails */
-    public boolean drop(GridSpace dropPosition) {
+    public boolean drop(Position dropPosition) {
         return true;
     }
 
     /* Return TRUE if Ok, and FALSE if fails */
-    public boolean doWork(GridSpace workPosition) {
+    public boolean doWork(Position workPosition) {
         return true;
     }
 }

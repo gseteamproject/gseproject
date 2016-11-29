@@ -1,42 +1,36 @@
 package gseproject.robot.skills;
 
-import gseproject.core.interaction.IActuator;
-import jade.core.Agent;
-
-import java.util.Random;
-import java.util.UUID;
-
 public class PaintSkill implements ISkill {
 
-    private int _cost;
-    private int _duration;
+	private int _cost;
+	private int _duration;
 
-    //todo: remove when became unnecessarys
-    public PaintSkill() {}
+	// todo: remove when became unnecessarys
+	public PaintSkill() {
+	}
 
+	@Override
+	public int getCost() {
+		return _cost;
+	}
 
-    public int getCost() {
-        return _cost;
-    }
+	@Override
+	public int getDuration() {
+		return _duration;
+	}
 
-    public int getDuration() {
-        return _duration;
-    }
+	@Override
+	public void setCost(Integer cost) {
+		_cost = cost;
+	}
 
-    public void setCost(Integer cost) { _cost = cost;
-    }
+	@Override
+	public void setDuration(Integer duration) {
+		_duration = duration;
+	}
 
-    public void setDuration(Integer duration) {
-        _duration = duration;
-    }
-
-
-    public void doWork() {
-
-    }
-
-    @Override
-    public String toString() {
-        return "PaintSkill [_cost=" + _cost + ", _duration=" + _duration + "]";
-    }
+	@Override
+	public String toString() {
+		return "PaintSkill [_cost=" + _cost + ", _duration=" + _duration + "]";
+	}
 }
