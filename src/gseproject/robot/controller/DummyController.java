@@ -4,12 +4,9 @@ import gseproject.core.Block;
 import gseproject.core.grid.GridSpace;
 import gseproject.robot.interaction.RealActuator;
 import gseproject.robot.interaction.VirtualActuator;
-import gseproject.robot.processing.IProcessor;
 
 public class DummyController implements IController {
 
-    /** Processor */
-    private IProcessor _processor;
     private GridSpace CurrentPosition;
 
     /** Actuators */
@@ -21,7 +18,7 @@ public class DummyController implements IController {
     /* Default Constructor */
     public DummyController(){
         _virtActuator = new VirtualActuator();
-        _processor = null;
+        _realActuator = new RealActuator();
     }
     /* Move Forward */
     public void move(GridSpace position) {

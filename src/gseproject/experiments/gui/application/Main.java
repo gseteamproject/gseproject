@@ -37,16 +37,7 @@ public class Main extends Application {
 
 		SkillsSettings skillsSettings = new SkillsSettings();
 
-		executionPath = System.getProperty("user.dir") + "/SmartMASON_Settings/SkillsSettings.xml";
-		try {
-			skillsSettings.xmlDocumentDecode(executionPath);
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		}
+
 
 
 

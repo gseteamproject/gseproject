@@ -28,7 +28,9 @@ import jade.core.behaviours.TickerBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +41,19 @@ public class RobotAgent extends Agent {
 	private ICommunicator _communicator;
 	private SkillsSettings _settings;
 	private RobotState _state;
-
 	public RobotAgent() {
+
+		String executionPath = System.getProperty("user.dir") + "/SmartMASON_Settings/SkillsSettings.xml";
+		try {
+			_settings.xmlDocumentDecode(executionPath);
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		}
+
 		_communicator = new DummyCommunicator(this);
 		_controller = new DummyController();
 
