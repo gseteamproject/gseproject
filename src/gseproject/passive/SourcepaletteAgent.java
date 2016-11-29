@@ -1,27 +1,28 @@
 package gseproject.passive;
 
 import gseproject.infrastructure.contracts.ProtocolTemplates;
-import gseproject.passive.communicator.GoalPaletteCommunicator;
 import gseproject.passive.communicator.IStationCommunicator;
 import gseproject.passive.communicator.ServiceTypeResponder;
+import gseproject.passive.communicator.SourcePaletteCommunicator;
 import gseproject.passive.core.GoalPalette;
+import gseproject.passive.core.SourcePalette;
 import jade.core.Agent;
 import jade.lang.acl.MessageTemplate;
 import jade.proto.AchieveREResponder;
 
-public class GoalpaletteAgent extends Agent {
-	private static final long serialVersionUID = -1104113813018831544L;
-	private GoalPalette goalPalette;
+public class SourcepaletteAgent extends Agent {
+	private static final long serialVersionUID = -7283341637605998716L;
+	private SourcePalette sourcePalette;
 	private IStationCommunicator stationCommunicator;
 	private MessageTemplate robotServiceRequestTemplate;
 
 	@Override
 	protected void setup() {
 		this.robotServiceRequestTemplate = AchieveREResponder
-				.createMessageTemplate(ProtocolTemplates.ServiceTypeProtocolTemplate.ROBOT_GOAL_PALETTE_PROTOCOL);
-		this.goalPalette = new GoalPalette(5);
-		this.stationCommunicator = new GoalPaletteCommunicator(this.goalPalette);
-		
+				.createMessageTemplate(ProtocolTemplates.ServiceTypeProtocolTemplate.ROBOT_SOURCE_PALETTE_PROTOCOL);
+		this.sourcePalette = new SourcePalette(5, 5);
+		this.stationCommunicator = new SourcePaletteCommunicator(this.sourcePalette);
+		this.addBehaviour(new ServiceTypeResponder(robotServiceRequestTemplate, stationCommunicator));
 	}
 
 	@Override

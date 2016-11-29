@@ -14,7 +14,7 @@ public class SourcePalette extends Palette implements ITake {
 			b.Status = Block.possibleBlockStatus.DIRTY;
 			blocks.add(b);
 		}
-		this.amountOfBlocks = this.maxAmountOfBlocks+1;
+		this.amountOfBlocks = this.maxAmountOfBlocks;
 	}
 
 	public SourcePalette(int amountOfBlocks, int maxAmountOfBlocks) {
@@ -25,9 +25,12 @@ public class SourcePalette extends Palette implements ITake {
 	}
 
 	@Override
-	public Block takeBlock() {
-		if (--amountOfBlocks == 0) {
-			refill(maxAmountOfBlocks);
+	public synchronized Block takeBlock() {
+		if (amountOfBlocks == 0) {
+			refill(maxAmountOfBlocks+1);
+			amountOfBlocks=maxAmountOfBlocks;
+		} else {
+			amountOfBlocks--;
 		}
 		return this.blocks.remove(0);
 	}

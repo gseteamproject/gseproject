@@ -5,7 +5,7 @@ import gseproject.core.Block;
 public class CleaningFloor extends Floor {
 
 	@Override
-	public void giveBlock(Block block) throws StationException {
+	public synchronized void giveBlock(Block block) throws StationException {
 		if (block == null) {
 			throw new IllegalArgumentException("block is null");
 		}
@@ -24,7 +24,7 @@ public class CleaningFloor extends Floor {
 	}
 
 	@Override
-	public Block takeBlock() throws StationException {
+	public synchronized Block takeBlock() throws StationException {
 		if (!this.block.Status.equals(Block.possibleBlockStatus.CLEANED) || !this.hasFinishedBlock) {
 			throw new StationException("Occupier needs to finish block first.");
 		}
@@ -37,7 +37,7 @@ public class CleaningFloor extends Floor {
 	}
 
 	@Override
-	public void finishBlock() throws FloorException {
+	public synchronized void finishBlock() throws FloorException {
 		if (!this.block.Status.equals(Block.possibleBlockStatus.DIRTY)) {
 			throw new FloorException("Block is not dirty. So it cannot be cleaned.");
 		}

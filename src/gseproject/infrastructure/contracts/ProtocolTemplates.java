@@ -2,14 +2,21 @@ package gseproject.infrastructure.contracts;
 
 public interface ProtocolTemplates {
 
-    public interface RobotProtocolTemplates {
+	public interface RobotProtocolTemplates {
 
-	String ROBOT_STATE_PROTOCOL = "robot-state-protocol";
+		String ROBOT_STATE_PROTOCOL = "robot-state-protocol";
 
-	String ROBOT_ROUTE_PROTOCOL = "robot-route-protocol";
+		String ROBOT_ROUTE_PROTOCOL = "robot-route-protocol";
 
-    }
+	}
 
-    String GUI_ROBOT_STATE_PROTOCOL = "gui-robot-state-protocol";
+	public interface ServiceTypeProtocolTemplate {
+		String ROBOT_CLEANING_FLOOR_PROTOCOL = "robot-cleaning-floor-protocol";
+		String ROBOT_PAINTING_FLOOR_PROTOCOL = "robot-painting-floor-protocol";
+		String ROBOT_SOURCE_PALETTE_PROTOCOL = "robot-source-palette-protocol";
+		String ROBOT_GOAL_PALETTE_PROTOCOL = "robot-goal-palette-protocol";
+	}
+
+	String GUI_ROBOT_STATE_PROTOCOL = "gui-robot-state-protocol";
 
 }

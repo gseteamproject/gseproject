@@ -5,7 +5,7 @@ import gseproject.core.Block;
 public class PaintingFloor extends Floor {
 
 	@Override
-	public void giveBlock(Block block) throws StationException {
+	public synchronized void giveBlock(Block block) throws StationException {
 		if (this.block != null || this.hasBlock) {
 			throw new StationException("Already have a block");
 		}
@@ -22,7 +22,7 @@ public class PaintingFloor extends Floor {
 	}
 
 	@Override
-	public Block takeBlock() throws StationException {
+	public synchronized Block takeBlock() throws StationException {
 		if (!this.block.Status.equals(Block.possibleBlockStatus.PAINTED) || !this.hasFinishedBlock) {
 			throw new StationException("Occupier needs to finish block first.");
 		}
@@ -36,7 +36,7 @@ public class PaintingFloor extends Floor {
 	}
 
 	@Override
-	public void finishBlock() throws FloorException {
+	public synchronized void finishBlock() throws FloorException {
 		if (!this.block.Status.equals(Block.possibleBlockStatus.CLEANED)) {
 			throw new FloorException("Block is not cleaned. So it cannot be painted.");
 		}

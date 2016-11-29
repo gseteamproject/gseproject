@@ -38,7 +38,6 @@ public class GoalPaletteCommunicatorTest {
 		for (int i = 0; i < 1000; i++) {
 			ACLMessage msg = communicator.handleServiceTypeRequest(takeBlockMessage());
 			assertTrue(msg.getPerformative() == ACLMessage.INFORM);
-			System.out.println(goalPalette);
 			assertTrue(goalPalette.getBlocks().size() > 0 || goalPalette.getBlocks().size() < 6);
 		}
 

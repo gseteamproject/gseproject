@@ -36,7 +36,7 @@ public abstract class Floor implements IFloorLanguage, IGive, ITake, Serializabl
 	/* SETTER */
 
 	@Override
-	public void iOccupy() throws FloorException {
+	public synchronized void iOccupy() throws FloorException {
 		if (occupied) {
 			throw new FloorException("I am already occupied");
 		}
@@ -44,7 +44,7 @@ public abstract class Floor implements IFloorLanguage, IGive, ITake, Serializabl
 	}
 
 	@Override
-	public void iLeave() throws FloorException {
+	public synchronized void iLeave() throws FloorException {
 		if (!occupied) {
 			throw new FloorException("I am not occupied");
 		}

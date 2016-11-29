@@ -13,7 +13,7 @@ public class GoalPalette extends Palette implements IGive {
 	}
 
 	@Override
-	public void giveBlock(Block block) throws StationException {
+	public synchronized void giveBlock(Block block) throws StationException {
 		if (!block.Status.equals(Block.possibleBlockStatus.PAINTED)) {
 			throw new StationException("block needs to be painted if you want to add him to goal pallete");
 		}

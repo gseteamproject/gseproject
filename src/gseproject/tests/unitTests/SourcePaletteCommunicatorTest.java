@@ -25,11 +25,10 @@ public class SourcePaletteCommunicatorTest {
 
 	@Test
 	public void takeBlockTest() {
-		sourcePalette = new SourcePalette(1, 10);
+		sourcePalette = new SourcePalette(0, 10);
 		communicator = new SourcePaletteCommunicator(sourcePalette);
 		ACLMessage reply = communicator.handleServiceTypeRequest(takeBlockMessage());
 		assertTrue(reply.getPerformative() == ACLMessage.INFORM);
-		System.out.println(sourcePalette);
 		assertTrue(this.sourcePalette.getBlocks().size() == 10);
 		Block block = null;
 		try {
