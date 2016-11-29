@@ -37,6 +37,13 @@ public class Position implements Serializable {
 		return pos.getX() == this.getX() && pos.getY() == this.getY();
 	}
 
+	public void setX(int X){
+		this.x = X;
+	}
+
+	public void setY(int Y){
+		this.y = Y;
+	}
 	public String toString() {
 		return String.format("[x=%d; y=%d]", x, y);
 	}
