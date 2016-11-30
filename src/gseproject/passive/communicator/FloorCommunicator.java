@@ -20,36 +20,55 @@ public class FloorCommunicator extends StationCommunicator {
 	private Floor floor;
 	private Agent floorAgent;
 
-	private DFAgentDescription needBlock = new DFAgentDescription();
-	private DFAgentDescription needTransporter = new DFAgentDescription();
-	private DFAgentDescription needWorker = new DFAgentDescription();
-
 	public FloorCommunicator(Floor floor, Agent floorAgent) {
 		this.floor = floor;
 		this.floorAgent = floorAgent;
-		initServices();
+		registerNeedBlock();
 	}
 
-	private void initServices() {
+	private void registerNeedBlock() {
+		DFAgentDescription dfServiceDescription = new DFAgentDescription();
 		ServiceDescription needBlock = new ServiceDescription();
 		needBlock.setName("needBlock");
 		needBlock.setType("needBlock");
-		this.needBlock.addServices(needBlock);
+		dfServiceDescription.addServices(needBlock);
+		try {
+			DFService.register(this.floorAgent, dfServiceDescription);
+		} catch (FIPAException e) {
+			e.printStackTrace();
+		}
+	}
 
+	private void registerNeedWorker() {
+		DFAgentDescription dfServiceDescription = new DFAgentDescription();
+		if (this.floor instanceof CleaningFloor) {
+			ServiceDescription needClean = new ServiceDescription();
+			needClean.setName("needClean");
+			needClean.setType("needClean");
+			dfServiceDescription.addServices(needClean);
+		} else {
+			ServiceDescription needPaint = new ServiceDescription();
+			needPaint.setName("needPaint");
+			needPaint.setType("needPaint");
+			dfServiceDescription.addServices(needPaint);
+		}
+		try {
+			DFService.register(this.floorAgent, dfServiceDescription);
+		} catch (FIPAException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void registerNeedTransporter() {
+		DFAgentDescription dfServiceDescription = new DFAgentDescription();
 		ServiceDescription needTransporter = new ServiceDescription();
 		needTransporter.setName("needTransporter");
 		needTransporter.setType("needTransporter");
-		this.needTransporter.addServices(needTransporter);
-
-		ServiceDescription needWorker = new ServiceDescription();
-		if(this.floor instanceof CleaningFloor){
-			needWorker.setName("needClean");
-			needWorker.setType("needClean");
-		} else {
-			needWorker.setName("needPaint");
-			needWorker.setType("needPaint");
+		try {
+			DFService.register(this.floorAgent, dfServiceDescription);
+		} catch (FIPAException e) {
+			e.printStackTrace();
 		}
-		this.needTransporter.addServices(needWorker);
 	}
 
 	private static ACLMessage addBlockToMessage(ACLMessage message, Block block) {
@@ -88,8 +107,8 @@ public class FloorCommunicator extends StationCommunicator {
 			return failureMessage(serviceTypeRequest);
 		}
 		try {
-			DFService.deregister(this.floorAgent, this.needTransporter);
-			DFService.register(this.floorAgent, this.needBlock);
+			DFService.deregister(this.floorAgent);
+			this.registerNeedBlock();
 		} catch (FIPAException e) {
 			e.printStackTrace();
 		}
@@ -128,8 +147,8 @@ public class FloorCommunicator extends StationCommunicator {
 			return failureMessage(serviceTypeRequest);
 		}
 		try {
-			DFService.deregister(this.floorAgent, this.needBlock);
-			DFService.register(this.floorAgent, this.needWorker);
+			DFService.deregister(this.floorAgent);
+			this.registerNeedWorker();
 		} catch (FIPAException e) {
 			e.printStackTrace();
 		}
@@ -147,11 +166,11 @@ public class FloorCommunicator extends StationCommunicator {
 				return failureMessage(serviceTypeRequest);
 			}
 			try {
-				DFService.deregister(this.floorAgent, this.needWorker);
-				DFService.register(this.floorAgent, this.needTransporter);
+				DFService.deregister(this.floorAgent);
 			} catch (FIPAException e) {
 				e.printStackTrace();
 			}
+			this.registerNeedTransporter();
 			return informMessage(serviceTypeRequest);
 		}
 	}

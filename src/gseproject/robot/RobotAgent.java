@@ -81,9 +81,8 @@ public class RobotAgent extends Agent {
 		initCommunicators();
 
 		this._skillsSettings.getAID(this.getAID().getLocalName());
-		System.out.println(this._skillsSettings._robotID);
 		ParallelBehaviour b = new ParallelBehaviour();
-		b.addSubBehaviour(new TickerBehaviour(this, 2000) {
+		b.addSubBehaviour(new TickerBehaviour(this, 5000) {
 
 			/**
 			 * 

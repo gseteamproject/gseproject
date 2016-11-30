@@ -49,8 +49,10 @@ public class TransporterBehaviour extends CyclicBehaviour {
 				_state.block.Status = Block.possibleBlockStatus.NULL;
 				_state.isCarryingBlock = false;
 			} else {
-				// He sent failure -> exception handling
+				System.out.println("dropping failed due to communication");
 			}
+		} else {
+			System.out.println("dropping failed due to real actuator");
 		}
 	}
 
@@ -117,10 +119,16 @@ public class TransporterBehaviour extends CyclicBehaviour {
 	@Override
 	public void action() {
 		moveAndgetBlockFromSourcePalette(Color.black);
+		System.out.println("got dirty block");
 		moveAndDropBlockOnCleaningFloor(Color.black);
+		System.out.println("dropped block on cleaning floor");
 		waitAndGetCleanedBlock();
+		System.out.println("got cleaned block");
 		moveAndDropBlockOnPaintingFloor(Color.black);
+		System.out.println("dropped block on painting floor");
 		waitAndGetPaintedBlock();
+		System.out.println("got painted block");
 		moveAndDropBlockOnGoalPalette(Color.black);
+		System.out.println("dropped block on goal palette");
 	}
 }

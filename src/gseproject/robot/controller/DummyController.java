@@ -25,10 +25,7 @@ public class DummyController implements IController {
     }
     /* Move Forward */
     public void move(Color color) {
-    	if(color.equals(Color.BLACK)){
-    		System.out.println("moving to sourcepalette");
-    	}
-    	System.out.println(_skillsSettings._transport.getCost() + "," +  _skillsSettings._transport.getDuration());
+    	System.out.println("Robot called move: " + _skillsSettings._transport.getCost() + "," +  _skillsSettings._transport.getDuration());
         return;
     }
     /*

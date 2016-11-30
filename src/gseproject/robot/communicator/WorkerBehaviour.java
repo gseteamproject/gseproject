@@ -38,7 +38,10 @@ public class WorkerBehaviour extends CyclicBehaviour {
 				_communicator.requestCleanBlock();
 				ACLMessage reply = _communicator.receiveReply();
 				if (reply.getPerformative() != ACLMessage.INFORM) {
-					// failure
+					System.out.println("performed working successfully");
+					this.myAgent.doWait(5000);
+				} else {
+					System.out.println("working failed");
 				}
 			}
 		}
@@ -49,7 +52,7 @@ public class WorkerBehaviour extends CyclicBehaviour {
 		try {
 			result = DFService.search(this.myAgent, this.service);
 		} catch (FIPAException e) {
-			e.printStackTrace();
+			System.out.println(myAgent.getAID().getLocalName() + " couldnt find service");
 		}
 		if (result.length < 1) {
 			return null;
