@@ -77,10 +77,10 @@ public class RobotAgent extends Agent {
 		 */
 		loadSkillSettings();
 		loadStateSettings();
-		
+
 		/*
-		* Initiate Controller, Communicator and Behaviours
-		*/
+		 * Initiate Controller, Communicator and Behaviours
+		 */
 		initController();
 		initCommunicators();
 		ParallelBehaviour b = new ParallelBehaviour();
@@ -93,25 +93,12 @@ public class RobotAgent extends Agent {
 
 			@Override
 			protected void onTick() {
-				// broadcast state (receiver = all robots + gui)
+				System.out.println("Current State: " + _state + "\n Later this will be sent to GUI \n");
 			}
 
 		});
 
-		b.addSubBehaviour(new CyclicBehaviour(this) {
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 4919825570106173333L;
-
-			@Override
-			public void action() {
-			
-
-			}
-
-		});
+		
 		this.addBehaviour(b);
 	}
 
