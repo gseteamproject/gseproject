@@ -14,7 +14,7 @@ public class CleaningFloorAgent extends FloorAgent {
 		this.robotServiceRequestTemplate = AchieveREResponder
 				.createMessageTemplate(ProtocolTemplates.ServiceTypeProtocolTemplate.ROBOT_CLEANING_FLOOR_PROTOCOL);
 		this.floor = new CleaningFloor();
-		this.stationCommunicator = new FloorCommunicator(this.floor);
+		this.stationCommunicator = new FloorCommunicator(this.floor, this);
 		this.addBehaviour(new ServiceTypeResponder(robotServiceRequestTemplate, stationCommunicator));
 	}
 

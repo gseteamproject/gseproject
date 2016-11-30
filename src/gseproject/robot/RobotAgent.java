@@ -77,7 +77,7 @@ public class RobotAgent extends Agent {
 		 */
 		loadSkillSettings();
 		loadStateSettings();
-
+		
 		/*
 		* Initiate Controller, Communicator and Behaviours
 		*/
@@ -107,46 +107,7 @@ public class RobotAgent extends Agent {
 
 			@Override
 			public void action() {
-				_controller.move(Color.black); // 1. move to sourcepalette
-				if (_controller.pick()) {
-					_robotToStationCommunicator.requestDirtyBlock();
-					ACLMessage reply = _robotToStationCommunicator.receiveReply();
-					if (reply.getPerformative() == ACLMessage.INFORM) {
-						try {
-							_state.block = (Block) reply.getContentObject();
-							_state.isCarryingBlock = true;
-						} catch (UnreadableException e) {
-							e.printStackTrace();
-						}
-					} else {
-						// He sent failure -> exception handling
-					}
-				}
-				_controller.move(Color.black); // 2. move to cleaning floor
-				if (_controller.drop()) {
-					_robotToStationCommunicator.giveDirtyBlock(_state.block);
-					ACLMessage reply = _robotToStationCommunicator.receiveReply();
-					if (reply.getPerformative() == ACLMessage.INFORM) {
-						_state.block.Status = Block.possibleBlockStatus.NULL;
-						_state.isCarryingBlock = false;
-					} else {
-						// He sent failure -> exception handling
-					}
-				}
-				_robotToStationCommunicator.requestCleanedBlock();
-				ACLMessage reply = _robotToStationCommunicator.receiveReply();
-				while (reply.getPerformative() == ACLMessage.FAILURE) {
-					System.out.println("got failure message");
-					myAgent.doWait(1000);
-					_robotToStationCommunicator.requestCleanedBlock();
-					reply = _robotToStationCommunicator.receiveReply();
-				}
-				try {
-					_state.block = (Block) reply.getContentObject();
-					_state.isCarryingBlock = true;
-				} catch (UnreadableException e) {
-					e.printStackTrace();
-				}
+			
 
 			}
 

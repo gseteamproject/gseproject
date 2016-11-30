@@ -10,5 +10,7 @@ public interface IRobotToStationComm {
 	public void giveCleanedBlock(Block cleanedBlock);
 	public void requestPaintedBlock();
 	public void givePaintedBlock(Block paintedBlock);
+	public void requestCleanBlock();
+	public void requestPaintBlock();
 	public ACLMessage receiveReply();
 }

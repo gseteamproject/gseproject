@@ -74,10 +74,11 @@ public class DummyCommunicator implements ICommunicator {
         catch (IOException e){
 
         }
-
+        /*
         RobotRouteInitiator initiator = new RobotRouteInitiator(_robot, msg, callback);
-
         _robot.addBehaviour(initiator);
+        
+*/
     }
 
     private RobotStateContract _robotStateConverter(RobotState state){

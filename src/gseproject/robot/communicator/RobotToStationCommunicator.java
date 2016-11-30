@@ -47,6 +47,14 @@ public class RobotToStationCommunicator implements IRobotToStationComm {
 		robotAgent.send(messageToSourcePalette);
 	}
 
+	private void finishBlock(AID receiver) {
+		ACLMessage messageToFloor = new ACLMessage(ACLMessage.REQUEST);
+		messageToFloor.addReceiver(receiver);
+		messageToFloor.setProtocol(this.currProtocol);
+		messageToFloor.setContent(ServiceType.FINISH_BLOCK.name());
+		robotAgent.send(messageToFloor);
+	}
+
 	@Override
 	public void requestDirtyBlock() {
 		this.currProtocol = ProtocolTemplates.ServiceTypeProtocolTemplate.ROBOT_SOURCE_PALETTE_PROTOCOL;
@@ -90,6 +98,18 @@ public class RobotToStationCommunicator implements IRobotToStationComm {
 	public void givePaintedBlock(Block paintedBlock) {
 		this.currProtocol = ProtocolTemplates.ServiceTypeProtocolTemplate.ROBOT_GOAL_PALETTE_PROTOCOL;
 		giveBlock(this.goalPaletteAID, paintedBlock);
+	}
+
+	@Override
+	public void requestCleanBlock() {
+		this.currProtocol = ProtocolTemplates.ServiceTypeProtocolTemplate.ROBOT_CLEANING_FLOOR_PROTOCOL;
+		finishBlock(this.cleaningFloorAID);
+	}
+
+	@Override
+	public void requestPaintBlock() {
+		this.currProtocol = ProtocolTemplates.ServiceTypeProtocolTemplate.ROBOT_PAINTING_FLOOR_PROTOCOL;
+		finishBlock(this.paintingFloorAID);
 	}
 
 }
