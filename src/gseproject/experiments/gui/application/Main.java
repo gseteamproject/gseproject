@@ -2,7 +2,6 @@ package gseproject.experiments.gui.application;
 
 import gseproject.core.interaction.IActuator;
 import gseproject.robot.interaction.RealActuator;
-import gseproject.robot.interaction.VirtualActuator;
 import gseproject.robot.skills.SkillsSettings;
 import jade.Boot;
 import javafx.application.Application;
