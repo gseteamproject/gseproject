@@ -34,7 +34,7 @@ public class RobotAgent extends Agent {
 
 	private void loadSkillSettings() {
 		_skillsSettings = new SkillsSettings();
-		String executionPath = System.getProperty("user.dir") + "\\SmartMASON_Settings\\SkillsSettings.xml";
+		String executionPath = System.getProperty("user.dir") + "/SmartMASON_Settings/SkillsSettings.xml";
 		System.out.println(executionPath);
 		try {
 			_skillsSettings.xmlDocumentDecode(executionPath);
@@ -83,6 +83,7 @@ public class RobotAgent extends Agent {
 		*/
 		initController();
 		initCommunicators();
+		
 		ParallelBehaviour b = new ParallelBehaviour();
 		b.addSubBehaviour(new TickerBehaviour(this, 500) {
 
