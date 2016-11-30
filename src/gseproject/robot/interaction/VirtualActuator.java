@@ -11,7 +11,8 @@ public class VirtualActuator {
 	public VirtualActuator(SkillsSettings skillsSettings){
 		this._skillsSettings = skillsSettings;
 	}
-	
+	public VirtualActuator(){
+	}
 	public void init() {
 
 	}

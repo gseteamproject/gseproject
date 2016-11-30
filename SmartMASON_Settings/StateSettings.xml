@@ -8,7 +8,7 @@
 
 <!--> Block status could be: CLEANED, DIRTY, PAINTED, FALSE <-->
 	<Block>
-		<HasBlock>CLEANED</HasBlock>
+		<Status>FALSE</Status>
 	</Block>
 	
 </RobotState>

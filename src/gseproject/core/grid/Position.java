@@ -11,7 +11,8 @@ public class Position implements Serializable {
 		this.x = x;
 		this.y = y;
 	}
-
+	public Position() {
+	}
 	public Position(Position position) {
 		this(position.getX(), position.getY());
 	}

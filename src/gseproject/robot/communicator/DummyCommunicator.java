@@ -62,7 +62,7 @@ public class DummyCommunicator implements ICommunicator {
     }
 
     public void getRoute(AID aid, RobotState state, ICallbackArgumented<Position> callback){
-        RobotGoalContract contract = new RobotGoalContract(aid, state.position, null);
+        RobotGoalContract contract = new RobotGoalContract(aid, state._position, null);
 
         AID receiverAgent = new AID("GridAgent", AID.ISLOCALNAME);
         ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
@@ -83,7 +83,7 @@ public class DummyCommunicator implements ICommunicator {
     private RobotStateContract _robotStateConverter(RobotState state){
         RobotStateContract contract = new RobotStateContract();
         contract.isCarryingBlock = state.isCarryingBlock;
-        contract.position = state.position;
+        contract.position = state._position;
         return contract;
     }
 }

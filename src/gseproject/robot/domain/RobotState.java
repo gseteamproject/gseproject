@@ -22,6 +22,12 @@ public class RobotState implements IState {
 	public Position _position;
 	public Block block;
 
+	public RobotState(){
+		isCarryingBlock = false;
+		_position = new Position();
+		block = new Block();
+	}
+
 	@Override
 	public IState Clone() {
 
@@ -67,41 +73,34 @@ public class RobotState implements IState {
 	}
 
 	private void parseBlockState(Node node) {
-		if (node.getNodeName() == "CoordX") {
+		if (node.getNodeName() == "Status") {
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element eElement = (Element) node;
-				_position.setX(Integer.parseInt(eElement.getTextContent()));
-			}
-		}
-		if (node.getNodeName() == "CoordY") {
-			if (node.getNodeType() == Node.ELEMENT_NODE) {
-				Element eElement = (Element) node;
-				_position.setY(Integer.parseInt(eElement.getTextContent()));
+				String strContent = eElement.getTextContent();
+				if(strContent.equals("FALSE")){
+					block = null;
+				}
+				if(strContent.equals("CLEANED")){
+					block = new Block();
+					block.Status = Block.possibleBlockStatus.CLEANED;
+				}
+				if(strContent.equals("DIRTY")){
+					block = new Block();
+					block.Status = Block.possibleBlockStatus.DIRTY;
+				}
+				if(strContent.equals("PAINTED")){
+					block = new Block();
+					block.Status = Block.possibleBlockStatus.PAINTED;
+				}
 			}
 		}
 	}
 
 	private void parsePosition(Node node) {
-		if (node.getNodeName() == "HasBlock") {
+		if (node.getNodeName() == "CoordX") {
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element eElement = (Element) node;
-				if(eElement.getTextContent() == "FALSE"){
-					block = null;
-				}
-				if(eElement.getTextContent() == "CLEANED"){
-					block = new Block();
-					block.Status = Block.possibleBlockStatus.CLEANED;
-				}
-				if(eElement.getTextContent() == "DIRTY"){
-					block = new Block();
-					block.Status = Block.possibleBlockStatus.DIRTY;
-				}
-				if(eElement.getTextContent() == "PAINTED"){
-					block = new Block();
-					block.Status = Block.possibleBlockStatus.PAINTED;
-				}
-
-
+				_position.setX(Integer.parseInt(eElement.getTextContent()));
 			}
 		}
 		if (node.getNodeName() == "CoordY") {

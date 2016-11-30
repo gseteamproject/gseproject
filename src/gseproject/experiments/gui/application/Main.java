@@ -1,8 +1,7 @@
 package gseproject.experiments.gui.application;
 
-import gseproject.core.interaction.IActuator;
-import gseproject.robot.interaction.RealActuator;
-import gseproject.robot.interaction.VirtualActuator;
+
+import gseproject.robot.domain.RobotState;
 import gseproject.robot.skills.SkillsSettings;
 import jade.Boot;
 import javafx.application.Application;
@@ -37,7 +36,17 @@ public class Main extends Application {
 
 		SkillsSettings skillsSettings = new SkillsSettings();
 
-
+		RobotState state = new RobotState();
+		executionPath = System.getProperty("user.dir") + "/SmartMASON_Settings/StateSettings.xml";
+		try {
+			state.xmlDocumentDecode(executionPath);
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		}
 
 
 

@@ -48,11 +48,17 @@ public class RobotAgent extends Agent {
 		_controller = new DummyController();
 	}
 
-	private void initState() {
-		this._state = new RobotState();
-		_state.block = new Block();
-		_state.isCarryingBlock = false;
-		_state.position = new Position(1, 1);
+	private void loadStateSettings() {
+		String executionPath = System.getProperty("user.dir") + "/SmartMASON_Settings/StateSettings.xml";
+		try {
+			_state.xmlDocumentDecode(executionPath);
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void initCommunicators() {
@@ -63,7 +69,7 @@ public class RobotAgent extends Agent {
 
 	public void setup() {
 		loadSkillSettings();
-		initState();
+		loadStateSettings();
 		initCommunicators();
 		
 		_controller.move(new Position(1,1));
