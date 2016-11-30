@@ -120,15 +120,21 @@ public class TransporterBehaviour extends CyclicBehaviour {
 	public void action() {
 		moveAndgetBlockFromSourcePalette(Color.black);
 		System.out.println("got dirty block");
+		this.myAgent.doWait(2000);
 		moveAndDropBlockOnCleaningFloor(Color.black);
 		System.out.println("dropped block on cleaning floor");
+		this.myAgent.doWait(2000);
 		waitAndGetCleanedBlock();
 		System.out.println("got cleaned block");
+		this.myAgent.doWait(2000);
 		moveAndDropBlockOnPaintingFloor(Color.black);
 		System.out.println("dropped block on painting floor");
+		this.myAgent.doWait(2000);
 		waitAndGetPaintedBlock();
 		System.out.println("got painted block");
+		this.myAgent.doWait(2000);
 		moveAndDropBlockOnGoalPalette(Color.black);
+		this.myAgent.doWait(2000);
 		System.out.println("dropped block on goal palette");
 	}
 }

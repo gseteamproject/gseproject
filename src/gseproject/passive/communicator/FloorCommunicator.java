@@ -161,6 +161,7 @@ public class FloorCommunicator extends StationCommunicator {
 		} else {
 			try {
 				floor.finishBlock();
+				System.out.println(floor);
 			} catch (FloorException e) {
 				e.printStackTrace();
 				return failureMessage(serviceTypeRequest);

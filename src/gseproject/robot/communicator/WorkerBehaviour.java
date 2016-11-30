@@ -15,12 +15,14 @@ public class WorkerBehaviour extends CyclicBehaviour {
 	private IController _controller;
 	private RobotState _state;
 	private DFAgentDescription service;
-
+	private String serviceName;
+	
 	public WorkerBehaviour(IRobotToStationComm communicator, IController controller, RobotState robotState,
 			String serviceName, String serviceType) {
 		this._communicator = communicator;
 		this._controller = controller;
 		this._state = robotState;
+		this.serviceName = serviceName;
 		ServiceDescription sd = new ServiceDescription();
 		sd.setName(serviceName);
 		sd.setType(serviceType);
@@ -35,16 +37,20 @@ public class WorkerBehaviour extends CyclicBehaviour {
 			if (!_controller.doWork()) {
 				// failure
 			} else {
-				_communicator.requestCleanBlock();
+				if(this.serviceName.equals("needClean")){
+					_communicator.requestCleanBlock();
+				} else {
+					_communicator.requestPaintBlock();;
+				}
 				ACLMessage reply = _communicator.receiveReply();
-				if (reply.getPerformative() != ACLMessage.INFORM) {
+				if (reply.getPerformative() == ACLMessage.INFORM) {
 					System.out.println("performed working successfully");
-					this.myAgent.doWait(5000);
 				} else {
 					System.out.println("working failed");
 				}
 			}
 		}
+		this.myAgent.doWait(1000);
 	}
 
 	private DFAgentDescription[] findCleanServices() {

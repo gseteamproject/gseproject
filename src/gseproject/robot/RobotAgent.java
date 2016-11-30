@@ -19,6 +19,7 @@ import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.ParallelBehaviour;
 import jade.core.behaviours.TickerBehaviour;
+import jade.lang.acl.ACLMessage;
 
 public class RobotAgent extends Agent {
 	private static final long serialVersionUID = -8771094154231916562L;
@@ -63,7 +64,7 @@ public class RobotAgent extends Agent {
 
 	private void initCommunicators() {
 		this._robotToStationCommunicator = new RobotToStationCommunicator(new AID("SourcePalette", AID.ISLOCALNAME),
-				new AID("CleaningFloor", AID.ISLOCALNAME), new AID("PaintingFloor", true),
+				new AID("CleaningFloor", AID.ISLOCALNAME), new AID("PaintingFloor", AID.ISLOCALNAME),
 				new AID("GoalPalette", AID.ISLOCALNAME), this);
 	}
 
@@ -82,7 +83,7 @@ public class RobotAgent extends Agent {
 
 		this._skillsSettings.getAID(this.getAID().getLocalName());
 		ParallelBehaviour b = new ParallelBehaviour();
-		b.addSubBehaviour(new TickerBehaviour(this, 5000) {
+		b.addSubBehaviour(new TickerBehaviour(this, 10000) {
 
 			/**
 			 * 
@@ -96,12 +97,25 @@ public class RobotAgent extends Agent {
 
 		});
 		if (this._skillsSettings._robotID.equals("Transporter")) {
-			System.out.println("i will get a transporter behaviour now");
 			b.addSubBehaviour(new TransporterBehaviour(_controller, _robotToStationCommunicator, _state));
 		} else if (this._skillsSettings._robotID.equals("Cleaner")) {
+			_robotToStationCommunicator.requestOccupyCleaningFloor();
+			ACLMessage reply = _robotToStationCommunicator.receiveReply();
+			if (reply.getPerformative() == ACLMessage.INFORM) {
+				System.out.println("successfully occupied cleaning floor");
+			} else {
+				System.out.println("failed occupy cleaning floor");
+			}
 			b.addSubBehaviour(
 					new WorkerBehaviour(_robotToStationCommunicator, _controller, _state, "needClean", "needClean"));
 		} else if (this._skillsSettings._robotID.equals("Painter")) {
+			_robotToStationCommunicator.requestOccupyPaintingFloor();
+			ACLMessage reply = this._robotToStationCommunicator.receiveReply();
+			if (reply.getPerformative() == ACLMessage.INFORM) {
+				System.out.println("successfully occupied painting floor");
+			} else {
+				System.out.println("failed occupy painting floor");
+			}
 			b.addSubBehaviour(
 					new WorkerBehaviour(_robotToStationCommunicator, _controller, _state, "needPaint", "needPaint"));
 		} else {
