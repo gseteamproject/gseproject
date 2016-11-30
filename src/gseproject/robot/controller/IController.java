@@ -1,23 +1,37 @@
 package gseproject.robot.controller;
 
 
+import java.awt.Color;
+
 import gseproject.core.Block;
 import gseproject.core.grid.Position;
 
 public interface IController {
 
-    /* Move Forward */
-    public void move(Position position);
+    /**
+     * The Robot is moving to the color on the real grid.
+     * @param color the color on the real grid.
+     */
+    public void move(Color color);
 
-    /* Pick Block */
-    public Block pick(Position position);
+    /**
+     * The robot picks the block.
+     */
+    public boolean pick();
 
-    /* Put block on Floor/Pallete */
-    public void drop(Position dropPosition);
+    /**
+     * The robot drops his block.
+     */
+    public boolean drop();
 
-    /* Do Clean or Paint Work */
-    public void doWork(Position workPosition);
+    /**
+     * The robot processes the block e.g. clean or paint.
+     */
+    public boolean doWork();
 
-    /* Return current Position */
+    /**
+     * GETTER
+     * @return current position
+     */
     public Position getCurrentPosition();
 }
