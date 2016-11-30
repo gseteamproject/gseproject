@@ -17,11 +17,9 @@ public class GoalpaletteAgent extends Agent {
 
 	@Override
 	protected void setup() {
-		this.robotServiceRequestTemplate = AchieveREResponder
-				.createMessageTemplate(ProtocolTemplates.ServiceTypeProtocolTemplate.ROBOT_GOAL_PALETTE_PROTOCOL);
 		this.goalPalette = new GoalPalette(5);
 		this.stationCommunicator = new GoalPaletteCommunicator(this.goalPalette);
-		
+		this.addBehaviour(new ServiceTypeResponder(robotServiceRequestTemplate, stationCommunicator));
 	}
 
 	@Override

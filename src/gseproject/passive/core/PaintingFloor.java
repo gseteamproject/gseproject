@@ -19,7 +19,6 @@ public class PaintingFloor extends Floor {
 		this.block = block;
 		this.hasBlock = true;
 		this.hasFinishedBlock = false;
-		System.out.println("give Block " + this);
 	}
 
 	@Override
@@ -32,7 +31,6 @@ public class PaintingFloor extends Floor {
 		this.hasFinishedBlock = false;
 		this.hasBlock = false;
 		this.block = null;
-		System.out.println("takeBlock" + this);
 		return toReturn;
 
 	}
@@ -48,7 +46,6 @@ public class PaintingFloor extends Floor {
 		this.block.Status = Block.possibleBlockStatus.PAINTED;
 		this.hasFinishedBlock = true;
 		this.hasBlock = false;
-		System.out.println("finish block " + this);
 	}
 
 	@Override

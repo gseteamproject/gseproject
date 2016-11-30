@@ -92,7 +92,7 @@ public class RobotAgent extends Agent {
 
 			@Override
 			protected void onTick() {
-				System.out.println("Current State: " + _state + "\n Later this will be sent to GUI \n");
+				System.out.println(this.myAgent.getAID().getLocalName() + " Current State: " + _state + "\n Later this will be sent to GUI \n");
 			}
 
 		});

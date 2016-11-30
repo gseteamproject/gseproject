@@ -111,7 +111,7 @@ public class TransporterBehaviour extends CyclicBehaviour {
 				_state.block.Status = Block.possibleBlockStatus.NULL;
 				_state.isCarryingBlock = false;
 			} else {
-				// He sent failure -> exception handling
+				System.out.println("dropping failed");
 			}
 		}
 	}
