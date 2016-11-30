@@ -48,15 +48,21 @@ public class RobotAgent extends Agent {
 	}
 
 	private void initController() {
-		loadSkillSettings();
 		_controller = new DummyController(_skillsSettings);
 	}
 
-	private void initState() {
-		this._state = new RobotState();
-		_state.block = new Block();
-		_state.isCarryingBlock = false;
-		_state._position = new Position(1, 1);
+	private void loadStateSettings() {
+		_state = new RobotState();
+		String executionPath = System.getProperty("user.dir") + "/SmartMASON_Settings/StateSettings.xml";
+		try {
+			_state.xmlDocumentDecode(executionPath);
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void initCommunicators() {
@@ -66,8 +72,16 @@ public class RobotAgent extends Agent {
 	}
 
 	public void setup() {
+		/*
+		 * Load settings
+		 */
+		loadSkillSettings();
+		loadStateSettings();
+
+		/*
+		* Initiate Controller, Communicator and Behaviours
+		*/
 		initController();
-		initState();
 		initCommunicators();
 		ParallelBehaviour b = new ParallelBehaviour();
 		b.addSubBehaviour(new TickerBehaviour(this, 500) {
