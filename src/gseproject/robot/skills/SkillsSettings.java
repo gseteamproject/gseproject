@@ -20,10 +20,9 @@ public class SkillsSettings implements IXMLParser {
     public ISkill _paint;
     public ISkill _clean;
     public ISkill _transport;
-    public Integer _robotID;
+    public String _robotID;
 
     /* Temporal attr for parsing and algorithm */
-    private Integer _tempRobotID;
     private List<SkillsSettings> _tempSkills;
 
     public SkillsSettings() {
@@ -40,14 +39,68 @@ public class SkillsSettings implements IXMLParser {
         DocumentBuilder db = dbf.newDocumentBuilder();
         Document doc = db.parse(new File(strPath));
         visit(doc, 0);
+
+        /**
+         *  After Parsing try to set default ID
+         */
+        getAID(_robotID);
+    }
+
+    public void getAID(String Role)
+    {
+        _robotID = Role;
+        if((Role == null))
+        {
+            return;
+        }
+        if(Role.equals(""))
+        {
+            return;
+        }
+
         for(int i = 0; i < _tempSkills.size(); ++i)
         {
             if(_tempSkills.get(i) != null)
             {
-                if(_tempSkills.get(i)._robotID == _robotID) {
-                    _paint = _tempSkills.get(i)._paint;
-                    _clean = _tempSkills.get(i)._clean;
-                    _transport = _tempSkills.get(i)._transport;
+                SkillsSettings tempSkill = _tempSkills.get(i);
+                Double dTransport = Math.sqrt(((tempSkill._transport.getCost() * tempSkill._transport.getCost())
+                        + (tempSkill._transport.getDuration() * tempSkill._transport.getDuration())) /2 );
+
+                Double dClean = Math.sqrt(((tempSkill._clean.getCost() * tempSkill._clean.getCost())
+                        + (tempSkill._clean.getDuration() * tempSkill._clean.getDuration()))/2 );
+
+                Double dPaint = Math.sqrt(((tempSkill._paint.getCost() * tempSkill._paint.getCost())
+                        + (tempSkill._paint.getDuration() * tempSkill._paint.getDuration()))/2 );
+
+                if((_robotID.equals("Transporter"))
+                        && (dTransport < dClean)
+                        && (dTransport < dPaint)
+                        ){
+                    _transport = tempSkill._transport;
+                    _clean = tempSkill._clean;
+                    _paint = tempSkill._paint;
+
+                    return;
+                }
+                if((_robotID.equals("Cleaner"))
+                        && (dClean < dTransport)
+                        && (dClean < dPaint)
+                        ){
+                    _transport = tempSkill._transport;
+                    _clean = tempSkill._clean;
+                    _paint = tempSkill._paint;
+
+                    return;
+                }
+                if((_robotID.equals("Painter"))
+                        && (dPaint < dTransport)
+                        && (dPaint < dClean)
+                        ){
+                    _transport = tempSkill._transport;
+                    _clean = tempSkill._clean;
+                    _paint = tempSkill._paint;
+
+                    return;
                 }
             }
         }
@@ -55,14 +108,20 @@ public class SkillsSettings implements IXMLParser {
 
     private void visit(Node node, int level) {
         NodeList list = node.getChildNodes();
-
+        if (level == 2) {
+            if(node.getNodeName() == "Robot")
+            {
+                _tempSkills.add(_tempSkills.size(), new SkillsSettings());
+            }
+        }
         for (int i = 0; i < list.getLength(); ++i) {
             Node childNode = list.item(i);
             if (level == 2) {
-                if(node.getNodeName() == "CurrentID")
-                {
-                    ParseCurrentID(childNode);
+                if (node.getNodeName() == "DefaultID") {
+                    ParseCurrentID(node);
                 }
+            }
+            if (level == 3) {
                 parseID(node);
                 if (node.getNodeName() == "Clean") {
                     parseClean(childNode);
@@ -86,18 +145,17 @@ public class SkillsSettings implements IXMLParser {
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element eElement = (Element) node;
                 _tempSkills.add(_tempSkills.size(), new SkillsSettings());
-                _tempSkills.get(_tempSkills.size() - 1)._tempRobotID = Integer.parseInt(eElement.getTextContent());
+                _tempSkills.get(_tempSkills.size() - 1)._robotID = eElement.getTextContent();
             }
         }
     }
 
     private void ParseCurrentID(Node node) {
-        if (node.getNodeName() == "CurrentRobotID") {
-            if (node.getNodeType() == Node.ELEMENT_NODE) {
-                Element eElement = (Element) node;
-                _robotID= Integer.parseInt(eElement.getTextContent());
-            }
+        if (node.getNodeType() == Node.ELEMENT_NODE) {
+            Element eElement = (Element) node;
+            _robotID = eElement.getTextContent();
         }
+
     }
 
     private void parseClean(Node node) {

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <SkillsSettings>
-	<CurrentID>3</CurrentID>
+	<DefaultID>Transporter</DefaultID>
 
-	<RobotID>1</RobotID>
+	<!--RobotID>Transporter</RobotID-->
+	<Robot>
 		<Transport>
 			<Duration>1</Duration>
 			<Cost>1</Cost>
@@ -15,8 +16,10 @@
 			<Duration>5</Duration>
 			<Cost>4</Cost>
 		</Paint>
+	</Robot>
 	
-	<RobotID>2</RobotID>
+	<!--RobotID>Cleaner</RobotID-->
+	<Robot>
 		<Transport>
 			<Duration>2</Duration>
 			<Cost>4</Cost>
@@ -29,8 +32,10 @@
 			<Duration>6</Duration>
 			<Cost>7</Cost>
 		</Paint>
+	</Robot>
 
-	<RobotID>3</RobotID>
+	<!--RobotID>Painter</RobotID-->
+	<Robot>
 		<Transport>
 			<Duration>4</Duration>
 			<Cost>4</Cost>
@@ -43,5 +48,6 @@
 			<Duration>1</Duration>
 			<Cost>1</Cost>
 		</Paint>
+	</Robot>
 
 </SkillsSettings>
