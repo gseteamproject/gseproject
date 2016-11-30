@@ -4,17 +4,52 @@ import java.io.IOException;
 
 import gseproject.core.Block;
 import gseproject.core.ServiceType;
+import gseproject.passive.core.CleaningFloor;
 import gseproject.passive.core.Floor;
 import gseproject.passive.core.FloorException;
 import gseproject.passive.core.StationException;
+import jade.core.Agent;
+import jade.domain.DFService;
+import jade.domain.FIPAException;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.UnreadableException;
 
 public class FloorCommunicator extends StationCommunicator {
 	private Floor floor;
+	private Agent floorAgent;
 
-	public FloorCommunicator(Floor floor) {
+	private DFAgentDescription needBlock = new DFAgentDescription();
+	private DFAgentDescription needTransporter = new DFAgentDescription();
+	private DFAgentDescription needWorker = new DFAgentDescription();
+
+	public FloorCommunicator(Floor floor, Agent floorAgent) {
 		this.floor = floor;
+		this.floorAgent = floorAgent;
+		initServices();
+	}
+
+	private void initServices() {
+		ServiceDescription needBlock = new ServiceDescription();
+		needBlock.setName("needBlock");
+		needBlock.setType("needBlock");
+		this.needBlock.addServices(needBlock);
+
+		ServiceDescription needTransporter = new ServiceDescription();
+		needTransporter.setName("needTransporter");
+		needTransporter.setType("needTransporter");
+		this.needTransporter.addServices(needTransporter);
+
+		ServiceDescription needWorker = new ServiceDescription();
+		if(this.floor instanceof CleaningFloor){
+			needWorker.setName("needClean");
+			needWorker.setType("needClean");
+		} else {
+			needWorker.setName("needPaint");
+			needWorker.setType("needPaint");
+		}
+		this.needTransporter.addServices(needWorker);
 	}
 
 	private static ACLMessage addBlockToMessage(ACLMessage message, Block block) {
@@ -52,6 +87,12 @@ public class FloorCommunicator extends StationCommunicator {
 			}
 			return failureMessage(serviceTypeRequest);
 		}
+		try {
+			DFService.deregister(this.floorAgent, this.needTransporter);
+			DFService.register(this.floorAgent, this.needBlock);
+		} catch (FIPAException e) {
+			e.printStackTrace();
+		}
 		return replyBlock(serviceTypeRequest);
 	}
 
@@ -86,9 +127,15 @@ public class FloorCommunicator extends StationCommunicator {
 		} else {
 			return failureMessage(serviceTypeRequest);
 		}
+		try {
+			DFService.deregister(this.floorAgent, this.needBlock);
+			DFService.register(this.floorAgent, this.needWorker);
+		} catch (FIPAException e) {
+			e.printStackTrace();
+		}
 		return informMessage(serviceTypeRequest);
 	}
-	
+
 	private ACLMessage handleFinishBlockRequest(ACLMessage serviceTypeRequest) {
 		if (!floor.isOccupied() || !floor.hasBlock()) {
 			return failureMessage(serviceTypeRequest);
@@ -98,6 +145,12 @@ public class FloorCommunicator extends StationCommunicator {
 			} catch (FloorException e) {
 				e.printStackTrace();
 				return failureMessage(serviceTypeRequest);
+			}
+			try {
+				DFService.deregister(this.floorAgent, this.needWorker);
+				DFService.register(this.floorAgent, this.needTransporter);
+			} catch (FIPAException e) {
+				e.printStackTrace();
 			}
 			return informMessage(serviceTypeRequest);
 		}
@@ -113,7 +166,7 @@ public class FloorCommunicator extends StationCommunicator {
 			return handleTakeBlockRequest(serviceTypeRequest);
 		} else if (serviceType.equals(ServiceType.I_OCCUPY.name())) {
 			return handleOccupyRequest(serviceTypeRequest);
-		} else if (serviceType.equals(ServiceType.FINISH_BLOCK.name())){
+		} else if (serviceType.equals(ServiceType.FINISH_BLOCK.name())) {
 			return handleFinishBlockRequest(serviceTypeRequest);
 		} else {
 			return handleGiveBlockRequest(serviceTypeRequest);
@@ -123,8 +176,6 @@ public class FloorCommunicator extends StationCommunicator {
 	@Override
 	public ACLMessage notifyGrid() {
 		ACLMessage message = new ACLMessage(ACLMessage.INFORM);
-		// message.addReceiver(GridAgent);
-		// TODO: message.setContentObject(this.floor);
 		return message;
 	}
 

@@ -67,7 +67,7 @@ public class FloorCommunicatorTest {
 		message.setContent(ServiceType.I_OCCUPY.name());
 		return message;
 	}
-
+	/*
 	@Test
 	public void cleaningFloorTest() {
 		floor = new CleaningFloor();
@@ -137,5 +137,5 @@ public class FloorCommunicatorTest {
 		}
 		System.out.println(floor);
 	}
-
+	*/
 }

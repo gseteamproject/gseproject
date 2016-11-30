@@ -14,8 +14,7 @@ public class PaintingFloorAgent extends FloorAgent {
 		this.robotServiceRequestTemplate = AchieveREResponder
 				.createMessageTemplate(ProtocolTemplates.ServiceTypeProtocolTemplate.ROBOT_PAINTING_FLOOR_PROTOCOL);
 		this.floor = new PaintingFloor();
-		this.stationCommunicator = new FloorCommunicator(floor);
-		
+		this.stationCommunicator = new FloorCommunicator(floor, this);
 	}
 
 	@Override
