@@ -1,28 +1,24 @@
 package gseproject.robot;
 
-import java.awt.Color;
 import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import gseproject.core.Block;
-import gseproject.core.grid.Position;
 import gseproject.robot.communicator.ICommunicator;
 import gseproject.robot.communicator.IRobotToStationComm;
 import gseproject.robot.communicator.RobotToStationCommunicator;
+import gseproject.robot.communicator.TransporterBehaviour;
+import gseproject.robot.communicator.WorkerBehaviour;
 import gseproject.robot.controller.DummyController;
 import gseproject.robot.controller.IController;
 import gseproject.robot.domain.RobotState;
 import gseproject.robot.skills.SkillsSettings;
 import jade.core.AID;
 import jade.core.Agent;
-import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.ParallelBehaviour;
 import jade.core.behaviours.TickerBehaviour;
-import jade.lang.acl.ACLMessage;
-import jade.lang.acl.UnreadableException;
 
 public class RobotAgent extends Agent {
 	private static final long serialVersionUID = -8771094154231916562L;
@@ -83,9 +79,11 @@ public class RobotAgent extends Agent {
 		 */
 		initController();
 		initCommunicators();
-		
+
+		this._skillsSettings.getAID(this.getAID().getLocalName());
+		System.out.println(this._skillsSettings._robotID);
 		ParallelBehaviour b = new ParallelBehaviour();
-		b.addSubBehaviour(new TickerBehaviour(this, 500) {
+		b.addSubBehaviour(new TickerBehaviour(this, 2000) {
 
 			/**
 			 * 
@@ -98,8 +96,18 @@ public class RobotAgent extends Agent {
 			}
 
 		});
-
-		
+		if (this._skillsSettings._robotID.equals("Transporter")) {
+			System.out.println("i will get a transporter behaviour now");
+			b.addSubBehaviour(new TransporterBehaviour(_controller, _robotToStationCommunicator, _state));
+		} else if (this._skillsSettings._robotID.equals("Cleaner")) {
+			b.addSubBehaviour(
+					new WorkerBehaviour(_robotToStationCommunicator, _controller, _state, "needClean", "needClean"));
+		} else if (this._skillsSettings._robotID.equals("Painter")) {
+			b.addSubBehaviour(
+					new WorkerBehaviour(_robotToStationCommunicator, _controller, _state, "needPaint", "needPaint"));
+		} else {
+			System.out.println("something went wrong");
+		}
 		this.addBehaviour(b);
 	}
 
