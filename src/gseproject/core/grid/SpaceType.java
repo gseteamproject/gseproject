@@ -9,6 +9,7 @@ public enum SpaceType {
 	
 	NO_TRACK,
 	TRACK,
+	ROBOT,
 	SOURCE_PALETTE,
 	GOAL_PALETTE,
 	PAINTING_STATION,
