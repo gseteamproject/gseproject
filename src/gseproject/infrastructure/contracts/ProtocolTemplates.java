@@ -17,6 +17,11 @@ public interface ProtocolTemplates {
 		String ROBOT_GOAL_PALETTE_PROTOCOL = "robot-goal-palette-protocol";
 	}
 
-	String GUI_ROBOT_STATE_PROTOCOL = "gui-robot-state-protocol";
+	public interface GridAgentProtocolTemplate {
+		String GUI_ROBOT_STATE_PROTOCOL = "gui-robot-state-protocol";
+		String ROBOT_GRIDAGENT_PROTOCOL = "robot_gridagent_protocol";
+		String FLOOR_GRIDAGENT_PROTOCOL = "floor_gridagent_protocol";
+		String PALETTE_GRIDAGENT_PROTOCOL = "palette_gridagent_protocol";
+	}
 
 }

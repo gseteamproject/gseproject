@@ -1,17 +1,30 @@
 package gseproject.core.grid.communicator;
 
-import gseproject.infrastructure.contracts.RobotStateContract;
-import jade.core.AID;
-import jade.lang.acl.ACLMessage;
-
 public interface IGridCommunicator {
-    public ACLMessage sendInitialGrid(ACLMessage messageFromGUI);
-    
-    public RobotStateContract parseRobotStateFromMessage(ACLMessage messageFromRobot);
+	/**
+	 * This method should wait for a message from robot and extract the state
+	 * from the message. After extracting the state from the message it should
+	 * update the grid.
+	 */
+	public void receiveRobotStateContract();
 
-    public ACLMessage sendRobotStateToGUI(RobotStateContract robotState);
+	/**
+	 * This method should wait for a message from a floor and extract the state
+	 * from the message. After extracting the state from the message it should
+	 * update the grid.
+	 */
+	public void receiveFloorContract();
 
-    public ACLMessage agreeRobot(ACLMessage messageFromRobot);
+	/**
+	 * This method should wait for a message from a palette and extract the
+	 * state from the message. After extracting the state from the message it
+	 * should update the grid.
+	 */
+	public void receivePaletteContract();
 
-    public AID GUI_AID();
+	/**
+	 * This method should send the grid to the GUI-Agent.
+	 */
+	public void sendGridToGUIAgent();
+
 }
