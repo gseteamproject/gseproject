@@ -8,6 +8,7 @@ import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.SearchConstraints;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
+import jade.lang.acl.ACLMessage;
 import jade.domain.FIPAException;
 import org.xml.sax.SAXException;
 
@@ -68,9 +69,11 @@ public class RobotAgent extends Agent {
 	}
 
 	private void initCommunicators() {
-		this._robotToStationCommunicator = new RobotToStationCommunicator(new AID("SourcePalette@192.168.111.1", AID.ISLOCALNAME),
-				new AID("CleaningFloor@192.168.111.1", AID.ISLOCALNAME), new AID("PaintingFloor@192.168.111.1", AID.ISLOCALNAME),
-				new AID("GoalPalette@192.168.111.1", AID.ISLOCALNAME), this);
+		this._robotToStationCommunicator = new RobotToStationCommunicator(
+				new AID("SourcePalette@192.168.111.1:1099/JADE", AID.ISGUID),
+				new AID("CleaningFloor@192.168.111.1:1099/JADE", AID.ISGUID),
+				new AID("PaintingFloor@192.168.111.1:1099/JADE", AID.ISGUID),
+				new AID("GoalPalette@192.168.111.1:1099/JADE", AID.ISGUID), this);
 	}
 
 	public void setup() {
@@ -103,11 +106,11 @@ public class RobotAgent extends Agent {
 
 			@Override
 			protected void onTick() {
-				if(findRobots())
-				{
-					System.out.println(this.myAgent.getAID().getLocalName() + " Current State: " + _state + "\n Later this will be sent to GUI \n");
+				if (findRobots()) {
+					System.out.println(this.myAgent.getAID().getLocalName() + " Current State: " + _state
+							+ "\n Later this will be sent to GUI \n");
 					System.out.println("Transport Robots and GUI was found");
-				}else{
+				} else {
 					System.out.println("Transport Robots and GUI was not found");
 				}
 
@@ -120,9 +123,25 @@ public class RobotAgent extends Agent {
 		if (this._skillsSettings._robotID.equals("Transporter")) {
 			b.addSubBehaviour(new TransporterBehaviour(_controller, _robotToStationCommunicator, _state));
 		} else if (this._skillsSettings._robotID.equals("Cleaner")) {
-			b.addSubBehaviour(new WorkerBehaviour(_robotToStationCommunicator, _controller, _state, "needClean", "needClean"));
+			_robotToStationCommunicator.requestOccupyCleaningFloor();
+			ACLMessage reply = _robotToStationCommunicator.receiveReply();
+			if (reply.getPerformative() == ACLMessage.INFORM) {
+				System.out.println("successfully occupied cleaning floor");
+			} else {
+				System.out.println("failed occupy cleaning floor");
+			}
+			b.addSubBehaviour(
+					new WorkerBehaviour(_robotToStationCommunicator, _controller, _state, "needClean", "needClean"));
 		} else if (this._skillsSettings._robotID.equals("Painter")) {
-			b.addSubBehaviour(new WorkerBehaviour(_robotToStationCommunicator, _controller, _state, "needPaint", "needPaint"));
+			_robotToStationCommunicator.requestOccupyPaintingFloor();
+			ACLMessage reply = this._robotToStationCommunicator.receiveReply();
+			if (reply.getPerformative() == ACLMessage.INFORM) {
+				System.out.println("successfully occupied painting floor");
+			} else {
+				System.out.println("failed occupy painting floor");
+			}
+			b.addSubBehaviour(
+					new WorkerBehaviour(_robotToStationCommunicator, _controller, _state, "needPaint", "needPaint"));
 		} else {
 			System.out.println("something went wrong");
 		}
@@ -133,8 +152,7 @@ public class RobotAgent extends Agent {
 		System.out.println("Robot Agent shut down with errorcode=" + errorCode);
 	}
 
-	private boolean findRobots()
-	{
+	private boolean findRobots() {
 		boolean found = false;
 		DFAgentDescription agentDescriptionTemplate = new DFAgentDescription();
 		ServiceDescription serviceTransport = new ServiceDescription();
@@ -148,18 +166,14 @@ public class RobotAgent extends Agent {
 
 		agentDescriptionTemplate.addServices(serviceGUI);
 		agentDescriptionTemplate.addServices(serviceTransport);
-		try
-		{
+		try {
 			DFAgentDescription[] foundRobots = DFService.search(this, agentDescriptionTemplate);
 			_broadcastAddr = new AID[foundRobots.length];
-			for(int i = 0; i < foundRobots.length; i++)
-			{
+			for (int i = 0; i < foundRobots.length; i++) {
 				found = true;
 				_broadcastAddr[i] = foundRobots[i].getName();
 			}
-		}
-		catch(FIPAException exception)
-		{
+		} catch (FIPAException exception) {
 			exception.printStackTrace();
 		}
 		return found;
@@ -176,12 +190,9 @@ public class RobotAgent extends Agent {
 		DFAgentDescription agentDescription = new DFAgentDescription();
 		agentDescription.setName(getAID());
 		agentDescription.addServices(serviceDescription);
-		try
-		{
+		try {
 			DFService.register(this, agentDescription);
-		}
-		catch(FIPAException exception)
-		{
+		} catch (FIPAException exception) {
 			exception.printStackTrace();
 		}
 
