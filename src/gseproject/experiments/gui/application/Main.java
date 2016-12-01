@@ -32,25 +32,9 @@ public class Main extends Application {
 		} catch (SAXException e) {
 			e.printStackTrace();
 		}
-		_settings.print();
-
-		SkillsSettings skillsSettings = new SkillsSettings();
-
-		RobotState state = new RobotState();
-		executionPath = System.getProperty("user.dir") + "/SmartMASON_Settings/StateSettings.xml";
-		try {
-			state.xmlDocumentDecode(executionPath);
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		}
 
 
-
-		launch(Main.class, args);
+		launch(Main.class, _settings.args);
 	}
 
 

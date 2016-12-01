@@ -4,6 +4,11 @@ import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import jade.domain.DFService;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.SearchConstraints;
+import jade.domain.FIPAAgentManagement.ServiceDescription;
+import jade.domain.FIPAException;
 import org.xml.sax.SAXException;
 
 import gseproject.robot.communicator.ICommunicator;
@@ -19,7 +24,6 @@ import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.ParallelBehaviour;
 import jade.core.behaviours.TickerBehaviour;
-import jade.lang.acl.ACLMessage;
 
 public class RobotAgent extends Agent {
 	private static final long serialVersionUID = -8771094154231916562L;
@@ -28,6 +32,7 @@ public class RobotAgent extends Agent {
 	private IRobotToStationComm _robotToStationCommunicator;
 	private RobotState _state;
 	private SkillsSettings _skillsSettings;
+	private AID[] _broadcastAddr;
 
 	private void loadSkillSettings() {
 		_skillsSettings = new SkillsSettings();
@@ -69,6 +74,7 @@ public class RobotAgent extends Agent {
 	}
 
 	public void setup() {
+
 		/*
 		 * Load settings
 		 */
@@ -81,51 +87,106 @@ public class RobotAgent extends Agent {
 		initController();
 		initCommunicators();
 
-		this._skillsSettings.getAID(this.getAID().getLocalName());
-		ParallelBehaviour b = new ParallelBehaviour();
-		b.addSubBehaviour(new TickerBehaviour(this, 10000) {
+		/*
+		 * Register Service in DF
+		 */
+		registerDF();
 
-			/**
-			 * 
-			 */
+		this._skillsSettings.getAID(this.getAID().getLocalName());
+
+		/*
+		 * Ticker behaviour for broadcasting state of robot
+		 */
+		ParallelBehaviour b = new ParallelBehaviour();
+		b.addSubBehaviour(new TickerBehaviour(this, 1000) {
+
 			private static final long serialVersionUID = -6128539874456834232L;
 
 			@Override
 			protected void onTick() {
-				System.out.println(this.myAgent.getAID().getLocalName() + " Current State: " + _state + "\n Later this will be sent to GUI \n");
-			}
+				if(findRobots())
+				{
+					System.out.println(this.myAgent.getAID().getLocalName() + " Current State: " + _state + "\n Later this will be sent to GUI \n");
+					System.out.println("Transport Robots and GUI was found");
+				}else{
+					System.out.println("Transport Robots and GUI was not found");
+				}
 
+			}
 		});
+
+		/*
+		 * Start Role behaviours
+		 */
 		if (this._skillsSettings._robotID.equals("Transporter")) {
 			b.addSubBehaviour(new TransporterBehaviour(_controller, _robotToStationCommunicator, _state));
 		} else if (this._skillsSettings._robotID.equals("Cleaner")) {
-			_robotToStationCommunicator.requestOccupyCleaningFloor();
-			ACLMessage reply = _robotToStationCommunicator.receiveReply();
-			if (reply.getPerformative() == ACLMessage.INFORM) {
-				System.out.println("successfully occupied cleaning floor");
-			} else {
-				System.out.println("failed occupy cleaning floor");
-			}
-			b.addSubBehaviour(
-					new WorkerBehaviour(_robotToStationCommunicator, _controller, _state, "needClean", "needClean"));
+			b.addSubBehaviour(new WorkerBehaviour(_robotToStationCommunicator, _controller, _state, "needClean", "needClean"));
 		} else if (this._skillsSettings._robotID.equals("Painter")) {
-			_robotToStationCommunicator.requestOccupyPaintingFloor();
-			ACLMessage reply = this._robotToStationCommunicator.receiveReply();
-			if (reply.getPerformative() == ACLMessage.INFORM) {
-				System.out.println("successfully occupied painting floor");
-			} else {
-				System.out.println("failed occupy painting floor");
-			}
-			b.addSubBehaviour(
-					new WorkerBehaviour(_robotToStationCommunicator, _controller, _state, "needPaint", "needPaint"));
+			b.addSubBehaviour(new WorkerBehaviour(_robotToStationCommunicator, _controller, _state, "needPaint", "needPaint"));
 		} else {
 			System.out.println("something went wrong");
 		}
 		this.addBehaviour(b);
+
+
 	}
 
 	public void takeDown(String errorCode) {
 		System.out.println("Robot Agent shut down with errorcode=" + errorCode);
 	}
 
+	private boolean findRobots()
+	{
+		boolean found = false;
+		DFAgentDescription agentDescriptionTemplate = new DFAgentDescription();
+		ServiceDescription serviceTransport = new ServiceDescription();
+		serviceTransport.setType("Transporter");
+
+		SearchConstraints searchConstraints = new SearchConstraints();
+		searchConstraints.setSearchId("GUI");
+
+		ServiceDescription serviceGUI = new ServiceDescription();
+		serviceGUI.setType("GUI");
+
+		agentDescriptionTemplate.addServices(serviceGUI);
+		agentDescriptionTemplate.addServices(serviceTransport);
+		try
+		{
+			DFAgentDescription[] foundRobots = DFService.search(this, agentDescriptionTemplate);
+			_broadcastAddr = new AID[foundRobots.length];
+			for(int i = 0; i < foundRobots.length; i++)
+			{
+				found = true;
+				_broadcastAddr[i] = foundRobots[i].getName();
+			}
+		}
+		catch(FIPAException exception)
+		{
+			exception.printStackTrace();
+		}
+		return found;
+	}
+
+	private void registerDF() {
+
+		String agentServiceGroup = this._skillsSettings._robotID;
+		String agentServiceName = new String("Transporter");
+
+		ServiceDescription serviceDescription = new ServiceDescription();
+		serviceDescription.setName(agentServiceGroup);
+		serviceDescription.setType(agentServiceName);
+		DFAgentDescription agentDescription = new DFAgentDescription();
+		agentDescription.setName(getAID());
+		agentDescription.addServices(serviceDescription);
+		try
+		{
+			DFService.register(this, agentDescription);
+		}
+		catch(FIPAException exception)
+		{
+			exception.printStackTrace();
+		}
+
+	}
 }
