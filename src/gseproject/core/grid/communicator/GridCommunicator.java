@@ -5,7 +5,7 @@ import java.io.IOException;
 import gseproject.core.grid.Grid;
 import gseproject.core.grid.objects.GridObject;
 import gseproject.infrastructure.contracts.*;
-import gseproject.robot.domain.RobotState;
+
 import jade.core.Agent;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
@@ -14,12 +14,10 @@ import jade.lang.acl.UnreadableException;
 public class GridCommunicator implements IGridCommunicator {
 	private Agent gridAgent;
 	private Grid grid;
-	private RobotState rs;
 
-	public GridCommunicator(Agent gridAgent, Grid grid, MessageTemplate msg) {
+	public GridCommunicator(Agent gridAgent, Grid grid) {
 		this.gridAgent = gridAgent;
 		this.grid = grid;
-
 	}
 
 	@Override
@@ -29,7 +27,7 @@ public class GridCommunicator implements IGridCommunicator {
 		RobotStateContract contract;
 		try {
 			contract = (RobotStateContract) robotStateMessage.getContentObject();
-			grid.getGridObjects().put(robotStateMessage.getSender(), (GridObject) contract);
+			grid.update(robotStateMessage.getSender(), (GridObject) contract);
 		} catch (UnreadableException e) {
 			e.printStackTrace();
 		}
@@ -41,12 +39,10 @@ public class GridCommunicator implements IGridCommunicator {
 				MessageTemplate.MatchProtocol(ProtocolTemplates.GridAgentProtocolTemplate.FLOOR_GRIDAGENT_PROTOCOL));
 		try {
 			FloorContract contract = (FloorContract) floorMessage.getContentObject();
-			grid.getGridObjects().put(floorMessage.getSender(), contract);
+			grid.update(floorMessage.getSender(), (GridObject) contract);
 		} catch (UnreadableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
@@ -55,20 +51,17 @@ public class GridCommunicator implements IGridCommunicator {
 				MessageTemplate.MatchProtocol(ProtocolTemplates.GridAgentProtocolTemplate.FLOOR_GRIDAGENT_PROTOCOL));
 		try {
 			PaletteContract contract = (PaletteContract) paletteMessage.getContentObject();
-			grid.getGridObjects().put(paletteMessage.getSender(), contract);
+			grid.update(paletteMessage.getSender(), (GridObject) contract);
 		} catch (UnreadableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
 	public void sendGridToGUIAgent() {
-		// TODO Auto-generated method stub
 
 	}
-	
+
 	public ACLMessage sendGrid() {
 		ACLMessage update = new ACLMessage(ACLMessage.REQUEST);
 		try {
@@ -79,5 +72,4 @@ public class GridCommunicator implements IGridCommunicator {
 		}
 		return update;
 	}
-
 }

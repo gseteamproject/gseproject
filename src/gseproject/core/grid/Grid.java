@@ -88,6 +88,10 @@ public class Grid implements Serializable {
 		}
 		return sb.toString();
 	}
+	
+	public void update(AID id, GridObject value) {
+		gridObjects.put(id, value);
+	}
 
 	public static class GridBuilder {
 		
