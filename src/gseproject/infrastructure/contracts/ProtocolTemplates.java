@@ -18,7 +18,7 @@ public interface ProtocolTemplates {
 	}
 
 	public interface GridAgentProtocolTemplate {
-		String GUI_ROBOT_STATE_PROTOCOL = "gui-robot-state-protocol";
+		String GRID_ROBOT_STATE_PROTOCOL = "gui-robot-state-protocol";
 		String ROBOT_GRIDAGENT_PROTOCOL = "robot_gridagent_protocol";
 		String FLOOR_GRIDAGENT_PROTOCOL = "floor_gridagent_protocol";
 		String PALETTE_GRIDAGENT_PROTOCOL = "palette_gridagent_protocol";
