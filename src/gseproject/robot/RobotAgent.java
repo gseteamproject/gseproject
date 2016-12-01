@@ -68,13 +68,13 @@ public class RobotAgent extends Agent {
 	}
 
 	private void initCommunicators() {
-		this._robotToStationCommunicator = new RobotToStationCommunicator(new AID("SourcePalette", AID.ISLOCALNAME),
-				new AID("CleaningFloor", AID.ISLOCALNAME), new AID("PaintingFloor", AID.ISLOCALNAME),
-				new AID("GoalPalette", AID.ISLOCALNAME), this);
+		this._robotToStationCommunicator = new RobotToStationCommunicator(new AID("SourcePalette@192.168.111.1", AID.ISLOCALNAME),
+				new AID("CleaningFloor@192.168.111.1", AID.ISLOCALNAME), new AID("PaintingFloor@192.168.111.1", AID.ISLOCALNAME),
+				new AID("GoalPalette@192.168.111.1", AID.ISLOCALNAME), this);
 	}
 
 	public void setup() {
-
+		System.out.println(this.getAID() + "started");
 		/*
 		 * Load settings
 		 */
@@ -93,7 +93,6 @@ public class RobotAgent extends Agent {
 		registerDF();
 
 		this._skillsSettings.getAID(this.getAID().getLocalName());
-
 		/*
 		 * Ticker behaviour for broadcasting state of robot
 		 */
@@ -128,8 +127,6 @@ public class RobotAgent extends Agent {
 			System.out.println("something went wrong");
 		}
 		this.addBehaviour(b);
-
-
 	}
 
 	public void takeDown(String errorCode) {

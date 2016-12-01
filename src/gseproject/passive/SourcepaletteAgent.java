@@ -1,14 +1,11 @@
 package gseproject.passive;
 
-import gseproject.infrastructure.contracts.ProtocolTemplates;
 import gseproject.passive.communicator.IStationCommunicator;
 import gseproject.passive.communicator.ServiceTypeResponder;
 import gseproject.passive.communicator.SourcePaletteCommunicator;
-import gseproject.passive.core.GoalPalette;
 import gseproject.passive.core.SourcePalette;
 import jade.core.Agent;
 import jade.lang.acl.MessageTemplate;
-import jade.proto.AchieveREResponder;
 
 public class SourcepaletteAgent extends Agent {
 	private static final long serialVersionUID = -7283341637605998716L;
