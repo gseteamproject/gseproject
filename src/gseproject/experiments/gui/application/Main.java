@@ -66,7 +66,6 @@ public class Main extends Application {
 		Boot.main(_settings.args);
 	}
 	
-	
 	private void initGUI(Stage primaryStage) throws Exception {
 		if(_settings.trackManager) {
 			TrackManagerView trackManagerView = new TrackManagerView();

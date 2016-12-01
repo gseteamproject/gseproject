@@ -21,7 +21,6 @@ public class CleaningFloor extends Floor {
 		this.block = block;
 		this.hasBlock = true;
 		this.hasFinishedBlock = false;
-		System.out.println("give block: " + this);
 	}
 
 	@Override
@@ -34,7 +33,6 @@ public class CleaningFloor extends Floor {
 		this.hasFinishedBlock = false;
 		this.hasBlock = false;
 		this.block = null;
-		System.out.println("take block: " + this);
 		return toReturn;
 	}
 
@@ -49,7 +47,6 @@ public class CleaningFloor extends Floor {
 		this.block.Status = Block.possibleBlockStatus.CLEANED;
 		this.hasFinishedBlock = true;
 		this.hasBlock = false;
-		System.out.println("finish block " + this);
 	}
 
 	@Override
