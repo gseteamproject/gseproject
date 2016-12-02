@@ -1,30 +1,29 @@
 package gseproject.core.grid.communicator;
 
-public interface IGridCommunicator {
+import gseproject.passive.core.Floor;
+import gseproject.passive.core.Palette;
+import gseproject.robot.domain.RobotState;
+
+public interface ITrackCommunicator {
 	/**
 	 * This method should wait for a message from robot and extract the state
 	 * from the message. After extracting the state from the message it should
 	 * update the grid.
 	 */
-	public void receiveRobotStateContract();
+	public RobotState receiveRobotState();
 
 	/**
 	 * This method should wait for a message from a floor and extract the state
 	 * from the message. After extracting the state from the message it should
 	 * update the grid.
 	 */
-	public void receiveFloorContract();
+	public Floor receiveFloor();
 
 	/**
 	 * This method should wait for a message from a palette and extract the
 	 * state from the message. After extracting the state from the message it
 	 * should update the grid.
 	 */
-	public void receivePaletteContract();
-
-	/**
-	 * This method should send the grid to the GUI-Agent.
-	 */
-	public void sendGridToGUIAgent();
+	public Palette receivePalette();
 
 }
