@@ -1,9 +1,13 @@
 package gseproject.passive.communicator;
 
+import java.io.IOException;
+
 import gseproject.core.Block;
 import gseproject.core.ServiceType;
+import gseproject.infrastructure.contracts.ProtocolTemplates;
 import gseproject.passive.core.GoalPalette;
 import gseproject.passive.core.StationException;
+import jade.core.AID;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.UnreadableException;
 
@@ -33,11 +37,16 @@ public class GoalPaletteCommunicator extends StationCommunicator {
 	}
 
 	@Override
-	public ACLMessage notifyGrid() {
-		ACLMessage message = new ACLMessage(ACLMessage.INFORM);
-		message.addReceiver(super.GridAgent);
-		// TODO: message.setContentObject(this.goalPalette);
-		return message;
+	public ACLMessage updateTrack() {
+		ACLMessage messageToTrackAgent = new ACLMessage(ACLMessage.INFORM);
+		messageToTrackAgent.setProtocol(ProtocolTemplates.TrackProtocolTemplate.TRACK_PALETTE_PROTOCOL);
+		try {
+			messageToTrackAgent.setContentObject(this.goalPalette);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		messageToTrackAgent.addReceiver(new AID("TrackAgent", AID.ISLOCALNAME));
+		return messageToTrackAgent;
 	}
 
 }

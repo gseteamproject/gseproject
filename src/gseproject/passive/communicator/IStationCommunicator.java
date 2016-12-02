@@ -21,6 +21,6 @@ public interface IStationCommunicator {
 	 * 
 	 * @return INFORM-Message containing the updated station object
 	 */
-	public ACLMessage notifyGrid();
+	public ACLMessage updateTrack();
 
 }
