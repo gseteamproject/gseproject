@@ -91,7 +91,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>gseproject.experiments.gui.application.Main</mainClass>
+							<mainClass>gseproject.tests.interaction.system.LocalSystemTest</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

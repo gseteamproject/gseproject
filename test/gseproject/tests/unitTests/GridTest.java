@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.junit.Test;
 import org.junit.Before;
+import org.junit.Ignore;
 
 import gseproject.core.grid.Grid;
 import gseproject.core.grid.objects.GridObject;
@@ -25,6 +26,7 @@ public class GridTest {
 		g = new Grid(0, 0, null, a);
 	}
 	
+	@Ignore
 	@Test
 	public void updateTest() {
 		RobotStateContract rsc = new RobotStateContract();

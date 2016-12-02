@@ -16,7 +16,7 @@ public class LocalSystemTest {
 		parameters[1] = "SourcePalette:gseproject.passive.SourcepaletteAgent;";
 		parameters[1] += "CleaningFloor:gseproject.passive.CleaningFloorAgent;";
 		parameters[1] += "PaintingFloor:gseproject.passive.PaintingFloorAgent;";
-		parameters[1] += "GoalPalette:gseproject.passive.GoalpaletteAgent;";
+		parameters[1] += "GoalPalette:gseproject.passive.goalpaletteAgent;";
 
 
 		Boot.main(parameters);
