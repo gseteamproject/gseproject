@@ -17,11 +17,14 @@ public interface ProtocolTemplates {
 		String ROBOT_GOAL_PALETTE_PROTOCOL = "robot-goal-palette-protocol";
 	}
 
-	public interface GridAgentProtocolTemplate {
-		String GRID_ROBOT_STATE_PROTOCOL = "gui-robot-state-protocol";
-		String ROBOT_GRIDAGENT_PROTOCOL = "robot_gridagent_protocol";
-		String FLOOR_GRIDAGENT_PROTOCOL = "floor_gridagent_protocol";
-		String PALETTE_GRIDAGENT_PROTOCOL = "palette_gridagent_protocol";
+	public interface TrackProtocolTemplate {
+		String TRACK_ROBOT_STATE_PROTOCOL = "track-robot-state-protocol";
+		String TRACK_FLOOR_PROTOCOL = "track-floor-protocol";
+		String TRACK_PALETTE_PROTOCOL = "track-palette-protocol";
+	}
+	
+	public interface GUIProtocolTemplate {
+		String GUI_TRACK_PROTOCOL = "gui-track-protocol";
 	}
 
 }

@@ -19,12 +19,12 @@ import java.io.IOException;
 public class RobotState implements IState {
 
 	public boolean isCarryingBlock;
-	public Position _position;
+	public int _position;
 	public Block block;
 
 	public RobotState(){
 		isCarryingBlock = false;
-		_position = new Position();
+		_position = 0;
 		block = new Block();
 	}
 
@@ -100,13 +100,13 @@ public class RobotState implements IState {
 		if (node.getNodeName() == "CoordX") {
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element eElement = (Element) node;
-				_position.setX(Integer.parseInt(eElement.getTextContent()));
+				//_position.setX(Integer.parseInt(eElement.getTextContent()));
 			}
 		}
 		if (node.getNodeName() == "CoordY") {
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element eElement = (Element) node;
-				_position.setY(Integer.parseInt(eElement.getTextContent()));
+				//_position.setY(Integer.parseInt(eElement.getTextContent()));
 			}
 		}
 	}
