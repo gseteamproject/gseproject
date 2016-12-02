@@ -1,6 +1,6 @@
-package gseproject.core.grid.communicator;
+package gseproject.grid.communicator;
 
-import gseproject.core.grid.Track;
+import gseproject.grid.Track;
 import gseproject.infrastructure.contracts.ProtocolTemplates;
 import gseproject.passive.core.Floor;
 import gseproject.passive.core.Palette;

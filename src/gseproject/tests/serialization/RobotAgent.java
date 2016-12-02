@@ -1,6 +1,6 @@
 package gseproject.tests.serialization;
 
-import gseproject.core.grid.Position;
+import gseproject.grid.Position;
 import gseproject.infrastructure.contracts.RobotStateContract;
 import gseproject.infrastructure.serialization.SerializationController;
 import gseproject.infrastructure.serialization.robot.RobotStateReader;

@@ -1,10 +1,10 @@
-package gseproject.core.grid.objects;
+package gseproject.grid.objects;
 
 import java.io.Serializable;
 
-import gseproject.core.grid.Position;
-import gseproject.core.grid.SpaceType;
 import gseproject.core.interaction.IState;
+import gseproject.grid.Position;
+import gseproject.grid.SpaceType;
 
 public abstract class Palette implements GridObject, Serializable {
 	

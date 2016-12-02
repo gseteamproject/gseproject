@@ -1,16 +1,16 @@
-package gseproject.core.grid;
+package gseproject.grid;
 
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import gseproject.core.grid.objects.GridObject;
-import gseproject.core.grid.objects.SourcePalette;
+import gseproject.grid.objects.GridObject;
+import gseproject.grid.objects.SourcePalette;
+import gseproject.grid.Position;
 import gseproject.robot.domain.RobotState;
 import jade.core.AID;
 import gseproject.core.Direction;
-import gseproject.core.grid.Position;
 
 
 /**

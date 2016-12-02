@@ -1,7 +1,7 @@
-package gseproject.core.grid.objects;
+package gseproject.grid.objects;
 
-import gseproject.core.grid.Position;
-import gseproject.core.grid.SpaceType;
+import gseproject.grid.Position;
+import gseproject.grid.SpaceType;
 
 public interface GridObject {
 

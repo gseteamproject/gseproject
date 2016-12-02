@@ -1,7 +1,7 @@
 package gseproject.active;
 
 import gseproject.core.Block;
-import gseproject.core.grid.GridSpace;
+import gseproject.grid.GridSpace;
 
 public interface IRobotActions {
 	public void move();

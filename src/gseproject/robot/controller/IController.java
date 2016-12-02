@@ -4,7 +4,7 @@ package gseproject.robot.controller;
 import java.awt.Color;
 
 import gseproject.core.Block;
-import gseproject.core.grid.Position;
+import gseproject.grid.Position;
 
 public interface IController {
 
