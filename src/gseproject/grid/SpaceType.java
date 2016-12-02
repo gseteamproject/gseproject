@@ -1,4 +1,4 @@
-package gseproject.core.grid;
+package gseproject.grid;
 
 /**
  * 

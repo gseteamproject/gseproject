@@ -1,7 +1,7 @@
 package gseproject.robot.communicator;
 
 import gseproject.core.ICallbackArgumented;
-import gseproject.core.grid.Position;
+import gseproject.grid.Position;
 import gseproject.robot.domain.RobotState;
 import jade.core.AID;
 

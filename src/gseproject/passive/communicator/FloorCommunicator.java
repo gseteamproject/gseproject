@@ -4,10 +4,12 @@ import java.io.IOException;
 
 import gseproject.core.Block;
 import gseproject.core.ServiceType;
+import gseproject.infrastructure.contracts.ProtocolTemplates;
 import gseproject.passive.core.CleaningFloor;
 import gseproject.passive.core.Floor;
 import gseproject.passive.core.FloorException;
 import gseproject.passive.core.StationException;
+import jade.core.AID;
 import jade.core.Agent;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
@@ -70,7 +72,7 @@ public class FloorCommunicator extends StationCommunicator {
 			e.printStackTrace();
 		}
 	}
-
+	
 	private static ACLMessage addBlockToMessage(ACLMessage message, Block block) {
 		if (block == null) {
 			message.setPerformative(ACLMessage.FAILURE);
@@ -194,9 +196,16 @@ public class FloorCommunicator extends StationCommunicator {
 	}
 
 	@Override
-	public ACLMessage notifyGrid() {
-		ACLMessage message = new ACLMessage(ACLMessage.INFORM);
-		return message;
+	public ACLMessage updateTrack() {
+		ACLMessage messageToTrackAgent = new ACLMessage(ACLMessage.INFORM);
+		messageToTrackAgent.setProtocol(ProtocolTemplates.TrackProtocolTemplate.TRACK_FLOOR_PROTOCOL);
+		try {
+			messageToTrackAgent.setContentObject(this.floor);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		messageToTrackAgent.addReceiver(new AID("TrackAgent", AID.ISLOCALNAME));
+		return messageToTrackAgent;
 	}
 
 }

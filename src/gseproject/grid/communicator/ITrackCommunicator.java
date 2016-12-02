@@ -1,4 +1,4 @@
-package gseproject.core.grid.communicator;
+package gseproject.grid.communicator;
 
 import gseproject.passive.core.Floor;
 import gseproject.passive.core.Palette;

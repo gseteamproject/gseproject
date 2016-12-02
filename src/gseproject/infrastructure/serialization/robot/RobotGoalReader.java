@@ -1,6 +1,6 @@
 package gseproject.infrastructure.serialization.robot;
 
-import gseproject.core.grid.Position;
+import gseproject.grid.Position;
 import gseproject.infrastructure.contracts.RobotGoalContract;
 import gseproject.infrastructure.serialization.IReader;
 import jade.core.AID;

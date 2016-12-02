@@ -1,9 +1,10 @@
 package gseproject.infrastructure.contracts;
 
-import gseproject.core.grid.Position;
 import jade.core.AID;
 
 import java.io.Serializable;
+
+import gseproject.grid.Position;
 
 public class RobotGoalContract implements Serializable {
 	private static final long serialVersionUID = 8120601045156551769L;

@@ -1,6 +1,6 @@
 package gseproject.tests.interaction.robot_grid;
 
-import gseproject.core.grid.Position;
+import gseproject.grid.Position;
 import gseproject.infrastructure.contracts.RobotStateContract;
 import gseproject.infrastructure.serialization.SerializationController;
 import jade.core.AID;

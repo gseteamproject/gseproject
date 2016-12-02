@@ -1,8 +1,8 @@
 package gseproject.robot.domain;
 
 import gseproject.core.Block;
-import gseproject.core.grid.Position;
 import gseproject.core.interaction.IState;
+import gseproject.grid.Position;
 import gseproject.robot.skills.SkillsSettings;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

@@ -3,8 +3,8 @@ package gseproject.robot.controller;
 import java.awt.Color;
 
 import gseproject.core.Block;
-import gseproject.core.grid.GridSpace;
-import gseproject.core.grid.Position;
+import gseproject.grid.GridSpace;
+import gseproject.grid.Position;
 import gseproject.robot.interaction.RealActuator;
 import gseproject.robot.skills.SkillsSettings;
 

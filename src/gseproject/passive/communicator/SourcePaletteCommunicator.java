@@ -4,7 +4,9 @@ import java.io.IOException;
 
 import gseproject.core.Block;
 import gseproject.core.ServiceType;
+import gseproject.infrastructure.contracts.ProtocolTemplates;
 import gseproject.passive.core.SourcePalette;
+import jade.core.AID;
 import jade.lang.acl.ACLMessage;
 
 public class SourcePaletteCommunicator extends StationCommunicator {
@@ -43,11 +45,16 @@ public class SourcePaletteCommunicator extends StationCommunicator {
 	}
 
 	@Override
-	public ACLMessage notifyGrid() {
-		ACLMessage message = new ACLMessage(ACLMessage.INFORM);
-		message.addReceiver(super.GridAgent);
-		//TODO: message.setContentObject(this.sourcePalette);
-		return message;
+	public ACLMessage updateTrack() {
+		ACLMessage messageToTrackAgent = new ACLMessage(ACLMessage.INFORM);
+		messageToTrackAgent.setProtocol(ProtocolTemplates.TrackProtocolTemplate.TRACK_PALETTE_PROTOCOL);
+		try {
+			messageToTrackAgent.setContentObject(this.sourcePalette);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		messageToTrackAgent.addReceiver(new AID("TrackAgent", AID.ISLOCALNAME));
+		return messageToTrackAgent;
 	}
 
 }

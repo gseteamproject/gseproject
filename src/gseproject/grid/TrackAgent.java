@@ -1,8 +1,8 @@
-package gseproject.core.grid;
+package gseproject.grid;
 
 import gseproject.core.Color;
-import gseproject.core.grid.communicator.ITrackCommunicator;
-import gseproject.core.grid.communicator.TrackCommunicator;
+import gseproject.grid.communicator.ITrackCommunicator;
+import gseproject.grid.communicator.TrackCommunicator;
 import gseproject.passive.core.Floor;
 import gseproject.passive.core.Palette;
 import gseproject.robot.domain.RobotState;

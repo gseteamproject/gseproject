@@ -3,7 +3,7 @@ package gseproject.active;
 import jade.core.AID;
 import java.util.*;
 
-import gseproject.core.grid.GridSpace;
+import gseproject.grid.GridSpace;
 
 
 public interface IRobotToRobotComm {

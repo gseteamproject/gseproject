@@ -7,7 +7,7 @@ import java.util.UUID;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import gseproject.core.grid.Position;
+import gseproject.grid.Position;
 import gseproject.infrastructure.contracts.RobotSkillContract;
 import gseproject.infrastructure.contracts.RobotStateContract;
 import gseproject.infrastructure.serialization.SerializationController;

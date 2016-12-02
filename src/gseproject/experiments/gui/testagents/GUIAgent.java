@@ -1,6 +1,6 @@
 package gseproject.experiments.gui.testagents;
 
-import gseproject.core.grid.Track;
+import gseproject.grid.Track;
 import gseproject.infrastructure.contracts.ProtocolTemplates;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;

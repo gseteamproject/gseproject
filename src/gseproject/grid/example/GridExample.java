@@ -1,11 +1,11 @@
-package gseproject.core.grid.example;
+package gseproject.grid.example;
 
-import gseproject.core.grid.Position;
 import gseproject.core.Direction;
-import gseproject.core.grid.Grid;
-import gseproject.core.grid.Grid.GridBuilder;
-import gseproject.core.grid.objects.GoalPalette;
-import gseproject.core.grid.objects.SourcePalette;
+import gseproject.grid.Grid;
+import gseproject.grid.Position;
+import gseproject.grid.Grid.GridBuilder;
+import gseproject.grid.objects.GoalPalette;
+import gseproject.grid.objects.SourcePalette;
 import jade.core.AID;
 
 public class GridExample {

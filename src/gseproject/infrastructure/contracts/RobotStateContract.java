@@ -1,8 +1,8 @@
 package gseproject.infrastructure.contracts;
 
-import gseproject.core.grid.Position;
-import gseproject.core.grid.SpaceType;
-import gseproject.core.grid.objects.GridObject;
+import gseproject.grid.Position;
+import gseproject.grid.SpaceType;
+import gseproject.grid.objects.GridObject;
 
 import java.io.Serializable;
 
