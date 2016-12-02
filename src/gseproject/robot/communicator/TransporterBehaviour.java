@@ -5,6 +5,7 @@ import java.awt.Color;
 import gseproject.core.Block;
 import gseproject.robot.controller.IController;
 import gseproject.robot.domain.RobotState;
+import gseproject.robot.RobotAgent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.UnreadableException;
@@ -15,20 +16,24 @@ public class TransporterBehaviour extends CyclicBehaviour {
 	private IController _controller;
 	private IRobotToStationComm _robotToStationCommunicator;
 	private RobotState _state;
+	private RobotAgent _agent;
 
-	public TransporterBehaviour(IController controller, IRobotToStationComm robotToStationComm, RobotState robotState) {
+	public TransporterBehaviour(IController controller, IRobotToStationComm robotToStationComm, RobotState robotState, RobotAgent agent) {
 		this._controller = controller;
 		this._robotToStationCommunicator = robotToStationComm;
 		this._state = robotState;
+		this._agent = agent;
 	}
 
 	private void moveAndgetBlockFromSourcePalette(Color sourcePaletteColor) {
 		_controller.move(sourcePaletteColor);
+		_agent.broadCastColor(sourcePaletteColor);
 		if (_controller.pick()) {
 			_robotToStationCommunicator.requestDirtyBlock();
 			ACLMessage reply = _robotToStationCommunicator.receiveReply();
 			if (reply.getPerformative() == ACLMessage.INFORM) {
 				try {
+
 					_state.block = (Block) reply.getContentObject();
 					_state.isCarryingBlock = true;
 				} catch (UnreadableException e) {
@@ -42,6 +47,7 @@ public class TransporterBehaviour extends CyclicBehaviour {
 
 	private void moveAndDropBlockOnCleaningFloor(Color cleaningFloorColor) {
 		_controller.move(cleaningFloorColor); // 2. move to cleaning floor
+		_agent.broadCastColor(cleaningFloorColor);
 		if (_controller.drop()) {
 			_robotToStationCommunicator.giveDirtyBlock(_state.block);
 			ACLMessage reply = _robotToStationCommunicator.receiveReply();
@@ -58,6 +64,7 @@ public class TransporterBehaviour extends CyclicBehaviour {
 
 	private void moveAndDropBlockOnPaintingFloor(Color paintingFloorColor) {
 		_controller.move(paintingFloorColor); // 2. move to cleaning floor
+		_agent.broadCastColor(paintingFloorColor);
 		if (_controller.drop()) {
 			_robotToStationCommunicator.giveCleanedBlock(_state.block);
 			ACLMessage reply = _robotToStationCommunicator.receiveReply();
@@ -104,6 +111,7 @@ public class TransporterBehaviour extends CyclicBehaviour {
 
 	private void moveAndDropBlockOnGoalPalette(Color goalPaletteColor) {
 		_controller.move(goalPaletteColor); // 2. move to cleaning floor
+		_agent.broadCastColor(goalPaletteColor);
 		if (_controller.drop()) {
 			_robotToStationCommunicator.givePaintedBlock(_state.block);
 			ACLMessage reply = _robotToStationCommunicator.receiveReply();

@@ -1,6 +1,9 @@
 package gseproject.robot;
 
+import java.awt.*;
 import java.io.IOException;
+import java.net.*;
+import java.nio.ByteBuffer;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -25,6 +28,8 @@ import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.ParallelBehaviour;
 import jade.core.behaviours.TickerBehaviour;
+import jade.core.behaviours.CyclicBehaviour;
+
 
 public class RobotAgent extends Agent {
 	private static final long serialVersionUID = -8771094154231916562L;
@@ -34,6 +39,7 @@ public class RobotAgent extends Agent {
 	private RobotState _state;
 	private SkillsSettings _skillsSettings;
 	private AID[] _broadcastAddr;
+	private DatagramSocket _udpSocket;
 
 	private void loadSkillSettings() {
 		_skillsSettings = new SkillsSettings();
@@ -68,16 +74,19 @@ public class RobotAgent extends Agent {
 		}
 	}
 
-	private void initCommunicators() {
+	public void initCommunicators() {
 		this._robotToStationCommunicator = new RobotToStationCommunicator(
-				new AID("SourcePalette@192.168.111.1:1099/JADE", AID.ISGUID),
-				new AID("CleaningFloor@192.168.111.1:1099/JADE", AID.ISGUID),
-				new AID("PaintingFloor@192.168.111.1:1099/JADE", AID.ISGUID),
-				new AID("GoalPalette@192.168.111.1:1099/JADE", AID.ISGUID), this);
+				new AID("SourcePalette", AID.ISLOCALNAME),
+				new AID("CleaningFloor", AID.ISLOCALNAME),
+				new AID("PaintingFloor", AID.ISLOCALNAME),
+				new AID("GoalPalette", AID.ISLOCALNAME), this);
 	}
 
 	public void setup() {
 		System.out.println(this.getAID() + "started");
+
+
+
 		/*
 		 * Load settings
 		 */
@@ -90,38 +99,52 @@ public class RobotAgent extends Agent {
 		initController();
 		initCommunicators();
 
+
 		/*
 		 * Register Service in DF
 		 */
 		registerDF();
 
 		this._skillsSettings.getAID(this.getAID().getLocalName());
+
 		/*
 		 * Ticker behaviour for broadcasting state of robot
 		 */
 		ParallelBehaviour b = new ParallelBehaviour();
-		b.addSubBehaviour(new TickerBehaviour(this, 1000) {
-
-			private static final long serialVersionUID = -6128539874456834232L;
+		b.addSubBehaviour(new CyclicBehaviour() {
 
 			@Override
-			protected void onTick() {
-				if (findRobots()) {
-					System.out.println(this.myAgent.getAID().getLocalName() + " Current State: " + _state
-							+ "\n Later this will be sent to GUI \n");
-					System.out.println("Transport Robots and GUI was found");
-				} else {
-					System.out.println("Transport Robots and GUI was not found");
-				}
-
-			}
+			public void action() {
+				DatagramPacket pack = new DatagramPacket(new byte[1], 1);
+                try {
+					if(_udpSocket != null)
+					{
+						_udpSocket.receive(pack);
+					}
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    System.out.println("UDP Socket failed to recieve byte array ");
+                }
+                if(pack.getLength() != 0)
+                {
+                    ByteBuffer bb = ByteBuffer.wrap(pack.getData());
+                    /** TODO: CHANGE FUCKING COLOR */
+                    //_state.COLOR = bb.getInt(); !!!
+                }
+            }
 		});
 
 		/*
 		 * Start Role behaviours
 		 */
 		if (this._skillsSettings._robotID.equals("Transporter")) {
-			b.addSubBehaviour(new TransporterBehaviour(_controller, _robotToStationCommunicator, _state));
+
+			/*
+			 *  Init Sockets
+			 */
+			initSockets();
+
+			b.addSubBehaviour(new TransporterBehaviour(_controller, _robotToStationCommunicator, _state, this));
 		} else if (this._skillsSettings._robotID.equals("Cleaner")) {
 			_robotToStationCommunicator.requestOccupyCleaningFloor();
 			ACLMessage reply = _robotToStationCommunicator.receiveReply();
@@ -197,4 +220,40 @@ public class RobotAgent extends Agent {
 		}
 
 	}
+
+	private void initSockets() {
+		int port = 34567;
+        InetAddress addr = null;
+
+        try {
+            addr = InetAddress.getLocalHost();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+
+        }
+
+        try {
+            _udpSocket = new DatagramSocket(port, addr);
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+        try {
+            _udpSocket.setBroadcast(true);
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void broadCastColor(Color color) {
+        byte[] array = new byte[1];
+        /* TODO: THIS FUNCTION SHOULD BE CALLED FROM TRANSPORT BEHAVIOUR */
+        array[0] = 0x02;
+        DatagramPacket packet = new DatagramPacket(array, 1);
+        try {
+            _udpSocket.send(packet);
+        } catch (IOException e) {
+            System.out.println("Broadcasting color was failed.");
+            e.printStackTrace();
+        }
+    }
 }
