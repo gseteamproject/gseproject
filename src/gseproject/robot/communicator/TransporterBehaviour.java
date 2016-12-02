@@ -126,6 +126,7 @@ public class TransporterBehaviour extends CyclicBehaviour {
 
 	@Override
 	public void action() {
+
 		moveAndgetBlockFromSourcePalette(Color.black);
 		System.out.println("got dirty block");
 		this.myAgent.doWait(2000);

@@ -24,10 +24,10 @@ import gseproject.robot.controller.DummyController;
 import gseproject.robot.controller.IController;
 import gseproject.robot.domain.RobotState;
 import gseproject.robot.skills.SkillsSettings;
+import gseproject.core.Color;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.ParallelBehaviour;
-import jade.core.behaviours.TickerBehaviour;
 import jade.core.behaviours.CyclicBehaviour;
 
 
@@ -85,8 +85,6 @@ public class RobotAgent extends Agent {
 	public void setup() {
 		System.out.println(this.getAID() + "started");
 
-
-
 		/*
 		 * Load settings
 		 */
@@ -128,8 +126,13 @@ public class RobotAgent extends Agent {
                 if(pack.getLength() != 0)
                 {
                     ByteBuffer bb = ByteBuffer.wrap(pack.getData());
-                    /** TODO: CHANGE FUCKING COLOR */
-                    //_state.COLOR = bb.getInt(); !!!
+
+                    if(bb.getInt() != Color.BLACK.ordinal()) {
+						_state.incrementPosition();
+					}
+
+
+
                 }
             }
 		});
@@ -237,6 +240,7 @@ public class RobotAgent extends Agent {
         } catch (SocketException e) {
             e.printStackTrace();
         }
+
         try {
             _udpSocket.setBroadcast(true);
         } catch (SocketException e) {
@@ -247,7 +251,7 @@ public class RobotAgent extends Agent {
     public void broadCastColor(Color color) {
         byte[] array = new byte[1];
         /* TODO: THIS FUNCTION SHOULD BE CALLED FROM TRANSPORT BEHAVIOUR */
-        array[0] = 0x02;
+        array[0] = (byte) color.getValue();
         DatagramPacket packet = new DatagramPacket(array, 1);
         try {
             _udpSocket.send(packet);

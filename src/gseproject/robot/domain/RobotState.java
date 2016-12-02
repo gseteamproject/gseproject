@@ -19,7 +19,7 @@ import java.io.IOException;
 public class RobotState implements IState {
 
 	public boolean isCarryingBlock;
-	public int _position;
+	private int _position;
 	public Block block;
 
 	public RobotState(){
@@ -96,6 +96,16 @@ public class RobotState implements IState {
 		}
 	}
 
+	public void incrementPosition() {
+		/* TODO: REMOVE HARDCODE */
+		if(_position == 15)
+		{
+			_position = 0;
+			return;
+		}
+		++_position;
+	}
+
 	private void parsePosition(Node node) {
 		if (node.getNodeName() == "CoordX") {
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
@@ -110,6 +120,5 @@ public class RobotState implements IState {
 			}
 		}
 	}
-
 
 }
