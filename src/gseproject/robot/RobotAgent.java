@@ -40,6 +40,7 @@ public class RobotAgent extends Agent {
 	private SkillsSettings _skillsSettings;
 	private AID[] _broadcastAddr;
 	private DatagramSocket _udpSocket;
+	private DatagramSocket _udpListen;
 
 	private void loadSkillSettings() {
 		_skillsSettings = new SkillsSettings();
@@ -108,6 +109,7 @@ public class RobotAgent extends Agent {
 		/*
 		 * Ticker behaviour for broadcasting state of robot
 		 */
+
 		ParallelBehaviour b = new ParallelBehaviour();
 		if (this._skillsSettings._robotID.equals("Transporter")) {
 
@@ -118,31 +120,6 @@ public class RobotAgent extends Agent {
 		 * Start Role behaviours
 		 */
 		if (this._skillsSettings._robotID.equals("Transporter")) {
-
-			b.addSubBehaviour(new CyclicBehaviour() {
-				@Override
-				public void action() {
-//					DatagramPacket pack = new DatagramPacket(new byte[1], 1);
-//					try {
-//						if (_udpSocket != null) {
-//							_udpSocket.receive(pack);
-//						}
-//					} catch (IOException e) {
-//						e.printStackTrace();
-//						System.out.println("UDP Socket failed to recieve byte array ");
-//					}
-//					if (pack.getLength() != 0) {
-//						ByteBuffer bb = ByteBuffer.wrap(pack.getData());
-//
-//						if (bb.getInt() != Color.BLACK.ordinal()) {
-//							_state.incrementPosition();
-//						}
-//x						myAgent.doWait(1);
-//					}
-				}
-			});
-
-
 			/*
 			 *  Init Sockets
 			 */
@@ -150,6 +127,31 @@ public class RobotAgent extends Agent {
 
 
 			b.addSubBehaviour(new TransporterBehaviour(_controller, _robotToStationCommunicator, _state, this));
+			b.addSubBehaviour(new CyclicBehaviour() {
+				@Override
+				public void action() {
+					DatagramPacket pack = new DatagramPacket(new byte[1], 1);
+					try {
+						if (_udpListen != null) {
+							System.out.println(" Receive package ");
+							_udpListen.receive(pack);
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
+						System.out.println("UDP Socket failed to recieve byte array ");
+					}
+					System.out.println(" Received package ");
+					if (pack.getLength() != 0) {
+						ByteBuffer bb = ByteBuffer.wrap(pack.getData());
+
+						if (bb.getInt() != Color.BLACK.ordinal()) {
+							//_state.incrementPosition();
+						}
+						//myAgent.doWait(1);
+					}
+				}
+			});
+
 		} else if (this._skillsSettings._robotID.equals("Cleaner")) {
 			_robotToStationCommunicator.requestOccupyCleaningFloor();
 			ACLMessage reply = _robotToStationCommunicator.receiveReply();
@@ -227,7 +229,9 @@ public class RobotAgent extends Agent {
 	}
 
 	private void initSockets() {
-		int port = 34567;
+
+		/** Init Socket for sending */
+		int port = 34568;
         InetAddress addr = null;
 
         try {
@@ -237,17 +241,36 @@ public class RobotAgent extends Agent {
 
         }
 
-        try {
-            _udpSocket = new DatagramSocket(port, addr);
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
+		try {
+			_udpSocket = new DatagramSocket(port, addr);
+		} catch (SocketException e) {
+			e.printStackTrace();
+		}
 
-        try {
-            _udpSocket.setBroadcast(true);
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
+        /** Init Socket for listening */
+		port = 34567;
+
+		try {
+			_udpListen = new DatagramSocket(port, InetAddress.getByName("192.168.0.101"));
+		} catch (SocketException e) {
+			e.printStackTrace();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+
+		DatagramPacket pack = new DatagramPacket(new byte[1], 1);
+		try {
+			if (_udpListen != null) {
+				System.out.println(" Receive package ");
+				_udpListen.receive(pack);
+				System.out.println(" Package Received");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("UDP Socket failed to recieve byte array ");
+		}
+
+
     }
 
     public void broadCastColor(Color color) {
