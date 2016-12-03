@@ -1,5 +1,6 @@
 package gseproject.passive;
 
+import gseproject.infrastructure.contracts.ProtocolTemplates;
 import gseproject.passive.communicator.IStationCommunicator;
 import gseproject.passive.communicator.ServiceTypeResponder;
 import gseproject.passive.communicator.SourcePaletteCommunicator;
@@ -17,6 +18,7 @@ public class SourcepaletteAgent extends Agent {
 	protected void setup() {
 		this.sourcePalette = new SourcePalette(5, 5);
 		this.stationCommunicator = new SourcePaletteCommunicator(this.sourcePalette);
+		this.robotServiceRequestTemplate = MessageTemplate.MatchProtocol(ProtocolTemplates.ServiceTypeProtocolTemplate.ROBOT_SOURCE_PALETTE_PROTOCOL);
 		this.addBehaviour(new ServiceTypeResponder(robotServiceRequestTemplate, stationCommunicator));
 	}
 

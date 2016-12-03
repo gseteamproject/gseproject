@@ -109,43 +109,45 @@ public class RobotAgent extends Agent {
 		 * Ticker behaviour for broadcasting state of robot
 		 */
 		ParallelBehaviour b = new ParallelBehaviour();
-		b.addSubBehaviour(new CyclicBehaviour() {
-
-			@Override
-			public void action() {
-				DatagramPacket pack = new DatagramPacket(new byte[1], 1);
-                try {
-					if(_udpSocket != null)
-					{
-						_udpSocket.receive(pack);
-					}
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    System.out.println("UDP Socket failed to recieve byte array ");
-                }
-                if(pack.getLength() != 0)
-                {
-                    ByteBuffer bb = ByteBuffer.wrap(pack.getData());
-
-                    if(bb.getInt() != Color.BLACK.ordinal()) {
-						_state.incrementPosition();
-					}
+		if (this._skillsSettings._robotID.equals("Transporter")) {
 
 
-
-                }
-            }
-		});
+		}
 
 		/*
 		 * Start Role behaviours
 		 */
 		if (this._skillsSettings._robotID.equals("Transporter")) {
 
+			b.addSubBehaviour(new CyclicBehaviour() {
+				@Override
+				public void action() {
+//					DatagramPacket pack = new DatagramPacket(new byte[1], 1);
+//					try {
+//						if (_udpSocket != null) {
+//							_udpSocket.receive(pack);
+//						}
+//					} catch (IOException e) {
+//						e.printStackTrace();
+//						System.out.println("UDP Socket failed to recieve byte array ");
+//					}
+//					if (pack.getLength() != 0) {
+//						ByteBuffer bb = ByteBuffer.wrap(pack.getData());
+//
+//						if (bb.getInt() != Color.BLACK.ordinal()) {
+//							_state.incrementPosition();
+//						}
+//x						myAgent.doWait(1);
+//					}
+				}
+			});
+
+
 			/*
 			 *  Init Sockets
 			 */
 			initSockets();
+
 
 			b.addSubBehaviour(new TransporterBehaviour(_controller, _robotToStationCommunicator, _state, this));
 		} else if (this._skillsSettings._robotID.equals("Cleaner")) {
@@ -249,11 +251,30 @@ public class RobotAgent extends Agent {
     }
 
     public void broadCastColor(Color color) {
+
         byte[] array = new byte[1];
         /* TODO: THIS FUNCTION SHOULD BE CALLED FROM TRANSPORT BEHAVIOUR */
         array[0] = (byte) color.getValue();
         DatagramPacket packet = new DatagramPacket(array, 1);
+		InetAddress addr = null;
+
+		try {
+			addr = InetAddress.getByName("192.168.0.255");
+
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+
+		}
+
+		if(addr == null)
+		{
+			System.out.print("Addr BROADCAST == null");
+			return;
+		}
+
         try {
+			packet.setPort(_udpSocket.getLocalPort());
+			packet.setAddress(addr);
             _udpSocket.send(packet);
         } catch (IOException e) {
             System.out.println("Broadcasting color was failed.");

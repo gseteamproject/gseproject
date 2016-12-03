@@ -1,7 +1,5 @@
 package gseproject.robot.communicator;
 
-import java.awt.Color;
-
 import gseproject.core.Block;
 import gseproject.robot.controller.IController;
 import gseproject.robot.domain.RobotState;
@@ -9,6 +7,7 @@ import gseproject.robot.RobotAgent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.UnreadableException;
+import gseproject.core.Color;
 
 public class TransporterBehaviour extends CyclicBehaviour {
 	private static final long serialVersionUID = -2309082371882678325L;
@@ -25,8 +24,9 @@ public class TransporterBehaviour extends CyclicBehaviour {
 		this._agent = agent;
 	}
 
-	private void moveAndgetBlockFromSourcePalette(Color sourcePaletteColor) {
-		_controller.move(sourcePaletteColor);
+	private void moveAndgetBlockFromSourcePalette(gseproject.core.Color sourcePaletteColor) {
+		//_controller.move(sourcePaletteColor);
+		System.out.println("TransporterBehaviour::moveAndgetBlockFromSourcePalette()");
 		_agent.broadCastColor(sourcePaletteColor);
 		if (_controller.pick()) {
 			_robotToStationCommunicator.requestDirtyBlock();
@@ -45,8 +45,8 @@ public class TransporterBehaviour extends CyclicBehaviour {
 		}
 	}
 
-	private void moveAndDropBlockOnCleaningFloor(Color cleaningFloorColor) {
-		_controller.move(cleaningFloorColor); // 2. move to cleaning floor
+	private void moveAndDropBlockOnCleaningFloor(gseproject.core.Color cleaningFloorColor) {
+		//_controller.move(cleaningFloorColor); // 2. move to cleaning floor
 		_agent.broadCastColor(cleaningFloorColor);
 		if (_controller.drop()) {
 			_robotToStationCommunicator.giveDirtyBlock(_state.block);
@@ -62,8 +62,8 @@ public class TransporterBehaviour extends CyclicBehaviour {
 		}
 	}
 
-	private void moveAndDropBlockOnPaintingFloor(Color paintingFloorColor) {
-		_controller.move(paintingFloorColor); // 2. move to cleaning floor
+	private void moveAndDropBlockOnPaintingFloor(gseproject.core.Color paintingFloorColor) {
+		//_controller.move(paintingFloorColor); // 2. move to cleaning floor
 		_agent.broadCastColor(paintingFloorColor);
 		if (_controller.drop()) {
 			_robotToStationCommunicator.giveCleanedBlock(_state.block);
@@ -109,8 +109,8 @@ public class TransporterBehaviour extends CyclicBehaviour {
 		}
 	}
 
-	private void moveAndDropBlockOnGoalPalette(Color goalPaletteColor) {
-		_controller.move(goalPaletteColor); // 2. move to cleaning floor
+	private void moveAndDropBlockOnGoalPalette(gseproject.core.Color goalPaletteColor) {
+		//_controller.move(goalPaletteColor); // 2. move to cleaning floor
 		_agent.broadCastColor(goalPaletteColor);
 		if (_controller.drop()) {
 			_robotToStationCommunicator.givePaintedBlock(_state.block);
@@ -127,22 +127,22 @@ public class TransporterBehaviour extends CyclicBehaviour {
 	@Override
 	public void action() {
 
-		moveAndgetBlockFromSourcePalette(Color.black);
+		moveAndgetBlockFromSourcePalette(gseproject.core.Color.BLACK);
 		System.out.println("got dirty block");
 		this.myAgent.doWait(2000);
-		moveAndDropBlockOnCleaningFloor(Color.black);
+		moveAndDropBlockOnCleaningFloor(Color.BLACK);
 		System.out.println("dropped block on cleaning floor");
 		this.myAgent.doWait(2000);
 		waitAndGetCleanedBlock();
 		System.out.println("got cleaned block");
 		this.myAgent.doWait(2000);
-		moveAndDropBlockOnPaintingFloor(Color.black);
+		moveAndDropBlockOnPaintingFloor(Color.BLACK);
 		System.out.println("dropped block on painting floor");
 		this.myAgent.doWait(2000);
 		waitAndGetPaintedBlock();
 		System.out.println("got painted block");
 		this.myAgent.doWait(2000);
-		moveAndDropBlockOnGoalPalette(Color.black);
+		moveAndDropBlockOnGoalPalette(Color.BLACK);
 		this.myAgent.doWait(2000);
 		System.out.println("dropped block on goal palette");
 	}
