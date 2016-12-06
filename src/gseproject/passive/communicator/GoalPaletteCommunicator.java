@@ -24,7 +24,6 @@ public class GoalPaletteCommunicator extends StationCommunicator {
 		try {
 			block = (Block) serviceTypeRequest.getContentObject();
 			if (block != null) {
-				System.out.println(block);
 				goalPalette.giveBlock(block);
 				return informMessage(serviceTypeRequest);
 			} else {

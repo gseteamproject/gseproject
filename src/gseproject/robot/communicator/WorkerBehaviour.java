@@ -44,7 +44,7 @@ public class WorkerBehaviour extends CyclicBehaviour {
 				}
 				ACLMessage reply = _communicator.receiveReply();
 				if (reply.getPerformative() == ACLMessage.INFORM) {
-					System.out.println("performed working successfully");
+					System.out.println(this.myAgent.getAID().getLocalName() + ": performed working successfully");
 				} else {
 					System.out.println("working failed");
 				}

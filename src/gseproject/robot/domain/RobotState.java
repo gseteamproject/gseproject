@@ -19,7 +19,7 @@ import java.io.IOException;
 public class RobotState implements IState {
 
 	public boolean isCarryingBlock;
-	private int _position;
+	public int _position;
 	public Block block;
 
 	public RobotState(){
