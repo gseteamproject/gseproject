@@ -35,7 +35,7 @@ public class RobotAgent extends Agent {
 	private IRobotToStationComm _robotToStationCommunicator;
 	private RobotState _state;
 	private SkillsSettings _skillsSettings;
-	private AID[] _broadcastAddr;
+	public AID[] _broadcastAddr;
 	int _cleanRate = 0;
 	int	_paintRate = 0;
 	int	_transportRate = 0;
@@ -136,7 +136,8 @@ public class RobotAgent extends Agent {
 			System.out.println("Something Went Wrong");
 		}
 		this.addBehaviour(parallelBehaviour);
-	}
+
+	}  /* End of setup() */
 
 	private void startTransportBehaviour(ParallelBehaviour behaviour)
 	{

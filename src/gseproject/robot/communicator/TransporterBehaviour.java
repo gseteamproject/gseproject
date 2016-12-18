@@ -10,10 +10,13 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import gseproject.core.Block;
+import gseproject.core.ServiceType;
 import gseproject.robot.domain.RobotState;
 import gseproject.robot.RobotAgent;
+import gseproject.robot.skills.SkillsSettings;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
+import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
 
 public class TransporterBehaviour extends CyclicBehaviour {
@@ -113,6 +116,44 @@ public class TransporterBehaviour extends CyclicBehaviour {
 
 	}
 
+	/*
+	 * True if collision predicted, false if not
+	 */
+	private boolean predictCollision(){
+
+		for(int i = 0; i != _agent._broadcastAddr.length; ++i) {
+			ACLMessage messageToRobots = new ACLMessage(ACLMessage.REQUEST);
+			messageToRobots.addReceiver(_agent._broadcastAddr[i]);
+			messageToRobots.setProtocol("RobotPosition");
+			messageToRobots.setContent(String.valueOf(_state._position));
+			_agent.send(messageToRobots);
+
+			ACLMessage message = _agent.blockingReceive(MessageTemplate.MatchProtocol("RobotPosition"));
+			int Position = Integer.valueOf(message.getContent());
+			int factor = 0;
+			/** If message from the same agent */
+			if(_agent.getName().equals(message.getSender().getName()))
+			{
+				continue;
+			}
+			for(int counter = _state._position; counter != Position; ++counter)
+			{
+				++factor;
+				if(counter == 16)
+				{
+					counter = 0;
+				}
+			}
+			if(factor < 2)
+			{
+				System.out.println("Collision predicted");
+				return true;
+			}
+		}
+
+		return  false;
+	}
+
 	private void waitAndGetCleanedBlock() {
 		_robotToStationCommunicator.requestCleanedBlock();
 		ACLMessage reply = _robotToStationCommunicator.receiveReply();
@@ -202,6 +243,11 @@ public class TransporterBehaviour extends CyclicBehaviour {
 
 	@Override
 	public void action() {
+
+		if(predictCollision())
+		{
+			return ;
+		}
 
 		byte physicalRobotPosition = receivePosition();
 		System.out.println("Received position from Robot:" + physicalRobotPosition);
