@@ -10,13 +10,11 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import gseproject.core.Block;
-import gseproject.robot.controller.IController;
 import gseproject.robot.domain.RobotState;
 import gseproject.robot.RobotAgent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.UnreadableException;
-import gseproject.core.Color;
 
 public class TransporterBehaviour extends CyclicBehaviour {
 	private static final long serialVersionUID = -2309082371882678325L;
@@ -204,41 +202,6 @@ public class TransporterBehaviour extends CyclicBehaviour {
 
 	@Override
 	public void action() {
-		/*
-		System.out.println("Workflow start:");
-		System.out.println("Getting a Block from SourcePalette.");
-		this.moveAndgetBlockFromSourcePalette();
-		this._agent.doWait(2000);
-		System.out.println("done.");
-		System.out.println(this._agent.getAID().getLocalName() + " State: " + this._state + "\n");
-		
-		System.out.println("Dropping block on cleaning floor.");
-		this.moveAndDropBlockOnCleaningFloor();
-		this._agent.doWait(2000);
-		System.out.println("done.");
-		System.out.println(this._agent.getAID().getLocalName() + " State: " + this._state + "\n");
-		
-		System.out.println("Waiting until block is cleaned.");
-		this.waitAndGetCleanedBlock();
-		System.out.println("Got cleaned block.");
-		System.out.println(this._agent.getAID().getLocalName() + " State: " + this._state + "\n");
-
-		System.out.println("Dropping block on painting floor.");
-		this.moveAndDropBlockOnPaintingFloor();
-		this._agent.doWait(2000);
-		System.out.println("done.");
-		System.out.println(this._agent.getAID().getLocalName() + " State: " + this._state + "\n");
-		
-		System.out.println("Waiting until block is painted.");
-		this.waitAndGetPaintedBlock();
-		System.out.println("got painted block.");
-		System.out.println(this._agent.getAID().getLocalName() + " State: " + this._state + "\n");
-		
-		System.out.println("Dropping block on goal palette.");
-		this.moveAndDropBlockOnGoalPalette();
-		this._agent.doWait(2000);
-		System.out.println(this._agent.getAID().getLocalName() + " State: " + this._state + "\n");
-		*/
 		
 		byte physicalrobotPosition = receivePosition();
 		System.out.println("received position from robot:" + physicalrobotPosition);

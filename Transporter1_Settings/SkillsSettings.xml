@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<SkillsSettings>
+	<!--RobotID>Transporter</RobotID-->
+	<Robot>
+		<Transport>
+			<Duration>1</Duration>
+			<Cost>1</Cost>
+		</Transport>
+		<Clean>
+			<Duration>7</Duration>
+			<Cost>10</Cost>
+		</Clean>
+		<Paint>
+			<Duration>5</Duration>
+			<Cost>4</Cost>
+		</Paint>
+	</Robot>
+</SkillsSettings>

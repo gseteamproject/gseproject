@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<RobotState>
+
+<!--> Block status could be: CLEANED, DIRTY, PAINTED, FALSE <-->
+	<Block>
+		<Status>CLEANED</Status>
+	</Block>
+	
+</RobotState>

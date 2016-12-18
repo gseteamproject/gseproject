@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<System>
+	<Arguments> 
+	  <Argument>-gui</Argument> 
+	  <Argument>GUIAgent:gseproject.experiments.gui.testagents.GUIAgent;</Argument> 
+	</Arguments>
+
+	<GUI>
+		<TrackManager>TRUE</TrackManager>
+		<Title>GSE Project - Manage Robots</Title>
+		<MinWidth>800</MinWidth>
+		<MinHeight>600</MinHeight>
+	</GUI>
+</System>
