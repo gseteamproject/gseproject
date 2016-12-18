@@ -104,50 +104,69 @@ public class RobotAgent extends Agent {
 
 		/*
 		 * 1) Register Raw Service in DF
-		 * 2) Define who is who
-		 * 3) Define ur own role in the system (_robotID)
-		 */
+		*/
 		registerDFRaw();
 
+		/*
+		 * Find Agents with "Raw" Service
+		 */
 		findRobots();
 
+		/*
+		 * Exchange skill settings with other Agents
+		 */
 		exchangeSkills();
 
+		/*
+		 * Based on exchanged information - choose Role
+		 */
 		chooseRole();
-
 
 		/*
 		 * Start Role behaviours
 		 */
-		ParallelBehaviour b = new ParallelBehaviour();
+		ParallelBehaviour parallelBehaviour = new ParallelBehaviour();
 		if (this._skillsSettings._robotID.equals("Transporter")) {
-			b.addSubBehaviour(new TransporterBehaviour(_robotToStationCommunicator, _state, this));
-
-		} else if (this._skillsSettings._robotID.equals("Cleaner")) {
-			_robotToStationCommunicator.requestOccupyCleaningFloor();
-			ACLMessage reply = _robotToStationCommunicator.receiveReply();
-			if (reply.getPerformative() == ACLMessage.INFORM) {
-				System.out.println("successfully occupied cleaning floor");
-			} else {
-				System.out.println("failed occupy cleaning floor");
-			}
-			b.addSubBehaviour(
-					new WorkerBehaviour(_robotToStationCommunicator, _controller, _state, "needClean", "needClean"));
+            startTransportBehaviour(parallelBehaviour);
+        } else if (this._skillsSettings._robotID.equals("Cleaner")) {
+            startCleanBehaviour(parallelBehaviour);
 		} else if (this._skillsSettings._robotID.equals("Painter")) {
-			_robotToStationCommunicator.requestOccupyPaintingFloor();
-			ACLMessage reply = this._robotToStationCommunicator.receiveReply();
-			if (reply.getPerformative() == ACLMessage.INFORM) {
-				System.out.println("successfully occupied painting floor");
-			} else {
-				System.out.println("failed occupy painting floor");
-			}
-			b.addSubBehaviour(
-					new WorkerBehaviour(_robotToStationCommunicator, _controller, _state, "needPaint", "needPaint"));
+            startPaintBehaviour(parallelBehaviour);
 		} else {
-			System.out.println("something went wrong");
+			System.out.println("Something Went Wrong");
 		}
-		this.addBehaviour(b);
+		this.addBehaviour(parallelBehaviour);
 	}
+
+	private void startTransportBehaviour(ParallelBehaviour behaviour)
+	{
+        behaviour.addSubBehaviour(new TransporterBehaviour(_robotToStationCommunicator, _state, this));
+    }
+
+    private void startCleanBehaviour(ParallelBehaviour behaviour) {
+        _robotToStationCommunicator.requestOccupyCleaningFloor();
+        ACLMessage reply = _robotToStationCommunicator.receiveReply();
+        if (reply.getPerformative() == ACLMessage.INFORM) {
+            System.out.println("Successfully occupied cleaning floor");
+        } else {
+            System.out.println("Failed occupy cleaning floor");
+        }
+        behaviour.addSubBehaviour(
+                new WorkerBehaviour(_robotToStationCommunicator, _controller, _state, "needClean", "needClean"));
+    }
+
+    private void startPaintBehaviour(ParallelBehaviour behaviour) {
+        _robotToStationCommunicator.requestOccupyPaintingFloor();
+        ACLMessage reply = this._robotToStationCommunicator.receiveReply();
+        if (reply.getPerformative() == ACLMessage.INFORM) {
+            System.out.println("Successfully occupied painting floor");
+        } else {
+            System.out.println("Failed occupy painting floor");
+        }
+        behaviour.addSubBehaviour(
+                new WorkerBehaviour(_robotToStationCommunicator, _controller, _state, "needPaint", "needPaint"));
+    }
+
 
 	private boolean findRobots() {
 		boolean found = false;
@@ -219,7 +238,7 @@ public class RobotAgent extends Agent {
 			SkillsSettings skills = new SkillsSettings();
 			skills.DecodeString(message.getContent());
 			_tempSkills.add(skills);
-			System.out.print("Robot received Skills message !");
+			System.out.print("Robot received Skills message !\n");
 		}
 	}
 

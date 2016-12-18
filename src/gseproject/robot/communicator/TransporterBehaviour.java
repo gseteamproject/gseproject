@@ -202,43 +202,50 @@ public class TransporterBehaviour extends CyclicBehaviour {
 
 	@Override
 	public void action() {
-		
-		byte physicalrobotPosition = receivePosition();
-		System.out.println("received position from robot:" + physicalrobotPosition);
-		switch (physicalrobotPosition) {
-		case 0:
+
+		byte physicalRobotPosition = receivePosition();
+		System.out.println("Received position from Robot:" + physicalRobotPosition);
+
+		if((_state.block.Status == Block.possibleBlockStatus.NULL)
+				&& ((physicalRobotPosition == 13) || (physicalRobotPosition == 0)))
+		{
 			this.moveAndgetBlockFromSourcePalette();
-			this._state._position = physicalrobotPosition;
+			this._state._position = physicalRobotPosition;
 			System.out.println(this._state);
-			break;
-		case 2:
+
+			return;
+		}
+
+		if((_state.block.Status == Block.possibleBlockStatus.DIRTY)
+				&& (physicalRobotPosition == 2))
+		{
 			this.moveAndDropBlockOnCleaningFloor();
 			this.waitAndGetCleanedBlock();
-			this._state._position = physicalrobotPosition;
+			this._state._position = physicalRobotPosition;
 			System.out.println(this._state);
-			break;
-		case 6:
+
+			return;
+		}
+
+		if((_state.block.Status == Block.possibleBlockStatus.CLEANED)
+				&& (physicalRobotPosition == 6))
+		{
 			this.moveAndDropBlockOnPaintingFloor();
 			this.waitAndGetPaintedBlock();
-			this._state._position = physicalrobotPosition;
+			this._state._position = physicalRobotPosition;
 			System.out.println(this._state);
-			break;
-		case 9:
-			this.moveAndDropBlockOnGoalPalette();
-			this._state._position = physicalrobotPosition;
-			System.out.println(this._state);
-			break;
-		case 13:
-			this.sendPosition((byte) 1);
-			this._state._position = physicalrobotPosition;
-			System.out.println(this._state);
-			break;
-		default:
-			if (physicalrobotPosition < 17) {
-				this._state._position = physicalrobotPosition;
-			}
-			System.out.println(this._state);
+
+			return;
 		}
-		
+
+		if((_state.block.Status == Block.possibleBlockStatus.PAINTED)
+				&& (physicalRobotPosition == 9))
+		{
+			this.moveAndDropBlockOnGoalPalette();
+			this._state._position = physicalRobotPosition;
+			System.out.println(this._state);
+
+			return;
+		}
 	}
 }
