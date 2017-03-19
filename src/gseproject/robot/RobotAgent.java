@@ -125,19 +125,23 @@ public class RobotAgent extends Agent {
 		/*
 		 * Start Role behaviours
 		 */
+		startRoleBehaviours();
+
+	}  /* End of setup() */
+
+	private void startRoleBehaviours(){
 		ParallelBehaviour parallelBehaviour = new ParallelBehaviour();
 		if (this._skillsSettings._robotID.equals("Transporter")) {
-            startTransportBehaviour(parallelBehaviour);
-        } else if (this._skillsSettings._robotID.equals("Cleaner")) {
-            startCleanBehaviour(parallelBehaviour);
+			startTransportBehaviour(parallelBehaviour);
+		} else if (this._skillsSettings._robotID.equals("Cleaner")) {
+			startCleanBehaviour(parallelBehaviour);
 		} else if (this._skillsSettings._robotID.equals("Painter")) {
-            startPaintBehaviour(parallelBehaviour);
+			startPaintBehaviour(parallelBehaviour);
 		} else {
 			System.out.println("Something Went Wrong");
 		}
 		this.addBehaviour(parallelBehaviour);
-
-	}  /* End of setup() */
+	}
 
 	private void startTransportBehaviour(ParallelBehaviour behaviour)
 	{
@@ -145,25 +149,11 @@ public class RobotAgent extends Agent {
     }
 
     private void startCleanBehaviour(ParallelBehaviour behaviour) {
-        _robotToStationCommunicator.requestOccupyCleaningFloor();
-        ACLMessage reply = _robotToStationCommunicator.receiveReply();
-        if (reply.getPerformative() == ACLMessage.INFORM) {
-            System.out.println("Successfully occupied cleaning floor");
-        } else {
-            System.out.println("Failed occupy cleaning floor");
-        }
         behaviour.addSubBehaviour(
                 new WorkerBehaviour(_robotToStationCommunicator, _controller, _state, "needClean", "needClean"));
     }
 
     private void startPaintBehaviour(ParallelBehaviour behaviour) {
-        _robotToStationCommunicator.requestOccupyPaintingFloor();
-        ACLMessage reply = this._robotToStationCommunicator.receiveReply();
-        if (reply.getPerformative() == ACLMessage.INFORM) {
-            System.out.println("Successfully occupied painting floor");
-        } else {
-            System.out.println("Failed occupy painting floor");
-        }
         behaviour.addSubBehaviour(
                 new WorkerBehaviour(_robotToStationCommunicator, _controller, _state, "needPaint", "needPaint"));
     }

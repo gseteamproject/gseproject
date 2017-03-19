@@ -28,6 +28,25 @@ public class WorkerBehaviour extends CyclicBehaviour {
 		sd.setType(serviceType);
 		this.service = new DFAgentDescription();
 		this.service.addServices(sd);
+
+		if(serviceName.equals("needClean")) {
+			_communicator.requestOccupyCleaningFloor();
+			ACLMessage reply = _communicator.receiveReply();
+			if (reply.getPerformative() == ACLMessage.INFORM) {
+				System.out.println("Successfully occupied cleaning floor");
+			} else {
+				System.out.println("Failed occupy cleaning floor");
+			}
+		}
+		else if(serviceName.equals("needPaint")) {
+			_communicator.requestOccupyPaintingFloor();
+			ACLMessage reply = _communicator.receiveReply();
+			if (reply.getPerformative() == ACLMessage.INFORM) {
+				System.out.println("Successfully occupied painting floor");
+			} else {
+				System.out.println("Failed occupy painting floor");
+			}
+		}
 	}
 
 	@Override
