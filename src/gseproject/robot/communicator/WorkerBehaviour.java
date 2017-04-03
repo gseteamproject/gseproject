@@ -16,9 +16,11 @@ public class WorkerBehaviour extends CyclicBehaviour {
 	private RobotState _state;
 	private DFAgentDescription service;
 	private String serviceName;
+	private int _mode;
 	
 	public WorkerBehaviour(IRobotToStationComm communicator, IController controller, RobotState robotState,
-			String serviceName, String serviceType) {
+			String serviceName, String serviceType, int mode) {
+		this._mode = mode;
 		this._communicator = communicator;
 		this._controller = controller;
 		this._state = robotState;

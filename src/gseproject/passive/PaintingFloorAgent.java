@@ -20,7 +20,6 @@ public class PaintingFloorAgent extends FloorAgent {
 
 	@Override
 	protected void takeDown() {
-
 	}
 
 }

@@ -145,17 +145,17 @@ public class RobotAgent extends Agent {
 
 	private void startTransportBehaviour(ParallelBehaviour behaviour)
 	{
-        behaviour.addSubBehaviour(new TransporterBehaviour(_robotToStationCommunicator, _state, this));
+        behaviour.addSubBehaviour(new TransporterBehaviour(_robotToStationCommunicator, _state, this, _skillsSettings._mode));
     }
 
     private void startCleanBehaviour(ParallelBehaviour behaviour) {
         behaviour.addSubBehaviour(
-                new WorkerBehaviour(_robotToStationCommunicator, _controller, _state, "needClean", "needClean"));
+                new WorkerBehaviour(_robotToStationCommunicator, _controller, _state, "needClean", "needClean", _skillsSettings._mode));
     }
 
     private void startPaintBehaviour(ParallelBehaviour behaviour) {
         behaviour.addSubBehaviour(
-                new WorkerBehaviour(_robotToStationCommunicator, _controller, _state, "needPaint", "needPaint"));
+                new WorkerBehaviour(_robotToStationCommunicator, _controller, _state, "needPaint", "needPaint", _skillsSettings._mode));
     }
 
 

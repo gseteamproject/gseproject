@@ -28,11 +28,14 @@ public class TransporterBehaviour extends CyclicBehaviour {
 	private DatagramSocket _udpSocket;
 	private InetAddress myAddress;
 	private InetAddress broadcast;
+	private int _mode;
+	private boolean _isMoving = false;
 
-	public TransporterBehaviour(IRobotToStationComm robotToStationComm, RobotState robotState, RobotAgent agent) {
+	public TransporterBehaviour(IRobotToStationComm robotToStationComm, RobotState robotState, RobotAgent agent, int mode) {
 		this._robotToStationCommunicator = robotToStationComm;
 		this._state = robotState;
 		this._agent = agent;
+		this._mode = mode;
 		initUDP();
 	}
 	
@@ -131,9 +134,7 @@ public class TransporterBehaviour extends CyclicBehaviour {
 			ACLMessage message = _agent.blockingReceive(MessageTemplate.MatchProtocol("RobotPosition"));
 			int Position = Integer.valueOf(message.getContent());
 			int factor = 0;
-			/** If message from the same agent */
-			if(_agent.getName().equals(message.getSender().getName()))
-			{
+			if(_agent.getName().equals(message.getSender().getName())){
 				continue;
 			}
 			for(int counter = _state._position; counter != Position; ++counter)
@@ -223,6 +224,14 @@ public class TransporterBehaviour extends CyclicBehaviour {
 		return position;
 	}
 
+	private byte moveAgent() {
+		byte position = (byte) 255;
+
+
+
+		return position;
+	}
+
 	private void sendPosition(byte goalPosition) {
 		byte[] array = new byte[1];
 		array[0] = goalPosition;
@@ -248,8 +257,13 @@ public class TransporterBehaviour extends CyclicBehaviour {
 		{
 			return ;
 		}
-
-		byte physicalRobotPosition = receivePosition();
+		byte physicalRobotPosition = 0;
+		if(_mode == 0) {
+			physicalRobotPosition = receivePosition();
+		}
+		else if(_mode == 1) {
+			physicalRobotPosition = moveAgent();
+		}
 		System.out.println("Received position from Robot:" + physicalRobotPosition);
 
 		if((_state.block.Status == Block.possibleBlockStatus.NULL)

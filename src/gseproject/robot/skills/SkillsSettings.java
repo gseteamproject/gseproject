@@ -22,6 +22,12 @@ public class SkillsSettings implements IXMLParser {
     public ISkill _transport;
     public String _robotID;
 
+    /* _mode describes how agents should be started. TODO: Remove hardcode
+     * 0 - physical
+     * 1 - virtual
+     */
+    public int _mode = 1;
+
     public SkillsSettings() {
         _paint = new PaintSkill();
         _clean = new CleanSkill();
