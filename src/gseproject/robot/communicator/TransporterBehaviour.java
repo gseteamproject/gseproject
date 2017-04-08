@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import gseproject.core.Block;
 import gseproject.core.ServiceType;
+import gseproject.robot.controller.IController;
 import gseproject.robot.domain.RobotState;
 import gseproject.robot.RobotAgent;
 import gseproject.robot.skills.SkillsSettings;
@@ -29,13 +30,15 @@ public class TransporterBehaviour extends CyclicBehaviour {
 	private InetAddress myAddress;
 	private InetAddress broadcast;
 	private int _mode;
+	private IController _controller;
 	private boolean _isMoving = false;
 
-	public TransporterBehaviour(IRobotToStationComm robotToStationComm, RobotState robotState, RobotAgent agent, int mode) {
+	public TransporterBehaviour(IRobotToStationComm robotToStationComm, IController controller, RobotState robotState, RobotAgent agent, int mode) {
 		this._robotToStationCommunicator = robotToStationComm;
 		this._state = robotState;
 		this._agent = agent;
 		this._mode = mode;
+		this._controller = controller;
 		initUDP();
 	}
 	

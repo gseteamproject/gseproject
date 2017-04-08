@@ -97,7 +97,7 @@ public class RobotAgent extends Agent {
 		loadStateSettings();
 
 		/*
-		 * Initiate Controller, Communicator and Behaviours
+		 * Initiate Controller, Communicator
 		 */
 		initController();
 		initCommunicators();
@@ -145,7 +145,7 @@ public class RobotAgent extends Agent {
 
 	private void startTransportBehaviour(ParallelBehaviour behaviour)
 	{
-        behaviour.addSubBehaviour(new TransporterBehaviour(_robotToStationCommunicator, _state, this, _skillsSettings._mode));
+        behaviour.addSubBehaviour(new TransporterBehaviour(_robotToStationCommunicator, _controller, _state, this, _skillsSettings._mode));
     }
 
     private void startCleanBehaviour(ParallelBehaviour behaviour) {

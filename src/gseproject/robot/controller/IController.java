@@ -8,11 +8,7 @@ import gseproject.grid.Position;
 
 public interface IController {
 
-    /**
-     * The Robot is moving to the color on the real grid.
-     * @param color the color on the real grid.
-     */
-    public void move(Color color);
+    public void move();
 
     /**
      * The robot picks the block.
