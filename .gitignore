@@ -1,6 +1,7 @@
 /bin/
 /.idea/*
 /target/
+.settings/
 
 APDescription.txt
 MTPs-Main-Container.txt
