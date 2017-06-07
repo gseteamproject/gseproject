@@ -5,22 +5,29 @@
 	<artifactId>gseproject</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>smartmason</name>
-	<repositories>
-		<repository>
-			<id>tilab</id>
-			<url>http://jade.tilab.com/maven/</url>
-		</repository>
-	</repositories>
+	<!-- <repositories> <repository> <id>tilab</id> <url>http://jade.tilab.com/maven/</url> 
+		</repository> </repositories> -->
 	<dependencies>
+		<!-- <dependency> <groupId>com.tilab.jade</groupId> <artifactId>jade</artifactId> 
+			<version>4.4.0</version> </dependency> <dependency> <groupId>com.tilab.jade</groupId> 
+			<artifactId>jade-test-suite</artifactId> <version>1.13.0</version> </dependency> -->
+		<!-- https://mvnrepository.com/artifact/net.sf.ingenias/jade -->
 		<dependency>
-			<groupId>com.tilab.jade</groupId>
+			<groupId>net.sf.ingenias</groupId>
 			<artifactId>jade</artifactId>
-			<version>4.4.0</version>
+			<version>4.3</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/net.sf.ingenias/jadeTools -->
 		<dependency>
-			<groupId>com.tilab.jade</groupId>
-			<artifactId>jade-test-suite</artifactId>
-			<version>1.13.0</version>
+			<groupId>net.sf.ingenias</groupId>
+			<artifactId>jadeTools</artifactId>
+			<version>3.7</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/net.sf.ingenias/jadeMisc -->
+		<dependency>
+			<groupId>net.sf.ingenias</groupId>
+			<artifactId>jadeMisc</artifactId>
+			<version>3.7</version>
 		</dependency>
 		<!-- <dependency> <groupId>org.jmock</groupId> <artifactId>jmock-junit4</artifactId> 
 			<version>2.8.2</version> <scope>test</scope> </dependency> -->
