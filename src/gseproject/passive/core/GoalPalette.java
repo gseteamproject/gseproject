@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import gseproject.core.Block;
 
 public class GoalPalette extends Palette implements IGive {
+	private static final long serialVersionUID = -2923778793617231711L;
 	private int maxAmountOfBlocks;
 
 	public GoalPalette(int maxAmountOfBlocks) {

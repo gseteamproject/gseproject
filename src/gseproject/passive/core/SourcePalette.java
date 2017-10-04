@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import gseproject.core.Block;
 
 public class SourcePalette extends Palette implements ITake {
+	private static final long serialVersionUID = -7628769835450440396L;
 	private int amountOfBlocks;
 	private int maxAmountOfBlocks;
 

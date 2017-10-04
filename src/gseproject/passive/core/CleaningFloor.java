@@ -4,6 +4,8 @@ import gseproject.core.Block;
 
 public class CleaningFloor extends Floor {
 
+	private static final long serialVersionUID = 1306159616601692565L;
+
 	@Override
 	public synchronized void giveBlock(Block block) throws StationException {
 		if (block == null) {
