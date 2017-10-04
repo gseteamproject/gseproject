@@ -32,11 +32,12 @@ public class SerializationController {
     //todo: fix exceptions handling
     public <T> T Deserialize(Class<T> deserializableClass, String data){
         //todo: throw exception if null
-        CustomSerializers serializers = serializationDictionary.get(deserializableClass);
+        CustomSerializers<?> serializers = serializationDictionary.get(deserializableClass);
         if (serializers == null){
             return null;
         }
-        IReader<T> reader = serializers.reader;
+        @SuppressWarnings("unchecked")
+		IReader<T> reader = (IReader<T>) serializers.reader;
 
         T resultObject = null;
 
@@ -56,15 +57,16 @@ public class SerializationController {
     }
 
     public <T> String Serialize(T data){
-        Class serializableClass = data.getClass();
+        Class<?> serializableClass = data.getClass();
 
         //todo: throw exception if null
-        CustomSerializers serializers = serializationDictionary.get(serializableClass);
+        CustomSerializers<?> serializers = serializationDictionary.get(serializableClass);
         if (serializers == null){
             System.out.println("the class you want to serialize is not in dictionary");
             return null;
         }
-        IWriter<T> writer = serializers.writer;
+        @SuppressWarnings("unchecked")
+		IWriter<T> writer = (IWriter<T>) serializers.writer;
 
         String resultString = null;
         try(ByteArrayOutputStream byteArray = new ByteArrayOutputStream()) {
