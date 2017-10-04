@@ -107,13 +107,13 @@ public class RobotState implements IState {
 	private void parsePosition(Node node) {
 		if (node.getNodeName() == "CoordX") {
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
-				Element eElement = (Element) node;
+//				Element eElement = (Element) node;
 				//_position.setX(Integer.parseInt(eElement.getTextContent()));
 			}
 		}
 		if (node.getNodeName() == "CoordY") {
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
-				Element eElement = (Element) node;
+//				Element eElement = (Element) node;
 				//_position.setY(Integer.parseInt(eElement.getTextContent()));
 			}
 		}

@@ -13,17 +13,17 @@ public class WorkerBehaviour extends CyclicBehaviour {
 	private static final long serialVersionUID = -5824911581918820127L;
 	private IRobotToStationComm _communicator;
 	private IController _controller;
-	private RobotState _state;
+//	private RobotState _state;
 	private DFAgentDescription service;
 	private String serviceName;
-	private int _mode;
+//	private int _mode;
 	
 	public WorkerBehaviour(IRobotToStationComm communicator, IController controller, RobotState robotState,
 			String serviceName, String serviceType, int mode) {
-		this._mode = mode;
+//		this._mode = mode;
 		this._communicator = communicator;
 		this._controller = controller;
-		this._state = robotState;
+//		this._state = robotState;
 		this.serviceName = serviceName;
 		ServiceDescription sd = new ServiceDescription();
 		sd.setName(serviceName);

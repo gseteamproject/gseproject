@@ -5,7 +5,6 @@ import gseproject.grid.Grid;
 import gseproject.grid.Position;
 import gseproject.grid.objects.GoalPalette;
 import gseproject.grid.objects.SourcePalette;
-import gseproject.robot.interaction.RealActuator;
 import gseproject.robot.interaction.VirtualActuator;
 import gseproject.robot.skills.SkillsSettings;
 import jade.core.AID;
@@ -15,10 +14,10 @@ public class DummyController implements IController {
     private Grid _grid;
     private Position _currentPosition;
     private SkillsSettings _skillsSettings;
-    private boolean _hasBlock = false;
+//    private boolean _hasBlock = false;
 
     /** Actuators */
-    private RealActuator _realActuator;
+//    private RealActuator _realActuator;
     private VirtualActuator _virtActuator;
 
     /** Sensors */
@@ -38,7 +37,7 @@ public class DummyController implements IController {
                 .addTrack(new Position(3, 10), Direction.NORTH, 11)
                 .build();
     	_skillsSettings = skillSettings;
-        _realActuator = new RealActuator();
+//        _realActuator = new RealActuator();
         _virtActuator = new VirtualActuator();
         _virtActuator.init(_skillsSettings._transport.getDuration()/1);
     }
@@ -75,7 +74,7 @@ public class DummyController implements IController {
     /* Pick Block */
     public boolean pick() {
         if(_virtActuator.pick()){
-            _hasBlock = true;
+//            _hasBlock = true;
             return true;
         };
         return false;
@@ -84,7 +83,7 @@ public class DummyController implements IController {
     /* Put block on Floor/Pallete */
     public boolean drop() {
         if(_virtActuator.drop()){
-            _hasBlock = false;
+//            _hasBlock = false;
             return true;
         };
         return false;

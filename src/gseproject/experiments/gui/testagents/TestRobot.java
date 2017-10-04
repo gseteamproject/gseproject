@@ -1,11 +1,10 @@
 package gseproject.experiments.gui.testagents;
 
-import jade.core.AID;
 import jade.core.Agent;
 
 public class TestRobot extends Agent {
 	private static final long serialVersionUID = 1L;
-	private AID gridAgent;
+//	private AID gridAgent;
 
 	protected void setup() {
 		// TODO: set gridAgent

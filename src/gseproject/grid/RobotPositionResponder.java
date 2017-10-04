@@ -13,18 +13,18 @@ public class RobotPositionResponder extends CyclicBehaviour {
 	private static final long serialVersionUID = -639699365150760529L;
 	private static SerializationController sc = SerializationController.Instance;
 	private MessageTemplate msgTemplate;
-	private Grid grid;
+//	private Grid grid;
 
 	public RobotPositionResponder(Agent a, MessageTemplate msgTemplate, Grid grid) {
 		super(a);
 		this.msgTemplate = msgTemplate;
-		this.grid = grid;
+//		this.grid = grid;
 	}
 
 	public RobotPositionResponder(Agent a, Grid grid) {
 		super(a);
 		msgTemplate = MessageTemplate.MatchPerformative(ACLMessage.INFORM);
-		this.grid = grid;
+//		this.grid = grid;
 	}
 
 	@Override
@@ -66,27 +66,27 @@ public class RobotPositionResponder extends CyclicBehaviour {
 		}
 	}
 
-	private boolean canStickDirection(Position start, Direction direction) {
-		Position newPosition = getNextPosition(start, direction);
-		if (grid.getSpaceType(newPosition.getX(), newPosition.getY()) != SpaceType.NO_TRACK) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+//	private boolean canStickDirection(Position start, Direction direction) {
+//		Position newPosition = getNextPosition(start, direction);
+//		if (grid.getSpaceType(newPosition.getX(), newPosition.getY()) != SpaceType.NO_TRACK) {
+//			return true;
+//		} else {
+//			return false;
+//		}
+//	}
 
-	private Direction changeDirection(Direction direction) {
-		switch (direction) {
-		case NORTH:
-			return Direction.EAST;
-		case SOUTH:
-			return Direction.WEST;
-		case EAST:
-			return Direction.SOUTH;
-		case WEST:
-			return Direction.NORTH;
-		}
-		return direction;
-	}
+//	private Direction changeDirection(Direction direction) {
+//		switch (direction) {
+//		case NORTH:
+//			return Direction.EAST;
+//		case SOUTH:
+//			return Direction.WEST;
+//		case EAST:
+//			return Direction.SOUTH;
+//		case WEST:
+//			return Direction.NORTH;
+//		}
+//		return direction;
+//	}
 
 }

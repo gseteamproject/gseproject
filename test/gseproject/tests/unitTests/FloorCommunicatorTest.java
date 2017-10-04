@@ -1,63 +1,55 @@
 package gseproject.tests.unitTests;
 
-import java.io.IOException;
-
-import gseproject.core.Block;
-import gseproject.core.ServiceType;
-import gseproject.passive.communicator.IStationCommunicator;
-import gseproject.passive.core.Floor;
-import jade.lang.acl.ACLMessage;
-
 public class FloorCommunicatorTest {
-	private IStationCommunicator communicator;
-	private Floor floor;
+//	private IStationCommunicator communicator;
+//	private Floor floor;
 
-	private static ACLMessage dummyMessage() {
-		ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
-		return message;
-	}
+//	private static ACLMessage dummyMessage() {
+//		ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
+//		return message;
+//	}
 
-	private static ACLMessage takeBlockMessage() {
-		ACLMessage message = dummyMessage();
-		message.setContent(ServiceType.TAKE_BLOCK.name());
-		return message;
-	}
+//	private static ACLMessage takeBlockMessage() {
+//		ACLMessage message = dummyMessage();
+//		message.setContent(ServiceType.TAKE_BLOCK.name());
+//		return message;
+//	}
 
-	private static ACLMessage giveBlockToCleanStationMessage() {
-		ACLMessage message = dummyMessage();
-		Block block = new Block();
-		block.Status = Block.possibleBlockStatus.DIRTY;
-		try {
-			message.setContentObject(block);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return message;
-	}
+//	private static ACLMessage giveBlockToCleanStationMessage() {
+//		ACLMessage message = dummyMessage();
+//		Block block = new Block();
+//		block.Status = Block.possibleBlockStatus.DIRTY;
+//		try {
+//			message.setContentObject(block);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		return message;
+//	}
 
-	private static ACLMessage giveBlockToPaintStationMessage() {
-		ACLMessage message = dummyMessage();
-		Block block = new Block();
-		block.Status = Block.possibleBlockStatus.CLEANED;
-		try {
-			message.setContentObject(block);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return message;
-	}
+//	private static ACLMessage giveBlockToPaintStationMessage() {
+//		ACLMessage message = dummyMessage();
+//		Block block = new Block();
+//		block.Status = Block.possibleBlockStatus.CLEANED;
+//		try {
+//			message.setContentObject(block);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		return message;
+//	}
 
-	private static ACLMessage finishBlockMessage() {
-		ACLMessage message = dummyMessage();
-		message.setContent(ServiceType.FINISH_BLOCK.name());
-		return message;
-	}
+//	private static ACLMessage finishBlockMessage() {
+//		ACLMessage message = dummyMessage();
+//		message.setContent(ServiceType.FINISH_BLOCK.name());
+//		return message;
+//	}
 
-	private static ACLMessage occupyMessage() {
-		ACLMessage message = dummyMessage();
-		message.setContent(ServiceType.I_OCCUPY.name());
-		return message;
-	}
+//	private static ACLMessage occupyMessage() {
+//		ACLMessage message = dummyMessage();
+//		message.setContent(ServiceType.I_OCCUPY.name());
+//		return message;
+//	}
 	/*
 	@Test
 	public void cleaningFloorTest() {

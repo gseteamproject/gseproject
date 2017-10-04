@@ -181,24 +181,24 @@ public class RobotAgent extends Agent {
 		return found;
 	}
 
-	private void registerDF() {
-
-		String agentServiceGroup = this._skillsSettings._robotID;
-		String agentServiceName = new String("Transporter");
-
-		ServiceDescription serviceDescription = new ServiceDescription();
-		serviceDescription.setName(agentServiceGroup);
-		serviceDescription.setType(agentServiceName);
-		DFAgentDescription agentDescription = new DFAgentDescription();
-		agentDescription.setName(getAID());
-		agentDescription.addServices(serviceDescription);
-		try {
-			DFService.register(this, agentDescription);
-		} catch (FIPAException exception) {
-			exception.printStackTrace();
-		}
-
-	}
+//	private void registerDF() {
+//
+//		String agentServiceGroup = this._skillsSettings._robotID;
+//		String agentServiceName = new String("Transporter");
+//
+//		ServiceDescription serviceDescription = new ServiceDescription();
+//		serviceDescription.setName(agentServiceGroup);
+//		serviceDescription.setType(agentServiceName);
+//		DFAgentDescription agentDescription = new DFAgentDescription();
+//		agentDescription.setName(getAID());
+//		agentDescription.addServices(serviceDescription);
+//		try {
+//			DFService.register(this, agentDescription);
+//		} catch (FIPAException exception) {
+//			exception.printStackTrace();
+//		}
+//
+//	}
 	private void registerDFRaw() {
 
 		String agentServiceGroup = new String("Raw");

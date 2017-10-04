@@ -28,15 +28,15 @@ public class TransporterBehaviour extends CyclicBehaviour {
 	private InetAddress myAddress;
 	private InetAddress broadcast;
 	private int _mode;
-	private IController _controller;
-	private boolean _isMoving = false;
+//	private IController _controller;
+//	private boolean _isMoving = false;
 
 	public TransporterBehaviour(IRobotToStationComm robotToStationComm, IController controller, RobotState robotState, RobotAgent agent, int mode) {
 		this._robotToStationCommunicator = robotToStationComm;
 		this._state = robotState;
 		this._agent = agent;
 		this._mode = mode;
-		this._controller = controller;
+//		this._controller = controller;
 		initUDP();
 	}
 	
@@ -233,23 +233,23 @@ public class TransporterBehaviour extends CyclicBehaviour {
 		return position;
 	}
 
-	private void sendPosition(byte goalPosition) {
-		byte[] array = new byte[1];
-		array[0] = goalPosition;
-		DatagramPacket packet = new DatagramPacket(array, 1);
-		InetAddress addr = null;
-		addr = this.broadcast;
-		try {
-			packet.setPort(34567);
-			packet.setAddress(addr);
-			System.out.println("try sending");
-			_udpSocket.send(packet);
-			System.out.println("sent");
-		} catch (IOException e) {
-			System.out.println("Broadcasting color was failed.");
-			e.printStackTrace();
-		}
-	}
+//	private void sendPosition(byte goalPosition) {
+//		byte[] array = new byte[1];
+//		array[0] = goalPosition;
+//		DatagramPacket packet = new DatagramPacket(array, 1);
+//		InetAddress addr = null;
+//		addr = this.broadcast;
+//		try {
+//			packet.setPort(34567);
+//			packet.setAddress(addr);
+//			System.out.println("try sending");
+//			_udpSocket.send(packet);
+//			System.out.println("sent");
+//		} catch (IOException e) {
+//			System.out.println("Broadcasting color was failed.");
+//			e.printStackTrace();
+//		}
+//	}
 
 	@Override
 	public void action() {

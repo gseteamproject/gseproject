@@ -7,9 +7,6 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import jade.core.AID;
-import jade.core.Agent;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextInputDialog;
@@ -59,13 +56,13 @@ public class TrackManagerController implements Initializable {
 	private int[] sourcePallets = new int[3];
 	
 	/* private fields */
-	private ObservableList<Agent> activeAgents;
+//	private ObservableList<Agent> activeAgents;
 	
 	
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		
-		activeAgents = FXCollections.observableArrayList();
+//		activeAgents = FXCollections.observableArrayList();
 		
 		robotImage.setOnDragDetected(event -> System.out.println(event));
 		boxImage.setOnDragDetected(event -> handleDragOnBlockDetected(event));
@@ -114,23 +111,21 @@ public class TrackManagerController implements Initializable {
 	}
 	
 	
-	private void dropRobotOnTrack() {
-		/*System.out.println("got here");
-		Stage stage = new Stage();
-		try {
-			AddRobotView addRobotView = new AddRobotView();
-			stage.setTitle("Add Robot");
-			stage.setScene(new Scene(addRobotView.getView(), 450, 450));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		event.setDropCompleted(true);
-		event.consume();
-		stage.show();
-		System.out.println("got here");*/
-		
-		
-	}
+//	private void dropRobotOnTrack() {
+//		System.out.println("got here");
+//		Stage stage = new Stage();
+//		try {
+//			AddRobotView addRobotView = new AddRobotView();
+//			stage.setTitle("Add Robot");
+//			stage.setScene(new Scene(addRobotView.getView(), 450, 450));
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		event.setDropCompleted(true);
+//		event.consume();
+//		stage.show();
+//		System.out.println("got here");
+//	}
 	
 	private void dropOnSourcePallet(DragEvent event, int sourcePalletId) {
 		event.setDropCompleted(true);
