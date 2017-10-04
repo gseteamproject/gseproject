@@ -11,14 +11,14 @@ public class SerializationController {
 
     private static final Charset CHARSET = StandardCharsets.ISO_8859_1;
 
-    private HashMap<Class<?>, CustomSerializers> serializationDictionary;
+    private HashMap<Class<?>, CustomSerializers<?>> serializationDictionary;
 
     public SerializationController(){
         serializationDictionary = new HashMap<>();
     }
 
-    public <T> void RegisterSerializator(Class<T> serializableClass, IWriter writer, IReader reader) {
-        CustomSerializers<T> streams = new CustomSerializers();
+    public <T> void RegisterSerializator(Class<T> serializableClass, IWriter<T> writer, IReader<T> reader) {
+        CustomSerializers<T> streams = new CustomSerializers<T>();
         streams.writer = writer;
         streams.reader = reader;
 
