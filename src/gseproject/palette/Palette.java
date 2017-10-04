@@ -7,10 +7,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 //info: uml https://drive.google.com/open?id=0Bx2FpF7SnEEdcWtYeTlYemVscW8
 
-//todo: this is a dummy coz there is no box till now / 23.10.2016
-public interface IBox {
 
-}
 
 // todo: a interface for agentcommunication with infos like position,
 // networkadress uid stuff like this? //uml:
