@@ -1,8 +1,9 @@
 /bin/
 /.idea/*
 /target/
+.settings/
 
 APDescription.txt
 MTPs-Main-Container.txt
-pom.xml
 gseproject.iml
+.classpath
