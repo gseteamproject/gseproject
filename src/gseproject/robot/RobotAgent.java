@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import gseproject.core.ServiceType;
 import jade.lang.acl.MessageTemplate;
 import org.xml.sax.SAXException;
 

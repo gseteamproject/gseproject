@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import gseproject.core.Block;
 import gseproject.passive.core.SourcePalette;
-import gseproject.passive.core.StationException;
 
 public class SourcepaletteTest {
     @Test

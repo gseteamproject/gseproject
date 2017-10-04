@@ -3,7 +3,6 @@ package gseproject.infrastructure.serialization.robot;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import gseproject.core.Direction;
 import gseproject.grid.Position;
 import gseproject.infrastructure.contracts.RobotStateContract;
 import gseproject.infrastructure.serialization.IReader;

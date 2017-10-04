@@ -3,7 +3,6 @@ package gseproject.passive.communicator;
 import java.io.IOException;
 
 import gseproject.core.Block;
-import gseproject.core.ServiceType;
 import gseproject.infrastructure.contracts.ProtocolTemplates;
 import gseproject.passive.core.GoalPalette;
 import gseproject.passive.core.StationException;

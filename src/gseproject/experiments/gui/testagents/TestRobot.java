@@ -1,6 +1,5 @@
 package gseproject.experiments.gui.testagents;
 
-import gseproject.core.interaction.IActuator;
 import jade.core.AID;
 import jade.core.Agent;
 

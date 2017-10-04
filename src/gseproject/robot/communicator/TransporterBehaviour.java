@@ -10,11 +10,9 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import gseproject.core.Block;
-import gseproject.core.ServiceType;
 import gseproject.robot.controller.IController;
 import gseproject.robot.domain.RobotState;
 import gseproject.robot.RobotAgent;
-import gseproject.robot.skills.SkillsSettings;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;

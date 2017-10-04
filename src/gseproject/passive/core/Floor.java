@@ -3,7 +3,6 @@ package gseproject.passive.core;
 import java.io.Serializable;
 
 import gseproject.core.Block;
-import gseproject.core.interaction.IState;
 
 public abstract class Floor implements IFloorLanguage, IGive, ITake, Serializable {
 	private static final long serialVersionUID = 6082271716662280434L;

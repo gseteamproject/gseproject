@@ -1,7 +1,6 @@
 package gseproject.robot.interaction;
 
 import gseproject.core.Block;
-import gseproject.grid.Position;
 
 public class RealActuator {
 

@@ -1,11 +1,7 @@
 package gseproject.robot.controller;
 
-import java.awt.Color;
-
-import gseproject.core.Block;
 import gseproject.core.Direction;
 import gseproject.grid.Grid;
-import gseproject.grid.GridSpace;
 import gseproject.grid.Position;
 import gseproject.grid.objects.GoalPalette;
 import gseproject.grid.objects.SourcePalette;

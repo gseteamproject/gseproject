@@ -1,21 +1,12 @@
 package gseproject.tests.unitTests;
 
-import static org.junit.Assert.*;
-
 import java.io.IOException;
-
-import org.junit.BeforeClass;
-import org.junit.Test;
 
 import gseproject.core.Block;
 import gseproject.core.ServiceType;
-import gseproject.passive.communicator.FloorCommunicator;
 import gseproject.passive.communicator.IStationCommunicator;
-import gseproject.passive.core.CleaningFloor;
 import gseproject.passive.core.Floor;
-import gseproject.passive.core.PaintingFloor;
 import jade.lang.acl.ACLMessage;
-import jade.lang.acl.UnreadableException;
 
 public class FloorCommunicatorTest {
 	private IStationCommunicator communicator;

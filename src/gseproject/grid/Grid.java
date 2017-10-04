@@ -6,9 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import gseproject.grid.objects.GridObject;
-import gseproject.grid.objects.SourcePalette;
 import gseproject.grid.Position;
-import gseproject.robot.domain.RobotState;
 import jade.core.AID;
 import gseproject.core.Direction;
 

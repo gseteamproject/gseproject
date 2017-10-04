@@ -1,8 +1,6 @@
 package gseproject.experiments.gui.application;
 
 
-import gseproject.robot.domain.RobotState;
-import gseproject.robot.skills.SkillsSettings;
 import jade.Boot;
 import javafx.application.Application;
 import javafx.scene.Scene;

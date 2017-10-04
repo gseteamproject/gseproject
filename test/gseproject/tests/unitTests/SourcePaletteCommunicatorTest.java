@@ -9,7 +9,6 @@ import gseproject.core.Block;
 import gseproject.core.ServiceType;
 import gseproject.passive.communicator.IStationCommunicator;
 import gseproject.passive.communicator.SourcePaletteCommunicator;
-import gseproject.passive.core.Palette;
 import gseproject.passive.core.SourcePalette;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.UnreadableException;
