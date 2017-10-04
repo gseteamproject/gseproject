@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <RobotState>
 
-	<Position>
-		<CoordX>1</CoordX>
-		<CoordY>1</CoordY>
-	</Position>
-
 <!--> Block status could be: CLEANED, DIRTY, PAINTED, FALSE <-->
 	<Block>
 		<Status>CLEANED</Status>

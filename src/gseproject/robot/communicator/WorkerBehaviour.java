@@ -16,9 +16,11 @@ public class WorkerBehaviour extends CyclicBehaviour {
 	private RobotState _state;
 	private DFAgentDescription service;
 	private String serviceName;
+	private int _mode;
 	
 	public WorkerBehaviour(IRobotToStationComm communicator, IController controller, RobotState robotState,
-			String serviceName, String serviceType) {
+			String serviceName, String serviceType, int mode) {
+		this._mode = mode;
 		this._communicator = communicator;
 		this._controller = controller;
 		this._state = robotState;
@@ -28,6 +30,25 @@ public class WorkerBehaviour extends CyclicBehaviour {
 		sd.setType(serviceType);
 		this.service = new DFAgentDescription();
 		this.service.addServices(sd);
+
+		if(serviceName.equals("needClean")) {
+			_communicator.requestOccupyCleaningFloor();
+			ACLMessage reply = _communicator.receiveReply();
+			if (reply.getPerformative() == ACLMessage.INFORM) {
+				System.out.println("Successfully occupied cleaning floor");
+			} else {
+				System.out.println("Failed occupy cleaning floor");
+			}
+		}
+		else if(serviceName.equals("needPaint")) {
+			_communicator.requestOccupyPaintingFloor();
+			ACLMessage reply = _communicator.receiveReply();
+			if (reply.getPerformative() == ACLMessage.INFORM) {
+				System.out.println("Successfully occupied painting floor");
+			} else {
+				System.out.println("Failed occupy painting floor");
+			}
+		}
 	}
 
 	@Override

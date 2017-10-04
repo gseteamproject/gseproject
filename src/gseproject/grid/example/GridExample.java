@@ -18,12 +18,15 @@ public class GridExample {
 				.addGridObject(new AID("goalPaletteOne", true), new GoalPalette(new Position(18, 0), 2, 3))
 				.addGridObject(new AID("goalPaletteTwo", true), new GoalPalette(new Position(18, 4), 2, 3))
 				.addGridObject(new AID("goalPaletteThree", true), new GoalPalette(new Position(18, 8), 2, 3))
-				.addTrack(new Position(3, 0), Direction.EAST, 12)
+				.addTrack(new Position(3, 0), Direction.EAST, 13)
 				.addTrack(new Position(16, 0), Direction.SOUTH, 11)
-				.addTrack(new Position(16, 10), Direction.WEST, 12)
+				.addTrack(new Position(16, 10), Direction.WEST, 13)
 				.addTrack(new Position(3, 10), Direction.NORTH, 11)
 				.build();
 		System.out.println(grid.getGridObjects().keySet());
 		System.out.println(grid.toString());
+
+
+
 	}
 }

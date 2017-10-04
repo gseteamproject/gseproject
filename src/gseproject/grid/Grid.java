@@ -93,6 +93,22 @@ public class Grid implements Serializable {
 		gridObjects.put(id, value);
 	}
 
+	public Position GetPosition(double distance, Position curPos) {
+		for(int i =0; i < distance; ++i) {
+			Position newPosX = new Position(curPos.getX()+i,curPos.getY()+i);
+			if(getSpaceType(newPosX) != SpaceType.NO_TRACK) {
+				return newPosX;
+			}
+			else {
+				Position newPosY = new Position(curPos.getX()+i,curPos.getY()+i);
+				if(getSpaceType(newPosY) != SpaceType.NO_TRACK) {
+					return newPosY;
+				}
+			}
+		}
+		return new Position(0,0);
+	}
+
 	public static class GridBuilder {
 		
 		private int width;

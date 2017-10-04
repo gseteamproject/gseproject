@@ -1,12 +1,15 @@
 package gseproject.robot;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import gseproject.core.ServiceType;
+import jade.lang.acl.MessageTemplate;
 import org.xml.sax.SAXException;
 
-import gseproject.robot.communicator.ICommunicator;
 import gseproject.robot.communicator.IRobotToStationComm;
 import gseproject.robot.communicator.RobotToStationCommunicator;
 import gseproject.robot.communicator.TransporterBehaviour;
@@ -32,11 +35,19 @@ public class RobotAgent extends Agent {
 	private IRobotToStationComm _robotToStationCommunicator;
 	private RobotState _state;
 	private SkillsSettings _skillsSettings;
-	private AID[] _broadcastAddr;
+	public AID[] _broadcastAddr;
+	int _cleanRate = 0;
+	int	_paintRate = 0;
+	int	_transportRate = 0;
+
+
+
+	/* Temporal attr for parsing and algorithm */
+	private List<SkillsSettings> _tempSkills;
 
 	private void loadSkillSettings() {
 		_skillsSettings = new SkillsSettings();
-		String executionPath = System.getProperty("user.dir") + "/SmartMASON_Settings/SkillsSettings.xml";
+		String executionPath = System.getProperty("user.dir") + "/" + this.getLocalName() + "_Settings" + "/SkillsSettings.xml";
 		System.out.println(executionPath);
 		try {
 			_skillsSettings.xmlDocumentDecode(executionPath);
@@ -55,7 +66,7 @@ public class RobotAgent extends Agent {
 
 	private void loadStateSettings() {
 		_state = new RobotState();
-		String executionPath = System.getProperty("user.dir") + "/SmartMASON_Settings/StateSettings.xml";
+		String executionPath = System.getProperty("user.dir") + "/" + this.getLocalName() + "_Settings" + "/StateSettings.xml";
 		try {
 			_state.xmlDocumentDecode(executionPath);
 		} catch (ParserConfigurationException e) {
@@ -77,6 +88,7 @@ public class RobotAgent extends Agent {
 
 	public void setup() {
 		System.out.println(this.getAID() + "started");
+		_tempSkills = new ArrayList<SkillsSettings>();
 
 		/*
 		 * Load settings
@@ -85,74 +97,77 @@ public class RobotAgent extends Agent {
 		loadStateSettings();
 
 		/*
-		 * Initiate Controller, Communicator and Behaviours
+		 * Initiate Controller, Communicator
 		 */
 		initController();
 		initCommunicators();
 
+		/*
+		 * 1) Register Raw Service in DF
+		*/
+		registerDFRaw();
 
 		/*
-		 * Register Service in DF
+		 * Find Agents with "Raw" Service
 		 */
-		registerDF();
-
-		this._skillsSettings.getAID(this.getAID().getLocalName());
+		findRobots();
 
 		/*
-		 * Ticker behaviour for broadcasting state of robot
+		 * Exchange skill settings with other Agents
 		 */
+		exchangeSkills();
 
-		ParallelBehaviour b = new ParallelBehaviour();
+		/*
+		 * Based on exchanged information - choose Role
+		 */
+		chooseRole();
 
 		/*
 		 * Start Role behaviours
 		 */
+		startRoleBehaviours();
+
+	}  /* End of setup() */
+
+	private void startRoleBehaviours(){
+		ParallelBehaviour parallelBehaviour = new ParallelBehaviour();
 		if (this._skillsSettings._robotID.equals("Transporter")) {
-			b.addSubBehaviour(new TransporterBehaviour(_robotToStationCommunicator, _state, this));
-
+			startTransportBehaviour(parallelBehaviour);
 		} else if (this._skillsSettings._robotID.equals("Cleaner")) {
-			_robotToStationCommunicator.requestOccupyCleaningFloor();
-			ACLMessage reply = _robotToStationCommunicator.receiveReply();
-			if (reply.getPerformative() == ACLMessage.INFORM) {
-				System.out.println("successfully occupied cleaning floor");
-			} else {
-				System.out.println("failed occupy cleaning floor");
-			}
-			b.addSubBehaviour(
-					new WorkerBehaviour(_robotToStationCommunicator, _controller, _state, "needClean", "needClean"));
+			startCleanBehaviour(parallelBehaviour);
 		} else if (this._skillsSettings._robotID.equals("Painter")) {
-			_robotToStationCommunicator.requestOccupyPaintingFloor();
-			ACLMessage reply = this._robotToStationCommunicator.receiveReply();
-			if (reply.getPerformative() == ACLMessage.INFORM) {
-				System.out.println("successfully occupied painting floor");
-			} else {
-				System.out.println("failed occupy painting floor");
-			}
-			b.addSubBehaviour(
-					new WorkerBehaviour(_robotToStationCommunicator, _controller, _state, "needPaint", "needPaint"));
+			startPaintBehaviour(parallelBehaviour);
 		} else {
-			System.out.println("something went wrong");
+			System.out.println("Something Went Wrong");
 		}
-		this.addBehaviour(b);
+		this.addBehaviour(parallelBehaviour);
 	}
 
-	public void takeDown(String errorCode) {
-		System.out.println("Robot Agent shut down with errorcode=" + errorCode);
-	}
+	private void startTransportBehaviour(ParallelBehaviour behaviour)
+	{
+        behaviour.addSubBehaviour(new TransporterBehaviour(_robotToStationCommunicator, _controller, _state, this, _skillsSettings._mode));
+    }
+
+    private void startCleanBehaviour(ParallelBehaviour behaviour) {
+        behaviour.addSubBehaviour(
+                new WorkerBehaviour(_robotToStationCommunicator, _controller, _state, "needClean", "needClean", _skillsSettings._mode));
+    }
+
+    private void startPaintBehaviour(ParallelBehaviour behaviour) {
+        behaviour.addSubBehaviour(
+                new WorkerBehaviour(_robotToStationCommunicator, _controller, _state, "needPaint", "needPaint", _skillsSettings._mode));
+    }
+
 
 	private boolean findRobots() {
 		boolean found = false;
 		DFAgentDescription agentDescriptionTemplate = new DFAgentDescription();
 		ServiceDescription serviceTransport = new ServiceDescription();
-		serviceTransport.setType("Transporter");
+		serviceTransport.setType("Raw");
 
 		SearchConstraints searchConstraints = new SearchConstraints();
-		searchConstraints.setSearchId("GUI");
+		searchConstraints.setSearchId("Raw");
 
-		ServiceDescription serviceGUI = new ServiceDescription();
-		serviceGUI.setType("GUI");
-
-		agentDescriptionTemplate.addServices(serviceGUI);
 		agentDescriptionTemplate.addServices(serviceTransport);
 		try {
 			DFAgentDescription[] foundRobots = DFService.search(this, agentDescriptionTemplate);
@@ -185,4 +200,84 @@ public class RobotAgent extends Agent {
 		}
 
 	}
+	private void registerDFRaw() {
+
+		String agentServiceGroup = new String("Raw");
+		String agentServiceName = new String("Raw");
+
+		ServiceDescription serviceDescription = new ServiceDescription();
+		serviceDescription.setName(agentServiceGroup);
+		serviceDescription.setType(agentServiceName);
+		DFAgentDescription agentDescription = new DFAgentDescription();
+		agentDescription.setName(getAID());
+		agentDescription.addServices(serviceDescription);
+		try {
+			DFService.register(this, agentDescription);
+		} catch (FIPAException exception) {
+			exception.printStackTrace();
+		}
+	}
+
+	private void exchangeSkills() {
+
+		String strMessage = _skillsSettings.CodeString();
+		for(int i = 0; i != _broadcastAddr.length; ++i)
+		{
+			sendSkills(_broadcastAddr[i], strMessage);
+
+			ACLMessage message = this.blockingReceive(MessageTemplate.MatchProtocol("Skills"));
+			SkillsSettings skills = new SkillsSettings();
+			skills.DecodeString(message.getContent());
+			_tempSkills.add(skills);
+			System.out.print("Robot received Skills message !\n");
+		}
+	}
+
+	void sendSkills(AID receiver, String strContent )
+	{
+		ACLMessage messageSkill = new ACLMessage(ACLMessage.INFORM);
+		messageSkill.addReceiver(receiver);
+		messageSkill.setProtocol("Skills");
+		messageSkill.setContent(strContent);
+		this.send(messageSkill);
+	}
+
+	void chooseRole()
+	{
+		for(int i = 0; i < _tempSkills.size(); ++i)
+		{
+			if(_tempSkills.get(i).getDClean() > _skillsSettings.getDClean())
+			{
+				++_cleanRate;
+			}
+			if(_tempSkills.get(i).getDPaint() > _skillsSettings.getDPaint())
+			{
+				++_paintRate;
+			}
+			if(_tempSkills.get(i).getDTransport() > _skillsSettings.getDTransport())
+			{
+				++_transportRate;
+			}
+		}
+		if((_cleanRate > _paintRate)
+				&& (_cleanRate > _transportRate))
+		{
+			_skillsSettings._robotID = "Cleaner";
+		}
+
+		if((_paintRate > _cleanRate)
+				&& (_paintRate > _transportRate))
+		{
+			_skillsSettings._robotID = "Painter";
+		}
+
+		if((_transportRate > _cleanRate)
+				&& (_transportRate > _paintRate))
+		{
+			_skillsSettings._robotID = "Transporter";
+		}
+
+		return;
+	}
+
 }

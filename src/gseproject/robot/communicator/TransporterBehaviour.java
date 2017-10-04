@@ -10,13 +10,15 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import gseproject.core.Block;
+import gseproject.core.ServiceType;
 import gseproject.robot.controller.IController;
 import gseproject.robot.domain.RobotState;
 import gseproject.robot.RobotAgent;
+import gseproject.robot.skills.SkillsSettings;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
+import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
-import gseproject.core.Color;
 
 public class TransporterBehaviour extends CyclicBehaviour {
 	private static final long serialVersionUID = -2309082371882678325L;
@@ -27,11 +29,16 @@ public class TransporterBehaviour extends CyclicBehaviour {
 	private DatagramSocket _udpSocket;
 	private InetAddress myAddress;
 	private InetAddress broadcast;
+	private int _mode;
+	private IController _controller;
+	private boolean _isMoving = false;
 
-	public TransporterBehaviour(IRobotToStationComm robotToStationComm, RobotState robotState, RobotAgent agent) {
+	public TransporterBehaviour(IRobotToStationComm robotToStationComm, IController controller, RobotState robotState, RobotAgent agent, int mode) {
 		this._robotToStationCommunicator = robotToStationComm;
 		this._state = robotState;
 		this._agent = agent;
+		this._mode = mode;
+		this._controller = controller;
 		initUDP();
 	}
 	
@@ -115,6 +122,42 @@ public class TransporterBehaviour extends CyclicBehaviour {
 
 	}
 
+	/*
+	 * True if collision predicted, false if not
+	 */
+	private boolean predictCollision(){
+
+		for(int i = 0; i != _agent._broadcastAddr.length; ++i) {
+			ACLMessage messageToRobots = new ACLMessage(ACLMessage.REQUEST);
+			messageToRobots.addReceiver(_agent._broadcastAddr[i]);
+			messageToRobots.setProtocol("RobotPosition");
+			messageToRobots.setContent(String.valueOf(_state._position));
+			_agent.send(messageToRobots);
+
+			ACLMessage message = _agent.blockingReceive(MessageTemplate.MatchProtocol("RobotPosition"));
+			int Position = Integer.valueOf(message.getContent());
+			int factor = 0;
+			if(_agent.getName().equals(message.getSender().getName())){
+				continue;
+			}
+			for(int counter = _state._position; counter != Position; ++counter)
+			{
+				++factor;
+				if(counter == 16)
+				{
+					counter = 0;
+				}
+			}
+			if(factor < 2)
+			{
+				System.out.println("Collision predicted");
+				return true;
+			}
+		}
+
+		return  false;
+	}
+
 	private void waitAndGetCleanedBlock() {
 		_robotToStationCommunicator.requestCleanedBlock();
 		ACLMessage reply = _robotToStationCommunicator.receiveReply();
@@ -184,6 +227,14 @@ public class TransporterBehaviour extends CyclicBehaviour {
 		return position;
 	}
 
+	private byte moveAgent() {
+		byte position = (byte) 255;
+
+
+
+		return position;
+	}
+
 	private void sendPosition(byte goalPosition) {
 		byte[] array = new byte[1];
 		array[0] = goalPosition;
@@ -204,78 +255,60 @@ public class TransporterBehaviour extends CyclicBehaviour {
 
 	@Override
 	public void action() {
-		/*
-		System.out.println("Workflow start:");
-		System.out.println("Getting a Block from SourcePalette.");
-		this.moveAndgetBlockFromSourcePalette();
-		this._agent.doWait(2000);
-		System.out.println("done.");
-		System.out.println(this._agent.getAID().getLocalName() + " State: " + this._state + "\n");
-		
-		System.out.println("Dropping block on cleaning floor.");
-		this.moveAndDropBlockOnCleaningFloor();
-		this._agent.doWait(2000);
-		System.out.println("done.");
-		System.out.println(this._agent.getAID().getLocalName() + " State: " + this._state + "\n");
-		
-		System.out.println("Waiting until block is cleaned.");
-		this.waitAndGetCleanedBlock();
-		System.out.println("Got cleaned block.");
-		System.out.println(this._agent.getAID().getLocalName() + " State: " + this._state + "\n");
 
-		System.out.println("Dropping block on painting floor.");
-		this.moveAndDropBlockOnPaintingFloor();
-		this._agent.doWait(2000);
-		System.out.println("done.");
-		System.out.println(this._agent.getAID().getLocalName() + " State: " + this._state + "\n");
-		
-		System.out.println("Waiting until block is painted.");
-		this.waitAndGetPaintedBlock();
-		System.out.println("got painted block.");
-		System.out.println(this._agent.getAID().getLocalName() + " State: " + this._state + "\n");
-		
-		System.out.println("Dropping block on goal palette.");
-		this.moveAndDropBlockOnGoalPalette();
-		this._agent.doWait(2000);
-		System.out.println(this._agent.getAID().getLocalName() + " State: " + this._state + "\n");
-		*/
-		
-		byte physicalrobotPosition = receivePosition();
-		System.out.println("received position from robot:" + physicalrobotPosition);
-		switch (physicalrobotPosition) {
-		case 0:
+		if(predictCollision())
+		{
+			return ;
+		}
+		byte physicalRobotPosition = 0;
+		if(_mode == 0) {
+			physicalRobotPosition = receivePosition();
+		}
+		else if(_mode == 1) {
+			physicalRobotPosition = moveAgent();
+		}
+		System.out.println("Received position from Robot:" + physicalRobotPosition);
+
+		if((_state.block.Status == Block.possibleBlockStatus.NULL)
+				&& ((physicalRobotPosition == 13) || (physicalRobotPosition == 0)))
+		{
 			this.moveAndgetBlockFromSourcePalette();
-			this._state._position = physicalrobotPosition;
+			this._state._position = physicalRobotPosition;
 			System.out.println(this._state);
-			break;
-		case 2:
+
+			return;
+		}
+
+		if((_state.block.Status == Block.possibleBlockStatus.DIRTY)
+				&& (physicalRobotPosition == 2))
+		{
 			this.moveAndDropBlockOnCleaningFloor();
 			this.waitAndGetCleanedBlock();
-			this._state._position = physicalrobotPosition;
+			this._state._position = physicalRobotPosition;
 			System.out.println(this._state);
-			break;
-		case 6:
+
+			return;
+		}
+
+		if((_state.block.Status == Block.possibleBlockStatus.CLEANED)
+				&& (physicalRobotPosition == 6))
+		{
 			this.moveAndDropBlockOnPaintingFloor();
 			this.waitAndGetPaintedBlock();
-			this._state._position = physicalrobotPosition;
+			this._state._position = physicalRobotPosition;
 			System.out.println(this._state);
-			break;
-		case 9:
-			this.moveAndDropBlockOnGoalPalette();
-			this._state._position = physicalrobotPosition;
-			System.out.println(this._state);
-			break;
-		case 13:
-			this.sendPosition((byte) 1);
-			this._state._position = physicalrobotPosition;
-			System.out.println(this._state);
-			break;
-		default:
-			if (physicalrobotPosition < 17) {
-				this._state._position = physicalrobotPosition;
-			}
-			System.out.println(this._state);
+
+			return;
 		}
-		
+
+		if((_state.block.Status == Block.possibleBlockStatus.PAINTED)
+				&& (physicalRobotPosition == 9))
+		{
+			this.moveAndDropBlockOnGoalPalette();
+			this._state._position = physicalRobotPosition;
+			System.out.println(this._state);
+
+			return;
+		}
 	}
 }
