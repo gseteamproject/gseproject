@@ -1,7 +1,5 @@
 package gseproject.passive.core;
 
-import gseproject.passive.core.FloorException;
-
 public interface IFloorLanguage {
 
     /**
